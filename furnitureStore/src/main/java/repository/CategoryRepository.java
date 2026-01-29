@@ -1,4 +1,7 @@
 package repository;
 
-public interface CategoryRepository {
+import com.example.furnitureStore.entity.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CategoryRepository extends JpaRepository<Category, Integer> {
 }
