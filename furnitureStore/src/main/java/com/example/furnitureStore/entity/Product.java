@@ -20,4 +20,30 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
-public class Product
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+
+    @Column(name = "name")
+    @NotNull
+    @Size(max = 100)
+    private String name;
+
+    @Column(name = "description")
+    @NotNull
+    private String description;
+
+    @Column(name = "height_in_cm")
+    @NotNull
+    private Double heightInCm;
+
+    @Column(name = "width_in_cm")
+    @NotNull
+    private Double widthInCm;
+
+    @Column(name = "depth_in_cm")
+    @NotNull
+    private Double depthInCm;
