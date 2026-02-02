@@ -1,4 +1,66 @@
 package com.example.furnitureStore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+@Entity
+@Table(name = "review")
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 public class Review {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+
+    @Column(name = "review_text")
+    @NotNull
+    private String reviewText;
+
+    @Column(name = "rating")
+    @NotNull
+    @Size(max = 1)
+    private Integer rating;
+
+    @Column(name = "is_anonymus")
+    @Null
+    private Boolean isAnonymus;
+
+    @Column(name = "created_at")
+    private Date createdAt;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
+
+    @Column(name = "deleted_at")
+    @Null
+    private LocalDateTime deletedAt;
+
+//    @Column(name = "updated_at")
+//    @Null
+//    private LocalDateTime updatedAt;
+
+    //Kapcsolatok:
+    @ManyToOne(cascade = {})
+    @JoinColumn(name = "product_id")
+    @JsonIgnore
+    private Product product;
+
+    @ManyToOne(cascade = {})
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"cart", "orderHistoryList", "reviewList"})
+    private User author;
 }

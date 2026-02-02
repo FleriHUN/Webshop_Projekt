@@ -46,4 +46,46 @@ public class Product {
 
     @Column(name = "depth_in_cm")
     @NotNull
-    private Double depthInCm;
+    private Double depthInCm;@Column(name = "weight_in_kg")
+    @NotNull
+    private Double weightInKg;
+
+    @Column(name = "price")
+    @NotNull
+    @Size(max = 6)
+    private Integer price;
+
+    @Column(name = "is_deleted")
+    @JsonIgnore
+    private Boolean isDeleted;
+
+    @Column(name = "deleted_at")
+    @Null
+    private Date deletedAt;
+
+    //
+    @ManyToOne(cascade = {})
+    @JoinColumn(name = "brand_id")
+    @JsonIgnoreProperties({"productList"})
+    private Brand brand;
+
+    @OneToOne(cascade = {})
+    @JoinColumn(name = "photo_list_id")
+    private ProductImages images;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = {})
+    private List<Review> productReviewList;
+
+    @OneToMany(mappedBy = "orderProduct", fetch = FetchType.LAZY, cascade = {})
+    @JsonIgnore
+    private List<OrderProduct> orderHistoryList;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {}, mappedBy = "productList")
+    @JsonIgnoreProperties({"productList"})
+    private List<Category> categories;
+
+    @OneToMany(mappedBy = "cartProduct", fetch = FetchType.LAZY, cascade = {})
+    @JsonIgnore
+    private List<CartProduct> cartProductList;
+
+}
