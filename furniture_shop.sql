@@ -7,6 +7,7 @@
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -18,15 +19,25 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `furniture_shop`
+-- Adatbázis: `furniture_store`
 --
 
 DELIMITER $$
 --
 -- Eljárások
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `asdsaddsadsa` (IN `tableName` VARCHAR(255))   BEGIN	
-	SELECT * FROM tableName;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getFirstThreeProduct` ()   BEGIN
+	SELECT * FROM product WHERE 
+    product.is_deleted = 0 
+    LIMIT 3;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getProductById` (IN `idIN` INT)   BEGIN 
+	SELECT * FROM product 
+    WHERE 
+    product.id = idIN
+    AND 
+    product.is_deleted = 0;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserByEmail` (IN `emailIN` VARCHAR(100))   BEGIN
@@ -317,6 +328,7 @@ CREATE TABLE `product` (
   `photo_list_id` int(11) NOT NULL,
   `brand_id` int(11) NOT NULL,
   `price` int(6) NOT NULL,
+  `category_id` int(11) NOT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -325,47 +337,27 @@ CREATE TABLE `product` (
 -- A tábla adatainak kiíratása `product`
 --
 
-INSERT INTO `product` (`id`, `name`, `description`, `height_in_cm`, `width_in_cm`, `depth_in_cm`, `weight_in_kg`, `photo_list_id`, `brand_id`, `price`, `is_deleted`, `deleted_at`) VALUES
-(1, 'Sarokkanapé', 'L-alakú ülőbútor, több személy számára, gyakran ágyneműtartóval.\r\n', 85, 260, 200, 120, 1, 1, 10, 0, NULL),
-(2, 'Kerti asztal\r\n', 'Kültéri használatra tervezett asztal.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(3, 'Háromszemélyes kanapé\r\n', 'Kényelmes ülőbútor nappaliba, klasszikus elrendezéshez.\r\n', 10, 10, 10, 10, 1, 1, 100, 0, NULL),
-(4, 'Fotelszék', 'Egy személy számára kialakított, kényelmes ülőalkalmatosság.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(5, 'Étkezőszék', 'Étkezőasztalhoz tervezett szék, háttámlával.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(6, 'Étkezőasztal', 'Több személyes étkezésekhez alkalmas asztal.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(7, 'Dohányzóasztal\r\n', 'Alacsony asztal nappaliba, kanapé elé.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(8, 'TV-állvány\r\n', 'Televízió és multimédiás eszközök elhelyezésére.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(9, 'Könyvespolc\r\n', 'Könyvek és dekorációk tárolására szolgáló polcrendszer.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(10, 'Komód', 'Fiókos tárolóbútor ruhák vagy kiegészítők számára.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(11, 'Ruhásszekrény', 'Ruhák tárolására alkalmas szekrény akasztóval és polcokkal.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(12, 'Gardróbszekrény', 'Nagy méretű ruhatároló, több rekesszel.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(13, 'Franciaágy\r\n', 'Kétszemélyes ágy, matraccal vagy matrac nélkül.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(14, 'Egyszemélyes ágy\r\n', 'Egy személy részére kialakított fekvőbútor.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(15, 'Éjjeliszekrény\r\n', 'Ágy melletti kis tárolóbútor.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(16, 'Íróasztal\r\n', 'Tanuláshoz vagy munkához használt asztal.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(17, 'Irodai forgószék\r\n', 'Állítható magasságú, kerekes munkaszék.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(18, 'Cipősszekrény\r\n', 'Cipők rendszerezett tárolására.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(19, 'Előszobafal\r\n', 'Akasztókkal, polcokkal és tükörrel ellátott előszobabútor.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL),
-(20, 'Konyhaszekrény', 'Konyhai tárolóbútor edények és élelmiszerek számára.\r\n', 1, 1, 1, 1, 1, 1, 1, 0, NULL);
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `product_category`
---
-
-CREATE TABLE `product_category` (
-  `id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- A tábla adatainak kiíratása `product_category`
---
-
-INSERT INTO `product_category` (`id`, `product_id`, `category_id`) VALUES
-(1, 1, 1),
-(2, 3, 1);
+INSERT INTO `product` (`id`, `name`, `description`, `height_in_cm`, `width_in_cm`, `depth_in_cm`, `weight_in_kg`, `photo_list_id`, `brand_id`, `price`, `category_id`, `is_deleted`, `deleted_at`) VALUES
+(1, 'Sarokkanapé', 'L-alakú ülőbútor, több személy számára, gyakran ágyneműtartóval.\r\n', 85, 260, 200, 120, 1, 1, 10, 1, 0, NULL),
+(2, 'Kerti asztal\r\n', 'Kültéri használatra tervezett asztal.\r\n', 1, 1, 1, 1, 33, 1, 1, 1, 0, NULL),
+(3, 'Háromszemélyes kanapé\r\n', 'Kényelmes ülőbútor nappaliba, klasszikus elrendezéshez.\r\n', 10, 10, 10, 10, 34, 1, 100, 1, 0, NULL),
+(4, 'Fotelszék', 'Egy személy számára kialakított, kényelmes ülőalkalmatosság.\r\n', 1, 1, 1, 1, 35, 1, 1, 1, 0, NULL),
+(5, 'Étkezőszék', 'Étkezőasztalhoz tervezett szék, háttámlával.\r\n', 1, 1, 1, 1, 36, 1, 1, 1, 0, NULL),
+(6, 'Étkezőasztal', 'Több személyes étkezésekhez alkalmas asztal.\r\n', 1, 1, 1, 1, 37, 1, 1, 1, 0, NULL),
+(7, 'Dohányzóasztal\r\n', 'Alacsony asztal nappaliba, kanapé elé.\r\n', 1, 1, 1, 1, 38, 1, 1, 1, 0, NULL),
+(8, 'TV-állvány\r\n', 'Televízió és multimédiás eszközök elhelyezésére.\r\n', 1, 1, 1, 1, 39, 1, 1, 1, 0, NULL),
+(9, 'Könyvespolc\r\n', 'Könyvek és dekorációk tárolására szolgáló polcrendszer.\r\n', 1, 1, 1, 1, 40, 1, 1, 1, 0, NULL),
+(10, 'Komód', 'Fiókos tárolóbútor ruhák vagy kiegészítők számára.\r\n', 1, 1, 1, 1, 41, 1, 1, 1, 0, NULL),
+(11, 'Ruhásszekrény', 'Ruhák tárolására alkalmas szekrény akasztóval és polcokkal.\r\n', 1, 1, 1, 1, 42, 1, 1, 1, 0, NULL),
+(12, 'Gardróbszekrény', 'Nagy méretű ruhatároló, több rekesszel.\r\n', 1, 1, 1, 1, 43, 1, 1, 1, 0, NULL),
+(13, 'Franciaágy\r\n', 'Kétszemélyes ágy, matraccal vagy matrac nélkül.\r\n', 1, 1, 1, 1, 44, 1, 1, 1, 0, NULL),
+(14, 'Egyszemélyes ágy\r\n', 'Egy személy részére kialakított fekvőbútor.\r\n', 1, 1, 1, 1, 45, 1, 1, 1, 0, NULL),
+(15, 'Éjjeliszekrény\r\n', 'Ágy melletti kis tárolóbútor.\r\n', 1, 1, 1, 1, 46, 1, 1, 1, 0, NULL),
+(16, 'Íróasztal\r\n', 'Tanuláshoz vagy munkához használt asztal.\r\n', 1, 1, 1, 1, 47, 1, 1, 1, 0, NULL),
+(17, 'Irodai forgószék\r\n', 'Állítható magasságú, kerekes munkaszék.\r\n', 1, 1, 1, 1, 48, 1, 1, 1, 0, NULL),
+(18, 'Cipősszekrény\r\n', 'Cipők rendszerezett tárolására.\r\n', 1, 1, 1, 1, 49, 1, 1, 1, 0, NULL),
+(19, 'Előszobafal\r\n', 'Akasztókkal, polcokkal és tükörrel ellátott előszobabútor.\r\n', 1, 1, 1, 1, 50, 1, 1, 1, 0, NULL),
+(20, 'Konyhaszekrény', 'Konyhai tárolóbútor edények és élelmiszerek számára.\r\n', 1, 1, 1, 1, 51, 1, 1, 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -389,7 +381,26 @@ CREATE TABLE `product_image` (
 --
 
 INSERT INTO `product_image` (`id`, `photo_1`, `photo_2`, `photo_3`, `photo_4`, `photo_5`, `is_deleted`, `deleted_at`) VALUES
-(1, 'aa', 'a', 'a', 'a', 'a', 0, NULL);
+(1, 'aa', 'a', 'a', 'a', 'a', 0, NULL),
+(33, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(34, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(35, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(36, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(37, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(38, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(39, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(40, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(41, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(42, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(43, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(44, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(45, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(46, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(47, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(48, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(49, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(50, 'a', 'a', 'a', 'a', 'a', 0, NULL),
+(51, 'a', 'a', 'a', 'a', 'a', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -424,8 +435,15 @@ INSERT INTO `review` (`id`, `review_text`, `rating`, `user_id`, `product_id`, `i
 
 CREATE TABLE `role` (
   `id` int(11) NOT NULL,
-  `name` int(11) NOT NULL
+  `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- A tábla adatainak kiíratása `role`
+--
+
+INSERT INTO `role` (`id`, `name`) VALUES
+(1, 'ROLE_user');
 
 -- --------------------------------------------------------
 
@@ -485,7 +503,7 @@ CREATE TABLE `user` (
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `deleted_at` datetime DEFAULT NULL,
   `pfp_path` longtext NOT NULL,
-  `role_admin` int(1) NOT NULL,
+  `role_id` int(1) NOT NULL DEFAULT '1',
   `register_finished_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -493,10 +511,10 @@ CREATE TABLE `user` (
 -- A tábla adatainak kiíratása `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `phone`, `last_login`, `register_at`, `is_deleted`, `deleted_at`, `pfp_path`, `role_admin`, `register_finished_at`) VALUES
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `phone`, `last_login`, `register_at`, `is_deleted`, `deleted_at`, `pfp_path`, `role_id`, `register_finished_at`) VALUES
 (1, 'test1', 'test1@gmail.com', 'test5.Asd', '06710000000', '2025-12-02 11:23:25', '2025-12-01 15:11:01', 0, NULL, 'a', 1, '2025-12-02 07:20:58'),
-(2, 'test2', 'test2@gmail.com', 'test2', '06701000000', '2025-12-02 07:11:01', '2025-12-02 07:11:01', 0, NULL, 'b', 2, '2025-12-02 07:20:58'),
-(3, 'postTest1', 'test@gmail.com', 'test5.As', 'asd', NULL, NULL, 0, NULL, '', 0, '2025-12-02 10:26:38');
+(2, 'test2', 'test2@gmail.com', 'test2', '06701000000', '2025-12-02 07:11:01', '2025-12-02 07:11:01', 0, NULL, 'b', 1, '2025-12-02 07:20:58'),
+(3, 'postTest1', 'test@gmail.com', 'test5.As', 'asd', NULL, NULL, 0, NULL, '', 1, '2025-12-02 10:26:38');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -584,15 +602,8 @@ ALTER TABLE `product`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`),
   ADD KEY `product_brand` (`brand_id`),
-  ADD KEY `product_photo` (`photo_list_id`);
-
---
--- A tábla indexei `product_category`
---
-ALTER TABLE `product_category`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `p_category` (`category_id`),
-  ADD KEY `p_product` (`product_id`);
+  ADD KEY `product_photo` (`photo_list_id`),
+  ADD KEY `cat` (`category_id`);
 
 --
 -- A tábla indexei `product_image`
@@ -633,7 +644,8 @@ ALTER TABLE `transport_detail`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `password` (`password`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `r` (`role_id`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
@@ -706,16 +718,10 @@ ALTER TABLE `product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT a táblához `product_category`
---
-ALTER TABLE `product_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT a táblához `product_image`
 --
 ALTER TABLE `product_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT a táblához `review`
@@ -727,7 +733,7 @@ ALTER TABLE `review`
 -- AUTO_INCREMENT a táblához `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `status`
@@ -799,15 +805,9 @@ ALTER TABLE `prodcut_category`
 -- Megkötések a táblához `product`
 --
 ALTER TABLE `product`
+  ADD CONSTRAINT `cat` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   ADD CONSTRAINT `product_brand` FOREIGN KEY (`brand_id`) REFERENCES `brand` (`id`),
   ADD CONSTRAINT `product_photo` FOREIGN KEY (`photo_list_id`) REFERENCES `product_image` (`id`);
-
---
--- Megkötések a táblához `product_category`
---
-ALTER TABLE `product_category`
-  ADD CONSTRAINT `p_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
-  ADD CONSTRAINT `p_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
 --
 -- Megkötések a táblához `review`
@@ -821,6 +821,12 @@ ALTER TABLE `review`
 --
 ALTER TABLE `transport_detail`
   ADD CONSTRAINT `transport_detail_address_type` FOREIGN KEY (`address_type_id`) REFERENCES `address_type` (`id`);
+
+--
+-- Megkötések a táblához `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `r` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
