@@ -6,7 +6,7 @@ import { UserService } from '../../services/user-service';
   selector: 'app-navbar',
   imports: [RouterModule],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.scss',
+  styleUrl: './navbar.css',
 })
 export class Navbar {
   private router = inject(Router)

@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   selector: 'app-category-list',
   imports: [],
   templateUrl: './category-list.html',
-  styleUrl: './category-list.scss',
+  styleUrl: './category-list.css',
 })
 export class CategoryList implements OnInit{
   productService = inject(ProductService)

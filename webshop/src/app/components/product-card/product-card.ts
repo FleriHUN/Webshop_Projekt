@@ -6,7 +6,7 @@ import { Product } from '../../model/product.model';
   selector: 'app-product-card',
   imports: [],
   templateUrl: './product-card.html',
-  styleUrl: './product-card.scss',
+  styleUrl: './product-card.css',
 })
 export class ProductCard {
   private router = inject(Router)

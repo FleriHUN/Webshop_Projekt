@@ -5,7 +5,7 @@ import { ProductCard } from '../product-card/product-card';
   selector: 'app-home-page',
   imports: [ProductCard],
   templateUrl: './home-page.html',
-  styleUrl: './home-page.scss',
+  styleUrl: './home-page.css',
 })
 export class HomePage {
 

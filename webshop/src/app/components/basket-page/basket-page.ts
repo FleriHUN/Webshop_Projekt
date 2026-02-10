@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-basket-page',
   imports: [],
   templateUrl: './basket-page.html',
-  styleUrl: './basket-page.scss',
+  styleUrl: './basket-page.css',
 })
 export class BasketPage {
 

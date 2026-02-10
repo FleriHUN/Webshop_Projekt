@@ -6,7 +6,7 @@ import { UserService } from '../../services/user-service';
   selector: 'app-login-page',
   imports: [ReactiveFormsModule],
   templateUrl: './login-page.html',
-  styleUrl: './login-page.scss',
+  styleUrl: './login-page.css',
 })
 export class LoginPage implements OnInit{
   userService = inject(UserService)

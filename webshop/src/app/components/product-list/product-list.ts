@@ -8,7 +8,7 @@ import { Product } from '../../model/product.model';
   selector: 'app-product-list',
   imports: [ProductCard],
   templateUrl: './product-list.html',
-  styleUrl: './product-list.scss',
+  styleUrl: './product-list.css',
 })
 export class ProductList implements OnInit{
   route = inject(ActivatedRoute)
