@@ -26,4 +26,21 @@ public class BrandService {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
-    }s
+
+    } public ResponseEntity<Object> addBrand(Brand newBrand) {
+        try {
+            if (newBrand == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            if (newBrand.getId() != null) {
+                return ResponseEntity.status(415).body("invalidBrand");
+            } else {
+                return ResponseEntity.ok().body(brandRepository.save(newBrand));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
