@@ -44,3 +44,23 @@ public class BrandService {
             return ResponseEntity.internalServerError().build();
         }
     }
+    public ResponseEntity<Object> deleteBrand(Integer id) {
+        try {
+            if (id == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            Brand searchedBrand = brandRepository.findById(id).orElse(null);
+            if (searchedBrand == null) {
+                return ResponseEntity.notFound().build();
+            } else {
+
+                return ResponseEntity.ok().build();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+}
