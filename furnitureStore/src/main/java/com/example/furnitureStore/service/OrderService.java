@@ -1,5 +1,6 @@
 package com.example.furnitureStore.service;
 
+import com.example.furnitureStore.entity.OrderHistory;
 import com.example.furnitureStore.entity.User;
 import com.example.furnitureStore.repository.*;
 import jakarta.transaction.Transactional;
@@ -39,4 +40,23 @@ public class OrderService {
             return ResponseEntity.internalServerError().build();
         }
     }
+    //kesz
+    public ResponseEntity<Object> cancelOrder(Integer orderId, Integer cancelerUserId) {
+        try {
+            if (orderId == null) {
+                return ResponseEntity.status(422).build();
+            }
+            OrderHistory searchedOrderHistory = orderHistoryRepository.findById(orderId).orElse(null);
+            if (searchedOrderHistory == null || searchedOrderHistory.getIsCanceled()) {
+                return ResponseEntity.status(404).body("orderNotFound");
+            }
+            if (cancelerUserId != 0) {
+                User cancelerUser = userRepository.getUserById(cancelerUserId).orElse(null);
+                if (cancelerUser == null || cancelerUser.getIsDeleted()) {
+                    return ResponseEntity.status(404).body("userNotFound");
+                }
+                searchedOrderHistory.setCancelerUser(cancelerUser);
+            } else {
+//                searchedOrderHistory.setCancelerEmail(searchedOrderHistory.getEmail());
+            }
 }
