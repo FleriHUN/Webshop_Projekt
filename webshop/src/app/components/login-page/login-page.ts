@@ -1,12 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, } from '@angular/forms';
 import { UserService } from '../../services/user-service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './login-page.html',
-  styleUrl: './login-page.css',
+  styleUrl: './login-page.scss',
 })
 export class LoginPage implements OnInit{
   userService = inject(UserService)

@@ -1,5 +1,5 @@
 import { Cart } from "./cart.model";
-import { Role } from "./role..model";
+import { Role } from "./role.model";
 
 export class User {
     constructor(

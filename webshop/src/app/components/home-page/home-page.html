@@ -7,18 +7,14 @@
 
   <div class="row">
     <div class="col-lg-12">
-      <h2 class="text-center">Jelenlegi kedvezményes termékeink</h2>
+      <h2 class="text-center">Jelenlegi kiemelt termékeink</h2>
       <div class="container">
         <div class="row">
-          <div class="col-lg-4">
-            <app-product-card />
-          </div>
-          <div class="col-lg-4">
-            <app-product-card />
-          </div>
-          <div class="col-lg-4">
-            <app-product-card />
-          </div>
+          @for (product of productList; track $index) {
+            <div class="col-lg-4">
+              <app-product-card [product]="product" />
+            </div>
+          }
         </div>
       </div>
     </div>
