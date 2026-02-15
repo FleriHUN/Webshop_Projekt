@@ -1,6 +1,8 @@
 package com.example.furnitureStore.service;
 
+import com.example.furnitureStore.entity.Cart;
 import com.example.furnitureStore.entity.OrderHistory;
+import com.example.furnitureStore.entity.PaymentMethod;
 import com.example.furnitureStore.entity.User;
 import com.example.furnitureStore.repository.*;
 import jakarta.transaction.Transactional;
@@ -97,5 +99,28 @@ public class OrderService {
             return ResponseEntity.internalServerError().build();
         }
     }
+    //kesz:
+    public ResponseEntity<Object> sendOrder(OrderHistory newOrder, Integer basketId) {
+        try {
+            if (newOrder == null || basketId == null) {
+                return ResponseEntity.status(422).build();
+            }
 
-}
+            if (newOrder.getOrderUser() != null) {
+                User searchedUser = userRepository.getUserById(newOrder.getOrderUser().getId()).orElse(null);
+                if (searchedUser == null || searchedUser.getIsDeleted()) {
+                    return ResponseEntity.status(404).body("userNotFound");
+                }
+            }
+
+            PaymentMethod searchedPaymentMethod = paymentMethodRepository.findById(newOrder.getPaymentMethod().getId()).orElse(null);
+            Cart searchedCart = cartRepository.findById(basketId).orElse(null);
+
+            if (searchedPaymentMethod == null) {
+                return ResponseEntity.status(404).body("paymentMethodNotFound");
+            } else if (searchedCart == null) {
+                return ResponseEntity.status(404).body("basketNotFound");
+            }
+
+
+        }
