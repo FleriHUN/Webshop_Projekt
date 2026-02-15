@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -59,4 +61,21 @@ public class OrderService {
             } else {
 //                searchedOrderHistory.setCancelerEmail(searchedOrderHistory.getEmail());
             }
+            try {
+                emailSender.sendEmailAboutCancelledOrder(searchedOrderHistory.getEmail());
+            } catch (Exception e) {
+                return ResponseEntity.internalServerError().body("emailSenderError");
+            }
+
+            searchedOrderHistory.setStatus(statusRepository.findById(3).get());
+            searchedOrderHistory.setCanceledAt(LocalDateTime.now());
+            searchedOrderHistory.setIsCanceled(true);
+            orderHistoryRepository.save(searchedOrderHistory);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
 }
