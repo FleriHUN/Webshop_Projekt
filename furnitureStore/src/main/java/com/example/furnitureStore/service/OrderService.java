@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Transactional
@@ -72,6 +73,25 @@ public class OrderService {
             searchedOrderHistory.setIsCanceled(true);
             orderHistoryRepository.save(searchedOrderHistory);
             return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+    //kesz
+    public ResponseEntity<Object> getOrderHistoryByVCode(String email, String vCode) {
+        try {
+            if (email == null || vCode == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            List<OrderHistory> histories = orderHistoryRepository.findByEmail(email);
+            for (int i = 0; i < histories.size(); i++) {
+//                if (passwordEncoder.matches(vCode, histories.get(i).getCancelerVCode())) {
+//                    return ResponseEntity.ok().body(histories.get(i));
+//                }
+            }
+            return ResponseEntity.notFound().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
