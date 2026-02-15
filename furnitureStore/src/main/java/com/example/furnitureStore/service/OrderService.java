@@ -1,9 +1,6 @@
 package com.example.furnitureStore.service;
 
-import com.example.furnitureStore.entity.Cart;
-import com.example.furnitureStore.entity.OrderHistory;
-import com.example.furnitureStore.entity.PaymentMethod;
-import com.example.furnitureStore.entity.User;
+import com.example.furnitureStore.entity.*;
 import com.example.furnitureStore.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -121,6 +119,51 @@ public class OrderService {
             } else if (searchedCart == null) {
                 return ResponseEntity.status(404).body("basketNotFound");
             }
+            if (newOrder.getId() != null) {
+                return ResponseEntity.status(415).body("invalidObject");
+            } else if (!isEmailValid(newOrder.getEmail().trim())) {
+                return ResponseEntity.status(415).body("invalidEmail");
+            } else if (!isPhoneValid(newOrder.getPhone())) {
+                return ResponseEntity.status(415).body("invalidPhone");
+            } else if (!isBillingDetailValid(newOrder.getOrderBillingDetail())) {
+                return ResponseEntity.status(415).body("invalidBillingDetails");
+            } else if (!isTransportDetailValid(newOrder.getOrderTransportDetail())) {
+                return ResponseEntity.status(415).body("invalidBillingDetails");
+            }
+
+            int sumPrice = 0;
+            List<OrderProduct> orderedProductList = new ArrayList<>();
+            for (int i = 0; i < searchedCart.getCartProductList().size(); i++) {
+//                CartProduct productFromBasket = searchedCart.getProductList().get(i);
+//                Product product = productFromBasket.getCartProduct();
+//                product.setStockQuantity(product.getStockQuantity() - productFromBasket.getAmount());
+//
+//                orderedProductList.add(new OrderProduct(productFromBasket.getAmount(), book));
+//                bookRepository.save(book);
+//                sumPrice += (book.getPrice() * productFromBasket.getAmount());
+            }
+
+            try {
+                emailSender.sendEmailAboutOrderWithVCode(newOrder.getEmail(), generateVCode());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.internalServerError().body("emailSenderError");
+            }
+
+            System.out.println(sumPrice);
+
+//            newOrder.setOrderHistoryProductList (orderedProductList);
+            newOrder.setStatus(statusRepository.findById(1).get());
+            orderHistoryRepository.save(newOrder);
+
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 
 
+    //Validatorok:
+    //kesz:
         }
