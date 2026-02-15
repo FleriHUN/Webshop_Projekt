@@ -166,4 +166,36 @@ public class OrderService {
 
     //Validatorok:
     //kesz:
+    public Boolean isBillingDetailValid(BillingDetail billingDetail) {
+        if (billingDetail.getId() != null) {
+            return false;
+        }
+        AddressType searchedAddressType = addressTypeRepository.findById(billingDetail.getBillingAddressType().getId()).orElse(null);
+        if (searchedAddressType == null) {
+            return false;
+        } else if (!isValidAddress(billingDetail.getPostCode(), billingDetail.getTown())) {
+            return false;
+        }
+        if (billingDetail.getTaxNumber() != null) {
+            if (!isValidTaxNumber(billingDetail.getTaxNumber() + "")) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    //kesz:
+    public Boolean isTransportDetailValid(TransportDetail transportDetail) {
+        if (transportDetail.getId() != null) {
+            return false;
+        }
+        AddressType searchedAddressType = addressTypeRepository.findById(transportDetail.getTransportAddressType().getId()).orElse(null);
+        if (searchedAddressType == null) {
+            return false;
+        } else if (!isValidAddress(transportDetail.getPostCode(), transportDetail.getTown())) {
+            return false;
+        }
+        return true;
+    }
         }
