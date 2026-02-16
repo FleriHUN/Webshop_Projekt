@@ -7,9 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
@@ -198,4 +199,72 @@ public class OrderService {
         }
         return true;
     }
+
+    //kesz:
+    public Boolean isValidAddress(Integer postCode, String town) {
+        ArrayList<List<String>> townList = new ArrayList<>();
+
+        try {
+            File txt = new File("src/main/java/com/example/bookStore/service/telepulesek.txt");
+            Scanner reader = new Scanner(txt);
+
+            while (reader.hasNextLine()) {
+                townList.add(Arrays.stream(reader.nextLine().split("\t")).toList().subList(0, 2));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
+
+        for (List<String> i : townList) {
+            if (i.get(0).equals(postCode.toString()) && i.get(1).toLowerCase().equals(town.toLowerCase())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    //kesz:
+    public Boolean isValidTaxNumber(String taxNumber) {
+        ArrayList<String> taxNumbersOfArea = new ArrayList<>(Arrays.asList("02", "22", "03", "23", "04", "24", "05", "25", "06", "26", "07", "27", "08", "28", "09", "29", "10", "30", "11", "31", "12", "32", "13", "33", "14", "34", "15", "35", "16", "36", "17", "37", "18", "38", "19", "39", "20", "40", "41", "42", "43", "44", "51"));
+        ArrayList<String> typeOfTaxes = new ArrayList<>(Arrays.asList("1", "2", "3", "4", "5"));
+
+        if (taxNumber.length() != 11) {
+            return false;
+        } else if (!typeOfTaxes.contains(String.valueOf(taxNumber.charAt(10)))) {
+            return false;
+        } else if (!taxNumbersOfArea.contains(taxNumber.substring(11))) {
+            return false;
+        }
+        return true;
+    }
+
+    //kesz:
+    public Boolean isEmailValid(String email) {
+        Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+        if (email == null || email.length() > 100) {
+            return false;
+        }
+        return EMAIL_PATTERN.matcher(email).matches();
+    }
+
+    //kesz:
+    public Boolean isPhoneValid(String phoneNumber) {
+        ArrayList<String> phoneServiceCodes = new ArrayList<String>(Arrays.asList("30", "20", "70", "50", "31"));
+        return phoneServiceCodes.contains(phoneNumber.substring(0, 2)) && phoneNumber.length() == 9;
+    }
+
+    //kesz:
+    public String generateVCode() {
+        String characters = "!@#$%&*()-+={}[]|\\/:;'\"<>,.?~" + "ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÜŰÚÖÓŐÍ" + "0123456789" + "abcdefghijklmnopqrstuvxyzéáíúöőüű";
+        String vCode = "";
+        while (vCode.length() != 10) {
+            vCode += String.valueOf(characters.charAt(new Random().nextInt(0, characters.length())));
+        }
+
+        return vCode;
+    }
+}
+
+}
