@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
   selector: 'app-order-page',
   imports: [RouterModule],
   templateUrl: './order-page.html',
-  styleUrl: './order-page.scss',
+  styleUrl: './order-page.css',
 })
 export class OrderPage {
 
