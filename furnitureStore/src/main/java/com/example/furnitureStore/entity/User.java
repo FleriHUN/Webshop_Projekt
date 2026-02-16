@@ -36,7 +36,7 @@ public class User {
     @Size(max = 100)
     private String username;
 
-    @Column(name = "email")
+    @Column(name = "com/example/furnitureStore/config/email")
     @Size(max = 255)
     @NotNull
     private String email;

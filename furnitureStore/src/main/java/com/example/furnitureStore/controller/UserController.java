@@ -18,7 +18,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody Map<String, String> body) {
-        return userService.login(body.get("email"), body.get("password"));
+        return userService.login(body.get("com/example/furnitureStore/config/email"), body.get("password"));
     }
 
     @PostMapping("/register")

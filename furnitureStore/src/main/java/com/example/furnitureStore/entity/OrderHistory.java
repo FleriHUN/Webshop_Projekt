@@ -41,7 +41,7 @@ public class OrderHistory {
     @Size(max = 100)
     private String phone;
 
-    @Column(name = "email")
+    @Column(name = "com/example/furnitureStore/config/email")
     @NotNull
     @Size(max = 100)
     private String email;
