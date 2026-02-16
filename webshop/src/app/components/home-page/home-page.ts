@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-home-page',
   imports: [ProductCard, CommonModule],
   templateUrl: './home-page.html',
-  styleUrl: './home-page.scss',
+  styleUrl: './home-page.css',
 })
 export class HomePage implements OnInit{
   productService = inject(ProductService)

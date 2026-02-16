@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
+import { Router } from '@angular/router';
+import { Product } from '../../model/product.model';
 
 @Component({
-  selector: 'app-product-details',
+  selector: 'app-product-card',
   imports: [],
-  templateUrl: './product-details.html',
-  styleUrl: './product-details.scss',
+  templateUrl: './product-card.html',
+  styleUrl: './product-card.css',
 })
-export class ProductDetails {
-
+export class ProductCard {
+  private router = inject(Router)
+  product = input.required<Product>()
 }
