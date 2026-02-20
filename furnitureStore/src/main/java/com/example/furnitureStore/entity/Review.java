@@ -49,9 +49,9 @@ public class Review {
     @Null
     private LocalDateTime deletedAt;
 
-//    @Column(name = "updated_at")
-//    @Null
-//    private LocalDateTime updatedAt;
+      @Column(name = "updated_at")
+      @Null
+      private LocalDateTime updatedAt;
 
     //Kapcsolatok:
     @ManyToOne(cascade = {})
