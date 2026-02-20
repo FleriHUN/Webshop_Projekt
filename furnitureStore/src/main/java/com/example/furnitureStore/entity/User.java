@@ -54,9 +54,6 @@ public class User {
     @NotNull
     private String pfpPath = "";
 
-    @Column(name = "is_admin")
-    private Boolean isAdmin = false;
-
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
@@ -87,7 +84,10 @@ public class User {
     @Null
     private List<OrderHistory> canceledOrderHistory;
 
-    @OneToMany(mappedBy = "cartUser", fetch = FetchType.LAZY, cascade = {})
-    @Null
-    private List<Cart> cart;
+    @OneToOne(mappedBy = "cartUser", fetch = FetchType.LAZY, cascade = {})
+    private Cart cart;
+
+    @ManyToOne(cascade = {})
+    @JoinColumn(name = "role_id")
+    private Role role;
 }
