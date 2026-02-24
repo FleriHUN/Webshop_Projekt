@@ -3,10 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2026. Jan 14. 11:25
+-- Létrehozás ideje: 2026. Feb 24. 18:57
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
-
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -189,6 +188,7 @@ INSERT INTO `cart_product` (`id`, `product_id`, `cart_id`, `amount`, `created_at
 CREATE TABLE `category` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
+  `parent_category_id` int(11) DEFAULT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -197,28 +197,30 @@ CREATE TABLE `category` (
 -- A tábla adatainak kiíratása `category`
 --
 
-INSERT INTO `category` (`id`, `name`, `is_deleted`, `deleted_at`) VALUES
-(1, 'szék', 0, NULL),
-(2, 'Ülőbútorok', 0, NULL),
-(3, 'Asztalok', 0, NULL),
-(4, 'Tárplóbútorok', 0, NULL),
-(5, 'Szekrények', 0, NULL),
-(6, 'Ágyak', 0, NULL),
-(7, 'Matracok', 0, NULL),
-(8, 'Kanapék', 0, NULL),
-(9, 'Fotelek', 0, NULL),
-(10, 'Székek', 0, NULL),
-(11, 'Íróasztalok', 0, NULL),
-(12, 'Komódok', 0, NULL),
-(13, 'Polcok és könyvespolcok', 0, NULL),
-(14, 'Gardróbszekrények', 0, NULL),
-(15, 'TV-állványok', 0, NULL),
-(16, 'Előszobabútorok', 0, NULL),
-(17, 'Konyhabútorok', 0, NULL),
-(18, 'Fürdőszobabútorok', 0, NULL),
-(19, 'Gyerekbútorok', 0, NULL),
-(20, 'Irodabútorok', 0, NULL),
-(21, 'Kerti bútorok', 0, NULL);
+INSERT INTO `category` (`id`, `name`, `parent_category_id`, `is_deleted`, `deleted_at`) VALUES
+(1, 'szék', NULL, 0, NULL),
+(2, 'Ülőbútorok', 17, 0, NULL),
+(3, 'Asztalok', 17, 0, NULL),
+(4, 'Tárplóbútorok', 16, 0, NULL),
+(5, 'Szekrények', 16, 0, NULL),
+(6, 'Ágyak', 22, 0, NULL),
+(7, 'Matracok', 22, 0, NULL),
+(8, 'Kanapék', 23, 0, NULL),
+(9, 'Fotelek', 23, 0, NULL),
+(10, 'Székek', 20, 0, NULL),
+(11, 'Íróasztalok', 20, 0, NULL),
+(12, 'Komódok', 16, 0, NULL),
+(13, 'Polcok és könyvespolcok', 23, 0, NULL),
+(14, 'Gardróbszekrények', 16, 0, NULL),
+(15, 'TV-állványok', 15, 0, NULL),
+(16, 'Előszobabútorok', NULL, 0, NULL),
+(17, 'Konyhabútorok', NULL, 0, NULL),
+(18, 'Fürdőszobabútorok', NULL, 0, NULL),
+(19, 'Gyerekbútorok', NULL, 0, NULL),
+(20, 'Irodabútorok', NULL, 0, NULL),
+(21, 'Kerti bútorok', NULL, 0, NULL),
+(22, 'Hálószoba', NULL, 0, NULL),
+(23, 'Nappali', NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -559,7 +561,8 @@ ALTER TABLE `cart_product`
 -- A tábla indexei `category`
 --
 ALTER TABLE `category`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `p_category` (`parent_category_id`);
 
 --
 -- A tábla indexei `order_history`
@@ -685,7 +688,7 @@ ALTER TABLE `cart_product`
 -- AUTO_INCREMENT a táblához `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT a táblához `order_history`
@@ -775,6 +778,12 @@ ALTER TABLE `cart`
 ALTER TABLE `cart_product`
   ADD CONSTRAINT `basket_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   ADD CONSTRAINT `basket_product_basket` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`id`);
+
+--
+-- Megkötések a táblához `category`
+--
+ALTER TABLE `category`
+  ADD CONSTRAINT `p_category` FOREIGN KEY (`parent_category_id`) REFERENCES `category` (`id`);
 
 --
 -- Megkötések a táblához `order_history`
