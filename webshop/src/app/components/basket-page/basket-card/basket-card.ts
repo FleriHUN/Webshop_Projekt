@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-basket-card',
   imports: [],
   templateUrl: './basket-card.html',
-  styleUrl: './basket-card.scss',
+  styleUrl: './basket-card.css',
 })
 export class BasketCard {
 

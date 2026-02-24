@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit, output } from '@angular/core';
 import { ProductService } from '../../services/product-service';
 import { Category } from '../../model/category.model';
 import { Router } from '@angular/router';
@@ -7,20 +7,15 @@ import { Router } from '@angular/router';
   selector: 'app-category-list',
   imports: [],
   templateUrl: './category-list.html',
-  styleUrl: './category-list.css',
+  styleUrl: './category-list.scss',
 })
-export class CategoryList implements OnInit{
+export class CategoryList{
   productService = inject(ProductService)
-  categoryList: Category[] = []
+  categoryList = input.required<Category[]>()
   router = inject(Router)
+  changeCategory = output<number>()
 
-  ngOnInit(): void {
-    this.productService.getAllCategory().subscribe({
-      next: response => this.categoryList = response
-    })
-  }
-
-  getProductList(categoryId: number) {
-    this.router.navigate(["productList", categoryId])
+  changeList(categoryId: number) {
+    this.changeCategory.emit(categoryId)
   }
 }

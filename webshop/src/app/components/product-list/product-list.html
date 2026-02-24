@@ -1,11 +1,21 @@
 <div class="container-fluid">
-  @for (row of getRows(); track $index) {
-    <div class="row">
-      @for (product of row; track $index) {
-        <div class="col-lg-4">
-          <app-product-card [product]="product" />
-        </div>
-      }
+  <div class="row">
+    <div class="col-lg-2">
+      <app-category-list [categoryList]="subCategories" (changeCategory)="changeCategory($event)" />
     </div>
-  }
+
+    <div class="col-lg-10">
+      <div class="container-fluid">
+        @for (row of getRows(); track $index) {
+          <div class="row">
+            @for (product of row; track $index) {
+              <div class="col-lg-4">
+                <app-product-card [product]="product" />
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
 </div>
