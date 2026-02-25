@@ -6,12 +6,13 @@ import com.example.furnitureStore.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
-
 
     public ResponseEntity<Object> addCategory(Category newCategory) {
         try {
@@ -30,6 +31,7 @@ public class CategoryService {
             return ResponseEntity.internalServerError().build();
         }
     }
+
     public ResponseEntity<Object> updateCategory(Category updatedCategory) {
         try {
             if (updatedCategory == null) {
@@ -62,6 +64,28 @@ public class CategoryService {
                 return ResponseEntity.ok().build();
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    public ResponseEntity<Object> getAllParentCategory() {
+        try {
+            return ResponseEntity.ok().body(categoryRepository.getParentCategories());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    public ResponseEntity<Object> getAllSubCategory(Integer id) {
+        try {
+            Category searchedCategory = categoryRepository.findById(id).orElse(null);
+            if (searchedCategory == null || searchedCategory.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok().body(categoryRepository.getSubCategoriesOfParentCategory(id));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
