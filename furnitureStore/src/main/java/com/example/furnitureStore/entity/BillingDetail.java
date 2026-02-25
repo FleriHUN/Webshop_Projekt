@@ -58,7 +58,6 @@ public class BillingDetail {
     @Null
     private String other;
 
-    //Kapcsolatok:
     @ManyToOne(cascade = {})
     @JoinColumn(name = "address_type_id")
     private AddressType billingAddressType;
