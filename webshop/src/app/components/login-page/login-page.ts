@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators, } from '@angular/forms';
 import { UserService } from '../../services/user-service';
 import { RouterModule } from '@angular/router';
 
@@ -15,8 +15,8 @@ export class LoginPage implements OnInit{
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      username: new FormControl("", []),
-      password: new FormControl("", [])
+      username: new FormControl("", [Validators.required]),
+      password: new FormControl("", [Validators.required])
     })
   }
 
