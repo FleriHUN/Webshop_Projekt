@@ -1,10 +1,12 @@
 package com.example.furnitureStore.service;
 
+import com.example.furnitureStore.config.email.EmailSender;
 import com.example.furnitureStore.entity.*;
 import com.example.furnitureStore.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -44,6 +46,7 @@ public class OrderService {
             return ResponseEntity.internalServerError().build();
         }
     }
+
     //kesz
     public ResponseEntity<Object> cancelOrder(Integer orderId, Integer cancelerUserId) {
         try {
@@ -63,6 +66,7 @@ public class OrderService {
             } else {
 //                searchedOrderHistory.setCancelerEmail(searchedOrderHistory.getEmail());
             }
+
             try {
                 emailSender.sendEmailAboutCancelledOrder(searchedOrderHistory.getEmail());
             } catch (Exception e) {
@@ -79,6 +83,7 @@ public class OrderService {
             return ResponseEntity.internalServerError().build();
         }
     }
+
     //kesz
     public ResponseEntity<Object> getOrderHistoryByVCode(String email, String vCode) {
         try {
@@ -98,6 +103,17 @@ public class OrderService {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    //kesz
+    public ResponseEntity<Object> getAllOrder() {
+        try {
+            return ResponseEntity.ok().body(orderHistoryRepository.findAll());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     //kesz:
     public ResponseEntity<Object> sendOrder(OrderHistory newOrder, Integer basketId) {
         try {
@@ -120,6 +136,7 @@ public class OrderService {
             } else if (searchedCart == null) {
                 return ResponseEntity.status(404).body("basketNotFound");
             }
+
             if (newOrder.getId() != null) {
                 return ResponseEntity.status(415).body("invalidObject");
             } else if (!isEmailValid(newOrder.getEmail().trim())) {
@@ -265,6 +282,4 @@ public class OrderService {
 
         return vCode;
     }
-}
-
 }
