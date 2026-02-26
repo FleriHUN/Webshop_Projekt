@@ -10,6 +10,6 @@ export class User {
     public password: string,
     public pfpPath?: string,
     public role?: Role,
-    public cart?: Cart
+    public cart?: Cart,
   ) { }
 }

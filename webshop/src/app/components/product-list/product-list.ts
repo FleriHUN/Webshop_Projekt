@@ -11,7 +11,7 @@ import { CategoryService } from '../../services/category-service';
   selector: 'app-product-list',
   imports: [ProductCard, CategoryList],
   templateUrl: './product-list.html',
-  styleUrl: './product-list.css',
+  styleUrl: './product-list.scss',
 })
 export class ProductList implements OnInit{
   route = inject(ActivatedRoute)
@@ -28,9 +28,9 @@ export class ProductList implements OnInit{
         this.categoryService.getAllSubCategoryOfParentCategory(categoryId).subscribe({
           next: response => {
             this.subCategories = response
-            this.selectedSubCategoryId = this.subCategories[0].id
           },
           complete: () => {
+            this.selectedSubCategoryId = this.subCategories[0].id
             this.productService.getProductsByCategory(this.selectedSubCategoryId).subscribe({
               next: response => this.productList = response
             })

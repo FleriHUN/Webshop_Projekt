@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class OrderService {
-  newOrder!: OrderHistory
+   actualOrder: OrderHistory = new OrderHistory()
   http = inject(HttpClient)
   baseUrl: string = "http://localhost:8080/order"
 
@@ -19,7 +19,7 @@ export class OrderService {
     return this.http.delete(`${this.baseUrl}/cancel/${orderId}`)
   }
 
-  sendOrder(basketId: number, newOrder: OrderHistory) {
-    return this.http.post(`${this.baseUrl}/baslet/${basketId}`, newOrder)
+  sendOrder(cartId: number) {
+    return this.http.post(`${this.baseUrl}/cart/${cartId}`, this.actualOrder)
   }
 }

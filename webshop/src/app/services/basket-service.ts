@@ -1,3 +1,4 @@
+
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -10,7 +11,7 @@ import { CartProduct } from '../model/cartProduct.model';
 export class BasketService {
   private baseUrl = "http://localhost:8080/basket"
   private http = inject(HttpClient)
-  usersBasket!: Cart
+  usersCart!: Cart
 
   getBasketByUserId(userId: number): Observable<Cart> {
     return this.http.get<Cart>(`${this.baseUrl}/user/${userId}`)

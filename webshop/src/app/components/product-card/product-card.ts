@@ -11,4 +11,8 @@ import { Product } from '../../model/product.model';
 export class ProductCard {
   private router = inject(Router)
   product = input.required<Product>()
+
+  navigateToDetails() {
+    this.router.navigate(["productDetails", this.product().id])
+  }
 }

@@ -21,6 +21,6 @@ export class OrderHistory {
     public orderTransportDetail?: TransportDetail,
     public paymentMethod?: PaymentMethod,
     public status?: Status,
-    public products?: OrderProduct[]
+    public products?: OrderProduct[],
   ) {}
 }

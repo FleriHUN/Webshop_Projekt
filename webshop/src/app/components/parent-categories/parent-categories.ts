@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   selector: 'app-parent-categories',
   imports: [],
   templateUrl: './parent-categories.html',
-  styleUrl: './parent-categories.css',
+  styleUrl: './parent-categories.scss',
 })
 export class ParentCategories implements OnInit {
   parentCategories: Category[] = []
@@ -16,7 +16,9 @@ export class ParentCategories implements OnInit {
 
   ngOnInit(): void {
     this.categoryService.getAllParentCategories().subscribe({
-      next: response => this.parentCategories = response
+      next: response => {
+        this.parentCategories = response
+      }
     })
   }
 

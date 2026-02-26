@@ -2,7 +2,7 @@ import { AddressType } from "./addressType.model";
 
 export class TransportDetail {
     constructor(
-        public id: number,
+        public id: number | null,
         public postCode: number,
         public town: string,
         public address: string,
