@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2026. Feb 25. 09:21
+-- Létrehozás ideje: 2026. Feb 26. 07:39
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -25,6 +25,16 @@ DELIMITER $$
 --
 -- Eljárások
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clearProduct` (IN `idIN` INT)   BEGIN 
+	DELETE FROM `cart_product` WHERE cart_product.cart_id = idIN;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getCartByUserId` (IN `idIN` INT)   BEGIN 
+	SELECT * FROM cart
+    WHERE 
+    cart.user_id = idIN;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getFirstThreeProduct` ()   BEGIN
 	SELECT * FROM product WHERE 
     product.is_deleted = 0 
@@ -334,6 +344,7 @@ CREATE TABLE `product` (
   `width_in_cm` double NOT NULL,
   `depth_in_cm` double NOT NULL,
   `weight_in_kg` double NOT NULL,
+  `amount` int(11) NOT NULL,
   `photo_list_id` int(11) NOT NULL,
   `brand_id` int(11) NOT NULL,
   `price` int(6) NOT NULL,
@@ -346,27 +357,27 @@ CREATE TABLE `product` (
 -- A tábla adatainak kiíratása `product`
 --
 
-INSERT INTO `product` (`id`, `name`, `description`, `height_in_cm`, `width_in_cm`, `depth_in_cm`, `weight_in_kg`, `photo_list_id`, `brand_id`, `price`, `category_id`, `is_deleted`, `deleted_at`) VALUES
-(1, 'Sarokkanapé', 'L-alakú ülőbútor, több személy számára, gyakran ágyneműtartóval.\r\n', 85, 260, 200, 120, 1, 1, 10, 2, 0, NULL),
-(2, 'Kerti asztal\r\n', 'Kültéri használatra tervezett asztal.\r\n', 1, 1, 1, 1, 33, 1, 1, 2, 0, NULL),
-(3, 'Háromszemélyes kanapé\r\n', 'Kényelmes ülőbútor nappaliba, klasszikus elrendezéshez.\r\n', 10, 10, 10, 10, 34, 1, 100, 2, 0, NULL),
-(4, 'Fotelszék', 'Egy személy számára kialakított, kényelmes ülőalkalmatosság.\r\n', 1, 1, 1, 1, 35, 1, 1, 2, 0, NULL),
-(5, 'Étkezőszék', 'Étkezőasztalhoz tervezett szék, háttámlával.\r\n', 1, 1, 1, 1, 36, 1, 1, 2, 0, NULL),
-(6, 'Étkezőasztal', 'Több személyes étkezésekhez alkalmas asztal.\r\n', 1, 1, 1, 1, 37, 1, 1, 2, 0, NULL),
-(7, 'Dohányzóasztal\r\n', 'Alacsony asztal nappaliba, kanapé elé.\r\n', 1, 1, 1, 1, 38, 1, 1, 2, 0, NULL),
-(8, 'TV-állvány\r\n', 'Televízió és multimédiás eszközök elhelyezésére.\r\n', 1, 1, 1, 1, 39, 1, 1, 2, 0, NULL),
-(9, 'Könyvespolc\r\n', 'Könyvek és dekorációk tárolására szolgáló polcrendszer.\r\n', 1, 1, 1, 1, 40, 1, 1, 2, 0, NULL),
-(10, 'Komód', 'Fiókos tárolóbútor ruhák vagy kiegészítők számára.\r\n', 1, 1, 1, 1, 41, 1, 1, 2, 0, NULL),
-(11, 'Ruhásszekrény', 'Ruhák tárolására alkalmas szekrény akasztóval és polcokkal.\r\n', 1, 1, 1, 1, 42, 1, 1, 2, 0, NULL),
-(12, 'Gardróbszekrény', 'Nagy méretű ruhatároló, több rekesszel.\r\n', 1, 1, 1, 1, 43, 1, 1, 2, 0, NULL),
-(13, 'Franciaágy\r\n', 'Kétszemélyes ágy, matraccal vagy matrac nélkül.\r\n', 1, 1, 1, 1, 44, 1, 1, 2, 0, NULL),
-(14, 'Egyszemélyes ágy\r\n', 'Egy személy részére kialakított fekvőbútor.\r\n', 1, 1, 1, 1, 45, 1, 1, 2, 0, NULL),
-(15, 'Éjjeliszekrény\r\n', 'Ágy melletti kis tárolóbútor.\r\n', 1, 1, 1, 1, 46, 1, 1, 2, 0, NULL),
-(16, 'Íróasztal\r\n', 'Tanuláshoz vagy munkához használt asztal.\r\n', 1, 1, 1, 1, 47, 1, 1, 2, 0, NULL),
-(17, 'Irodai forgószék\r\n', 'Állítható magasságú, kerekes munkaszék.\r\n', 1, 1, 1, 1, 48, 1, 1, 2, 0, NULL),
-(18, 'Cipősszekrény\r\n', 'Cipők rendszerezett tárolására.\r\n', 1, 1, 1, 1, 49, 1, 1, 2, 0, NULL),
-(19, 'Előszobafal\r\n', 'Akasztókkal, polcokkal és tükörrel ellátott előszobabútor.\r\n', 1, 1, 1, 1, 50, 1, 1, 2, 0, NULL),
-(20, 'Konyhaszekrény', 'Konyhai tárolóbútor edények és élelmiszerek számára.\r\n', 1, 1, 1, 1, 51, 1, 1, 2, 0, NULL);
+INSERT INTO `product` (`id`, `name`, `description`, `height_in_cm`, `width_in_cm`, `depth_in_cm`, `weight_in_kg`, `amount`, `photo_list_id`, `brand_id`, `price`, `category_id`, `is_deleted`, `deleted_at`) VALUES
+(1, 'Sarokkanapé', 'L-alakú ülőbútor, több személy számára, gyakran ágyneműtartóval.\r\n', 85, 260, 200, 120, 15, 1, 1, 10, 2, 0, NULL),
+(2, 'Kerti asztal\r\n', 'Kültéri használatra tervezett asztal.\r\n', 1, 1, 1, 1, 15, 33, 1, 1, 2, 0, NULL),
+(3, 'Háromszemélyes kanapé\r\n', 'Kényelmes ülőbútor nappaliba, klasszikus elrendezéshez.\r\n', 10, 10, 10, 10, 15, 34, 1, 100, 2, 0, NULL),
+(4, 'Fotelszék', 'Egy személy számára kialakított, kényelmes ülőalkalmatosság.\r\n', 1, 1, 1, 1, 15, 35, 1, 1, 2, 0, NULL),
+(5, 'Étkezőszék', 'Étkezőasztalhoz tervezett szék, háttámlával.\r\n', 1, 1, 1, 1, 15, 36, 1, 1, 2, 0, NULL),
+(6, 'Étkezőasztal', 'Több személyes étkezésekhez alkalmas asztal.\r\n', 1, 1, 1, 1, 15, 37, 1, 1, 2, 0, NULL),
+(7, 'Dohányzóasztal\r\n', 'Alacsony asztal nappaliba, kanapé elé.\r\n', 1, 1, 1, 1, 15, 38, 1, 1, 2, 0, NULL),
+(8, 'TV-állvány\r\n', 'Televízió és multimédiás eszközök elhelyezésére.\r\n', 1, 1, 1, 1, 15, 39, 1, 1, 2, 0, NULL),
+(9, 'Könyvespolc\r\n', 'Könyvek és dekorációk tárolására szolgáló polcrendszer.\r\n', 1, 1, 1, 1, 15, 40, 1, 1, 2, 0, NULL),
+(10, 'Komód', 'Fiókos tárolóbútor ruhák vagy kiegészítők számára.\r\n', 1, 1, 1, 1, 15, 41, 1, 1, 2, 0, NULL),
+(11, 'Ruhásszekrény', 'Ruhák tárolására alkalmas szekrény akasztóval és polcokkal.\r\n', 1, 1, 1, 1, 15, 42, 1, 1, 2, 0, NULL),
+(12, 'Gardróbszekrény', 'Nagy méretű ruhatároló, több rekesszel.\r\n', 1, 1, 1, 1, 15, 43, 1, 1, 2, 0, NULL),
+(13, 'Franciaágy\r\n', 'Kétszemélyes ágy, matraccal vagy matrac nélkül.\r\n', 1, 1, 1, 1, 15, 44, 1, 1, 2, 0, NULL),
+(14, 'Egyszemélyes ágy\r\n', 'Egy személy részére kialakított fekvőbútor.\r\n', 1, 1, 1, 1, 15, 45, 1, 1, 2, 0, NULL),
+(15, 'Éjjeliszekrény\r\n', 'Ágy melletti kis tárolóbútor.\r\n', 1, 1, 1, 1, 15, 46, 1, 1, 2, 0, NULL),
+(16, 'Íróasztal\r\n', 'Tanuláshoz vagy munkához használt asztal.\r\n', 1, 1, 1, 1, 15, 47, 1, 1, 2, 0, NULL),
+(17, 'Irodai forgószék\r\n', 'Állítható magasságú, kerekes munkaszék.\r\n', 1, 1, 1, 1, 15, 48, 1, 1, 2, 0, NULL),
+(18, 'Cipősszekrény\r\n', 'Cipők rendszerezett tárolására.\r\n', 1, 1, 1, 1, 15, 49, 1, 1, 2, 0, NULL),
+(19, 'Előszobafal\r\n', 'Akasztókkal, polcokkal és tükörrel ellátott előszobabútor.\r\n', 1, 1, 1, 1, 15, 50, 1, 1, 2, 0, NULL),
+(20, 'Konyhaszekrény', 'Konyhai tárolóbútor edények és élelmiszerek számára.\r\n', 1, 1, 1, 1, 15, 51, 1, 1, 2, 0, NULL);
 
 -- --------------------------------------------------------
 
