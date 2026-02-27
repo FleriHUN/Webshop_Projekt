@@ -1,6 +1,5 @@
 package com.example.furnitureStore.service;
 
-import com.example.furnitureStore.entity.Brand;
 import com.example.furnitureStore.entity.Category;
 import com.example.furnitureStore.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;

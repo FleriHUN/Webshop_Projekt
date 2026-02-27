@@ -26,8 +26,9 @@ public class BrandService {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
+    }
 
-    } public ResponseEntity<Object> addBrand(Brand newBrand) {
+    public ResponseEntity<Object> addBrand(Brand newBrand) {
         try {
             if (newBrand == null) {
                 return ResponseEntity.status(422).build();
@@ -44,6 +45,25 @@ public class BrandService {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    public ResponseEntity<Object> updateBrand(Brand updatedBrand) {
+        try {
+            if (updatedBrand == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            if (updatedBrand.getId() == null) {
+                return ResponseEntity.status(415).body("invalidBrand");
+            } else {
+                return ResponseEntity.ok().body(brandRepository.save(updatedBrand));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     public ResponseEntity<Object> deleteBrand(Integer id) {
         try {
             if (id == null) {
