@@ -63,8 +63,6 @@ public class OrderService {
                     return ResponseEntity.status(404).body("userNotFound");
                 }
                 searchedOrderHistory.setCancelerUser(cancelerUser);
-            } else {
-//                searchedOrderHistory.setCancelerEmail(searchedOrderHistory.getEmail());
             }
 
             try {
@@ -76,33 +74,14 @@ public class OrderService {
             searchedOrderHistory.setStatus(statusRepository.findById(3).get());
             searchedOrderHistory.setCanceledAt(LocalDateTime.now());
             searchedOrderHistory.setIsCanceled(true);
-            orderHistoryRepository.save(searchedOrderHistory);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body(orderHistoryRepository.save(searchedOrderHistory));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    //kesz
-    public ResponseEntity<Object> getOrderHistoryByVCode(String email, String vCode) {
-        try {
-            if (email == null || vCode == null) {
-                return ResponseEntity.status(422).build();
-            }
 
-            List<OrderHistory> histories = orderHistoryRepository.findByEmail(email);
-            for (int i = 0; i < histories.size(); i++) {
-//                if (passwordEncoder.matches(vCode, histories.get(i).getCancelerVCode())) {
-//                    return ResponseEntity.ok().body(histories.get(i));
-//                }
-            }
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
-        }
-    }
 
     //kesz
     public ResponseEntity<Object> getAllOrder() {
