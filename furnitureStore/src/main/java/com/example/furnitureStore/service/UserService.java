@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.Date;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -227,6 +226,15 @@ public class UserService {
                 userRepository.save(searchedUser);
                 return ResponseEntity.ok().build();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    public ResponseEntity<Object> getAllUser() {
+        try {
+            return ResponseEntity.ok().body(userRepository.findAll().stream().filter(u -> !u.getIsDeleted()).toList());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
