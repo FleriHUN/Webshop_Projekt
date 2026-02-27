@@ -15,11 +15,15 @@ export class OrderService {
     return this.http.get<OrderHistory[]>(`${this.baseUrl}/user/${userId}`)
   }
 
-  cancelOrder(orderId: number) {
-    return this.http.delete(`${this.baseUrl}/cancel/${orderId}`)
+  cancelOrder(orderId: number): Observable<OrderHistory> {
+    return this.http.delete<OrderHistory>(`${this.baseUrl}/cancel/${orderId}`)
   }
 
   sendOrder(cartId: number) {
     return this.http.post(`${this.baseUrl}/cart/${cartId}`, this.actualOrder)
+  }
+
+  getAllOrderHistory(): Observable<OrderHistory[]> {
+    return this.http.get<OrderHistory[]>(this.baseUrl)
   }
 }
