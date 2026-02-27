@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2026. Feb 26. 07:39
+-- Létrehozás ideje: 2026. Feb 27. 13:25
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -27,6 +27,15 @@ DELIMITER $$
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `clearProduct` (IN `idIN` INT)   BEGIN 
 	DELETE FROM `cart_product` WHERE cart_product.cart_id = idIN;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteUserById` (IN `idIN` INT)   BEGIN
+	UPDATE `user` 
+    SET 
+    `is_deleted`=1,
+    `deleted_at`=CURRENT_TIMESTAMP 
+    WHERE 
+    user.id = idIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getCartByUserId` (IN `idIN` INT)   BEGIN 
@@ -66,6 +75,14 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserByEmail` (IN `emailIN` VARCHAR(100))   BEGIN
 	SELECT * FROM user WHERE user.email = emailIN;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserById` (IN `idIN` INT)   BEGIN
+	SELECT * FROM user
+    WHERE
+    user.id = idIN
+    AND 
+    user.is_deleted = 0;
 END$$
 
 DELIMITER ;
@@ -358,7 +375,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `name`, `description`, `height_in_cm`, `width_in_cm`, `depth_in_cm`, `weight_in_kg`, `amount`, `photo_list_id`, `brand_id`, `price`, `category_id`, `is_deleted`, `deleted_at`) VALUES
-(1, 'Sarokkanapé', 'L-alakú ülőbútor, több személy számára, gyakran ágyneműtartóval.\r\n', 85, 260, 200, 120, 15, 1, 1, 10, 2, 0, NULL),
+(1, 'Sarokkanapé', 'L-alakú ülőbútor, több személy számára, gyakran ágyneműtartóval.\n', 85, 260, 200, 120, 15, 1, 1, 10, 2, 0, NULL),
 (2, 'Kerti asztal\r\n', 'Kültéri használatra tervezett asztal.\r\n', 1, 1, 1, 1, 15, 33, 1, 1, 2, 0, NULL),
 (3, 'Háromszemélyes kanapé\r\n', 'Kényelmes ülőbútor nappaliba, klasszikus elrendezéshez.\r\n', 10, 10, 10, 10, 15, 34, 1, 100, 2, 0, NULL),
 (4, 'Fotelszék', 'Egy személy számára kialakított, kényelmes ülőalkalmatosság.\r\n', 1, 1, 1, 1, 15, 35, 1, 1, 2, 0, NULL),
@@ -533,7 +550,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `phone`, `last_login`, `register_at`, `is_deleted`, `deleted_at`, `pfp_path`, `role_id`, `register_finished_at`) VALUES
 (1, 'test1', 'test1@gmail.com', 'test5.Asd', '06710000000', '2025-12-02 11:23:25', '2025-12-01 15:11:01', 0, NULL, 'a', 1, '2025-12-02 07:20:58'),
-(2, 'test2', 'test2@gmail.com', 'test2', '06701000000', '2025-12-02 07:11:01', '2025-12-02 07:11:01', 0, NULL, 'b', 1, '2025-12-02 07:20:58'),
+(2, 'test2', 'test2@gmail.com', 'test2', '06701000000', '2025-12-02 07:11:01', '2025-12-02 07:11:01', 1, '2026-02-26 20:00:31', 'b', 1, '2025-12-02 07:20:58'),
 (3, 'postTest1', 'test@gmail.com', 'test5.As', 'asd', NULL, NULL, 0, NULL, '', 1, '2025-12-02 10:26:38');
 
 --
