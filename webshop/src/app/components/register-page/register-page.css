@@ -1,4 +1,29 @@
 #formContainer {
-  width: 750px !important;
-  background-color: gray;
+  width: 550px !important;
+  height: 650px;
+  background-color: #B8A999;
+  border-radius: 12px;
+}
+
+button {
+  width: 300px;
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  background-color: #8A6F58;
+  color: #F7F2EE;
+}
+
+* {
+  color: #8A6F58;
+}
+
+a {
+  color: #F7F2EE;
+}
+
+@media screen and (min-width: 600px) {
+  #formContainer {
+    width: 90%;
+  }
 }

@@ -1,0 +1,12 @@
+.container-fluid {
+  height: 100vh;
+  background-image: url("/assets/homepageBg.png");
+}
+
+* {
+  color: #F7F2EE;
+}
+
+h1 {
+  font-size: 55px;
+}

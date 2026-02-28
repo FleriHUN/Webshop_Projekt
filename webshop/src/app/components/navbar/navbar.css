@@ -1,0 +1,25 @@
+.container-fluid {
+  height: 75px;
+  border-bottom: 1px solid #8A6F58 !important;
+}
+
+button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: #B8A999;
+  border-radius: 8px;
+  color: #F7F2EE;
+}
+
+img {
+  height: 50px;
+}
+
+#title {
+  font-size: 35px;
+  color: #B8A999;
+}
