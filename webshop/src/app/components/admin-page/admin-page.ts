@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-admin-page',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './admin-page.html',
-  styleUrl: './admin-page.scss',
+  styleUrl: './admin-page.css',
 })
 export class AdminPage {
 

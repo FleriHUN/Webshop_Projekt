@@ -13,13 +13,17 @@ export class OrderHistories implements OnInit{
   private orderService = inject(OrderService)
 
   ngOnInit(): void {
-
+    this.orderService.getAllOrderHistory().subscribe({
+      next: response => {
+        this.orderHistories = response
+      }
+    })
   }
 
-  cancelOrder(id: number) {
+  cancelOrder(id: number, index:number) {
     this.orderService.cancelOrder(id).subscribe({
       next: response => {
-
+        this.orderHistories[index] = response
       }
     })
   }

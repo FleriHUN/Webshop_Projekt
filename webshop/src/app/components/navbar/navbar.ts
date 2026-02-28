@@ -16,7 +16,7 @@ export class Navbar {
     if (this.userService.loggedUser == null) {
       this.router.navigate(["/login"])
     } else {
-      this.router.navigate(["/profilPage"])
+      this.router.navigate(["/profilePage"])
     }
   }
 

@@ -1,1 +1,68 @@
-<p>order-histories works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      @for (order of orderHistories; track $index) {
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-10">
+              <div class="container-fluid">
+                <div class="row">
+                  <ul>
+                    <li><span class="fw-bold">Név:</span></li>
+                    <li><span class="fw-bold">E-mail:</span></li>
+                    <li><span class="fw-bold">Telefonszám:</span></li>
+                    <li>
+                      <span class="fw-bold">Szállitási adatok:</span>
+                      <ul>
+                        <li><span class="fw-bold">Cim:</span></li>
+                        <li><span class="fw-bold">Megjegyzés:</span></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <span class="fw-bold">Számlázási adatok:</span>
+                      <ul>
+                        <li><span class="fw-bold">Cim:</span></li>
+                        <li><span class="fw-bold">Megjegyzés:</span></li>
+                        <li><span class="fw-bold">Cég név:</span></li>
+                        <li><span class="fw-bold">Adószám:</span></li>
+                      </ul>
+                    </li>
+                    <li>Lemondva ekkor:</li>
+                  </ul>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-12">
+                    <h4>Termékek:</h4>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Termék neve</th>
+                          <th scope="col">Termék ára</th>
+                          <th scope="col">Darabszám</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for (product of order.products; track $index) {
+                          <tr>
+                            <td>{{product.orderProduct.name}}</td>
+                            <td>{{product.orderProduct.price}}</td>
+                            <td>{{product.amount}}</td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-2">
+              <button [disabled]="order.isCancelled" (click)="cancelOrder(order.id!, $index)">Lemondás</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
