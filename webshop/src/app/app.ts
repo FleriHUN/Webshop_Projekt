@@ -9,7 +9,7 @@ import { ParentCategories } from './components/parent-categories/parent-categori
   selector: 'app-root',
   imports: [RouterOutlet, Navbar, ParentCategories, Footer],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('furnitureWebPage');

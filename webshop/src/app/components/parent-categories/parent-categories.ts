@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   selector: 'app-parent-categories',
   imports: [],
   templateUrl: './parent-categories.html',
-  styleUrl: './parent-categories.scss',
+  styleUrl: './parent-categories.css',
 })
 export class ParentCategories implements OnInit {
   parentCategories: Category[] = []

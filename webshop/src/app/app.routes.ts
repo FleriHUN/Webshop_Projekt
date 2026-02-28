@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { HomePage } from './components/home-page/home-page';
 import { BasketPage } from './components/order-page/basket-page/basket-page';
 import { LoginPage } from './components/login-page/login-page';
-import { ProfilPage } from './components/profil-page/profil-page';
+import { ProfilePage } from './components/profile-page/profile-page';
 import { ProductList } from './components/product-list/product-list';
 import { ProductDetails } from './components/product-details/product-details';
 import { RegisterPage } from './components/register-page/register-page';
@@ -20,7 +20,7 @@ export const routes: Routes = [
   { path: "homePage", component: HomePage, },
   { path: "", pathMatch: "full", redirectTo: "homePage" },
   { path: "login", component: LoginPage },
-  { path: "profilPage", component: ProfilPage },
+  { path: "profilPage", component: ProfilePage },
   { path: "productList/:category", component: ProductList },
   { path: "productDetails/:id", component: ProductDetails },
   { path: "register", component: RegisterPage },

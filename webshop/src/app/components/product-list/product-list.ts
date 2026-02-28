@@ -11,7 +11,7 @@ import { CategoryService } from '../../services/category-service';
   selector: 'app-product-list',
   imports: [ProductCard, CategoryList],
   templateUrl: './product-list.html',
-  styleUrl: './product-list.scss',
+  styleUrl: './product-list.css',
 })
 export class ProductList implements OnInit{
   route = inject(ActivatedRoute)
