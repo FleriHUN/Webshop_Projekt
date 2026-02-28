@@ -13,6 +13,7 @@ export class ProductManagerPage implements OnInit{
   products: Product[] = []
   private productService = inject(ProductService)
   editorForm!: FormGroup
+  isEdit: boolean = false;
 
   ngOnInit(): void {
     this.productService.getAllProduct().subscribe({
@@ -21,6 +22,8 @@ export class ProductManagerPage implements OnInit{
       }
     })
   }
+
+
 
   addProduct() {
 

@@ -10,13 +10,13 @@ import { UserService } from '../../services/user-service';
 })
 export class Navbar {
   private router = inject(Router)
-  private userService = inject(UserService)
+  userService = inject(UserService)
 
   userIconNavigation() {
     if (this.userService.loggedUser == null) {
       this.router.navigate(["/login"])
     } else {
-      this.router.navigate(["/profilePage"])
+      this.router.navigate(["/profilPage"])
     }
   }
 

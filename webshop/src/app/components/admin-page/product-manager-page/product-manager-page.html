@@ -9,7 +9,65 @@
     <div class="col-lg-12">
       @for (product of products; track $index) {
         <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <label for="productName">Ternmék neve: <span>{{product.name}}</span></label>
+              @if(isEdit) {
+                <input type="text" class="form-control">
+              }
+            </div>
+          </div>
 
+          <div class="row">
+            <div class="col-lg-12">
+              <label for="productName">Leírás:</label>
+              <p>{{product.description}}</p>
+              @if(isEdit) {
+                <input type="text" class="form-control">
+              }
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <p for="">Műszaki adatok:</p>
+              <ul>
+                <li><span class="fw-bold">Hosszúság</span></li>
+                <li><span class="fw-bold">Széllesség</span></li>
+                <li><span class="fw-bold">Mélység</span></li>
+                <li><span class="fw-bold">Súly</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <p>Raktáron lévő mennyiség</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <button>Fénykép Megtekintése</button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <p>Ár:</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <label for="">Márka:</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <label for="">Kategória:</label>
+            </div>
+          </div>
         </div>
       }
     </div>
