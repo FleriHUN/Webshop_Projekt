@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { BasketService } from '../../services/basket-service';
-import { UserService } from '../../services/user-service';
+import { BasketService } from '../../../services/basket-service';
+import { UserService } from '../../../services/user-service';
 import { BasketCard } from './basket-card/basket-card';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, inject, input, output } from '@angular/core';
-import { CartProduct } from '../../../model/cartProduct.model';
-import { BasketService } from '../../../services/basket-service';
-import { UserService } from '../../../services/user-service';
+import { CartProduct } from '../../../../model/cartProduct.model';
+import { BasketService } from '../../../../services/basket-service';
+import { UserService } from '../../../../services/user-service';
 
 @Component({
   selector: 'app-basket-card',
