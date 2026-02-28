@@ -21,10 +21,14 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
-@NamedStoredProcedureQuery(name = "login", procedureName = "login", parameters = {
-        @StoredProcedureParameter(name = "emailIN", mode = ParameterMode.IN, type = String.class),
-        @StoredProcedureParameter(name = "passwordIN", mode = ParameterMode.IN, type = String.class),
-}, resultClasses = User.class)
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "getUserById", procedureName = "getUserById", parameters = {
+                @StoredProcedureParameter(name = "idIN", type = Integer.class, mode = ParameterMode.IN)
+        }, resultClasses = User.class),
+        @NamedStoredProcedureQuery(name = "deleteUserById", procedureName = "deleteUserById", parameters = {
+                @StoredProcedureParameter(name = "idIN", type = String.class, mode = ParameterMode.IN)
+        }),
+})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +40,7 @@ public class User {
     @Size(max = 100)
     private String username;
 
-    @Column(name = "com/example/furnitureStore/config/email")
+    @Column(name = "email")
     @Size(max = 255)
     @NotNull
     private String email;
