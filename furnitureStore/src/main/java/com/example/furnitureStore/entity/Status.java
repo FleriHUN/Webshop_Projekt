@@ -34,4 +34,3 @@ public class Status {
     @JsonIgnore
     private List<OrderHistory> orderHistoryList;
 }
-
