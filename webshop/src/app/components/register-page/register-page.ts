@@ -20,8 +20,8 @@ export class RegisterPage implements OnInit {
       username: new FormControl("", [Validators.required]),
       email: new FormControl("", [Validators.required, Validators.email]),
       phone: new FormControl("", [Validators.required]),
-      password: new FormControl("", [Validators.required]),
-      passwordAgain: new FormControl("", [Validators.required])
+      password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(16)]),
+      passwordAgain: new FormControl("", [Validators.required,  Validators.minLength(8), Validators.maxLength(16)])
     })
   }
 
@@ -34,7 +34,7 @@ export class RegisterPage implements OnInit {
       this.registerForm.controls["password"].value,
     )).subscribe({
       next: response => {
-        this.router.navigate(["/homePage"])
+        this.router.navigate(["/login"])
       }
     })
   }

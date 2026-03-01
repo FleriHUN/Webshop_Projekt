@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ProductCard } from '../product-card/product-card';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../../services/product-service';
 import { Product } from '../../model/product.model';
 import { CategoryList } from '../category-list/category-list';
@@ -9,7 +9,7 @@ import { CategoryService } from '../../services/category-service';
 
 @Component({
   selector: 'app-product-list',
-  imports: [ProductCard, CategoryList],
+  imports: [ProductCard, CategoryList, RouterModule],
   templateUrl: './product-list.html',
   styleUrl: './product-list.css',
 })
