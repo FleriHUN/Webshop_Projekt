@@ -16,19 +16,21 @@ import { ProductList } from './components/product-list/product-list';
 import { ProfilePage } from './components/profile-page/profile-page';
 import { RegisterPage } from './components/register-page/register-page';
 import { Unauthorized } from './components/unauthorized/unauthorized';
+import { UserGuard } from './routeGuards/authGuard';
+import { AdminGuard } from './routeGuards/adminGuard';
 
 export const routes: Routes = [
   { path: "homePage", component: HomePage, },
   { path: "", pathMatch: "full", redirectTo: "homePage" },
   { path: "login", component: LoginPage },
-  { path: "profilPage", component: ProfilePage, canMatch: [] },
+  { path: "profilPage", component: ProfilePage, canActivate: [UserGuard] },
   { path: "productList/:category", component: ProductList },
   { path: "productDetails/:id", component: ProductDetails },
   { path: "register", component: RegisterPage },
   { path: "unauthorized", component: Unauthorized },
 
   {
-    path: "orderPage", component: OrderPage, canMatch: [], children: [
+    path: "orderPage", component: OrderPage, canActivate: [UserGuard], children: [
       { path: "transportDetails", component: TransportDetailsPage },
       { path: "billingDetails", component: BillingDetailsPage },
       { path: "summary", component: OrderSummary },
@@ -36,10 +38,10 @@ export const routes: Routes = [
       { path: "", pathMatch: "full", redirectTo: "basket" },
     ]
   },
-  { path: "adminPage", component: AdminPage, canMatch: [] },
-  { path: "orderManager", component: OrderHistories, canMatch: [] },
-  { path: "userManager", component: UserManagerPage, canMatch: [] },
-  { path: "productManager", component: ProductManagerPage, canMatch: [] },
+  { path: "adminPage", component: AdminPage, canActivate: [AdminGuard] },
+  { path: "orderManager", component: OrderHistories, canActivate: [AdminGuard] },
+  { path: "userManager", component: UserManagerPage, canActivate: [AdminGuard] },
+  { path: "productManager", component: ProductManagerPage, canActivate: [AdminGuard] },
 
   { path: "**", component: NotFound }
 ];

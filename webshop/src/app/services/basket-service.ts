@@ -9,7 +9,7 @@ import { CartProduct } from '../model/cartProduct.model';
   providedIn: 'root',
 })
 export class BasketService {
-  private baseUrl = "http://localhost:8080/basket"
+  private baseUrl = "http://localhost:8080/cart"
   private http = inject(HttpClient)
   usersCart!: Cart
 
