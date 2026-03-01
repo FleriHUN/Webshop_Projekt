@@ -20,6 +20,12 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "getFirstThreeProduct", procedureName = "getFirstThreeProduct", resultClasses = Product.class),
+        @NamedStoredProcedureQuery(name = "getProductById", procedureName = "getProductById", parameters = {
+                @StoredProcedureParameter(name = "idIN", type = Integer.class, mode = ParameterMode.IN)
+        }, resultClasses = Product.class)
+})
 public class Product {
 
     @Id
@@ -46,7 +52,9 @@ public class Product {
 
     @Column(name = "depth_in_cm")
     @NotNull
-    private Double depthInCm;@Column(name = "weight_in_kg")
+    private Double depthInCm;
+
+    @Column(name = "weight_in_kg")
     @NotNull
     private Double weightInKg;
 
@@ -54,6 +62,9 @@ public class Product {
     @NotNull
     @Size(max = 6)
     private Integer price;
+
+    @Column(name = "amount")
+    private Integer amount;
 
     @Column(name = "is_deleted")
     @JsonIgnore
@@ -80,9 +91,10 @@ public class Product {
     @JsonIgnore
     private List<OrderProduct> orderHistoryList;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {}, mappedBy = "productList")
-    @JsonIgnoreProperties({"productList"})
-    private List<Category> categories;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    @JsonIgnoreProperties({"productList", "subCategories", "parentCategory"})
+    private Category category;
 
     @OneToMany(mappedBy = "cartProduct", fetch = FetchType.LAZY, cascade = {})
     @JsonIgnore
