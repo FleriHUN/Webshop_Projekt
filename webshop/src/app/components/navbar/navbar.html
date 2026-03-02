@@ -9,13 +9,14 @@
         <button class="mx-3" (click)="userIconNavigation()">
           <span class="material-symbols-outlined">account_circle</span>
         </button>
-        <button routerLink="/orderPage/basket">
-          <span class="material-symbols-outlined">shopping_cart</span>
-        </button>
 
         @if (userService.loggedUser?.role?.name == "ROLE_admin") {
-          <button>
+          <button routerLink="/adminPage">
             <span class="material-symbols-outlined">build</span>
+          </button>
+        } @else {
+          <button routerLink="/orderPage">
+            <span class="material-symbols-outlined">shopping_cart</span>
           </button>
         }
       </div>

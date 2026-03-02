@@ -11,6 +11,9 @@
 
         <div class="row">
           <div class="col-lg-12">
+            @if (isError) {
+              <p class="text-danger text-center">Hibás e-mail cím és/vagy jelszó</p>
+            }
             <form class="container-fluid" [formGroup]="loginForm">
               <div class="row">
                 <div class="col-lg-12">

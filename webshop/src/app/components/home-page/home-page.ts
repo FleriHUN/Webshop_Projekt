@@ -10,13 +10,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './home-page.html',
   styleUrl: './home-page.css',
 })
-export class HomePage implements OnInit{
-  productService = inject(ProductService)
-  productList: Product[] = []
+export class HomePage{
 
-  ngOnInit(): void {
-    this.productService.getFirstThreeProduct().subscribe({
-      next: response => this.productList = response
-    })
-  }
 }
