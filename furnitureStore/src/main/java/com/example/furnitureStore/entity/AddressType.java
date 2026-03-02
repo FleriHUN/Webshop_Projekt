@@ -1,6 +1,5 @@
 package com.example.furnitureStore.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -39,4 +38,3 @@ public class AddressType {
     @JsonIgnore
     private List<TransportDetail> transportDetails;
 }
-
