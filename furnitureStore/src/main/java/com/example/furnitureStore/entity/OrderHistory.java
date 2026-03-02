@@ -57,21 +57,17 @@ public class OrderHistory {
     @Null
     private Boolean isCanceled;
 
-    @Column(name = "order_id")
-    @NotNull
-    private Integer orderId;
-
     //Kapcsolatok:
     @ManyToOne(cascade = {})
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"cart", "savedDetails"})
     private User orderUser;
 
-    @ManyToOne(cascade = {})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "billing_detail_id")
     private BillingDetail orderBillingDetail;
 
-    @ManyToOne(cascade = {})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "transport_detail_id")
     private TransportDetail orderTransportDetail;
 
@@ -91,3 +87,4 @@ public class OrderHistory {
     @JsonIgnoreProperties({"orderHistory"})
     private List<OrderProduct> products;
 }
+
