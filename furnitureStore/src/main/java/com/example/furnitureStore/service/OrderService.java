@@ -27,7 +27,6 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final CartRepository cartRepository;
     private final EmailSender emailSender;
-    private final PasswordEncoder passwordEncoder;
 
     //kesz:
     public ResponseEntity<Object> getOrderHistoryByUserId(Integer userId) {
@@ -120,24 +119,18 @@ public class OrderService {
                 return ResponseEntity.status(415).body("invalidObject");
             } else if (!isEmailValid(newOrder.getEmail().trim())) {
                 return ResponseEntity.status(415).body("invalidEmail");
-            } else if (!isPhoneValid(newOrder.getPhone())) {
-                return ResponseEntity.status(415).body("invalidPhone");
-            } else if (!isBillingDetailValid(newOrder.getOrderBillingDetail())) {
-                return ResponseEntity.status(415).body("invalidBillingDetails");
-            } else if (!isTransportDetailValid(newOrder.getOrderTransportDetail())) {
-                return ResponseEntity.status(415).body("invalidBillingDetails");
             }
 
             int sumPrice = 0;
             List<OrderProduct> orderedProductList = new ArrayList<>();
             for (int i = 0; i < searchedCart.getCartProductList().size(); i++) {
-//                CartProduct productFromBasket = searchedCart.getProductList().get(i);
-//                Product product = productFromBasket.getCartProduct();
-//                product.setStockQuantity(product.getStockQuantity() - productFromBasket.getAmount());
-//
-//                orderedProductList.add(new OrderProduct(productFromBasket.getAmount(), book));
-//                bookRepository.save(book);
-//                sumPrice += (book.getPrice() * productFromBasket.getAmount());
+                CartProduct productFromBasket = searchedCart.getCartProductList().get(i);
+                Product product = productFromBasket.getCartProduct();
+                product.setAmount(product.getAmount() - productFromBasket.getAmount());
+
+                orderedProductList.add(new OrderProduct(productFromBasket.getAmount(), product));
+                productRepository.save(product);
+                sumPrice += (product.getPrice() * productFromBasket.getAmount());
             }
 
             try {
@@ -149,9 +142,12 @@ public class OrderService {
 
             System.out.println(sumPrice);
 
-//            newOrder.setOrderHistoryProductList (orderedProductList);
+            newOrder.setProducts(orderedProductList);
             newOrder.setStatus(statusRepository.findById(1).get());
+            newOrder.setIsCanceled(false);
             orderHistoryRepository.save(newOrder);
+
+            cartRepository.clearCart(basketId);
 
             return ResponseEntity.ok().build();
         } catch (Exception e) {

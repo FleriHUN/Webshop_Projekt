@@ -1,8 +1,9 @@
 package com.example.furnitureStore.service;
 
-import com.example.furnitureStore.config.email.EmailSender;
 import com.example.furnitureStore.entity.Cart;
 import com.example.furnitureStore.entity.User;
+import com.example.furnitureStore.repository.CartRepository;
+import com.example.furnitureStore.repository.RoleRepository;
 import com.example.furnitureStore.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final EmailSender emailSender;
+    private final RoleRepository roleRepository;
+    private final CartRepository cartRepository;
 
     //kesz
     public ResponseEntity<Object> login(String username, String password) {
@@ -30,7 +32,7 @@ public class UserService {
             if (username == null || password == null) {
                 return ResponseEntity.status(422).build();
             }
-            User searchedUser = userRepository.getUserByUsername(username).orElse(null);
+            User searchedUser = userRepository.findByUsername(username).orElse(null);
             if (searchedUser == null) {
                 return ResponseEntity.notFound().build();
             } else {
@@ -38,7 +40,7 @@ public class UserService {
                     return ResponseEntity.notFound().build();
                 } else {
                     userRepository.save(searchedUser);
-                    return ResponseEntity.ok().build();
+                    return ResponseEntity.ok().body(searchedUser);
                 }
             }
         } catch (Exception e) {
@@ -54,7 +56,7 @@ public class UserService {
                 return ResponseEntity.status(422).build();
             }
 
-            if (newUser.getId() != null){
+            if (newUser.getId() != null) {
                 return ResponseEntity.status(415).body("invalidObject");
             } else if (!isEmailValid(newUser.getEmail())) {
                 return ResponseEntity.status(415).body("invalidEmail");
@@ -62,15 +64,9 @@ public class UserService {
                 return ResponseEntity.status(415).body("invalidPassword");
             } else {
                 newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-                newUser.setCart(new Cart());
-                userRepository.save(newUser);
-
-//                try {
-//                    emailSender.sendEmailAboutRegistration(newUser.getEmail());
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    return ResponseEntity.internalServerError().build();
-//                }
+                newUser.setRole(roleRepository.findById(1).get());
+                newUser = userRepository.save(newUser);
+                cartRepository.save(new Cart(newUser));
 
                 return ResponseEntity.ok().build();
             }
@@ -90,7 +86,7 @@ public class UserService {
             if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             }
-            if (!isEmailValid(email)){
+            if (!isEmailValid(email)) {
                 return ResponseEntity.status(415).body("invalidEmail");
             } else {
                 searchedUser.setUsername(username.trim());

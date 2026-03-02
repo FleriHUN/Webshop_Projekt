@@ -19,15 +19,6 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
 
-    public ResponseEntity<Object> getAllCategory() {
-        try {
-            return ResponseEntity.ok().body(categoryRepository.findAll());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
-        }
-    }
-
     public ResponseEntity<Object> getProductsByCategory(Integer categoryId) {
         try {
             Category searchedCategory = categoryRepository.findById(categoryId).orElse(null);
@@ -57,8 +48,6 @@ public class ProductService {
         return null;
     }
 
-
-
     public ResponseEntity<Object> deleteProduct(Integer id) {
         try {
             Product searchedProduct = productRepository.getProductById(id).orElse(null);
@@ -74,5 +63,23 @@ public class ProductService {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    public ResponseEntity<Object> getAllProduct() {
+        try {
+            return ResponseEntity.ok().body(productRepository.getAllProduct());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    public ResponseEntity<Object> getProductById(Integer id) {
+        Product searchedProduct = productRepository.getProductById(id).orElse(null);
+        if (searchedProduct == null || searchedProduct.getIsDeleted()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(searchedProduct);
     }
 }
