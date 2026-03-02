@@ -1,24 +1,24 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="text-center">Felhasználó kezelése</h1>
+      <h1 class="text-center" style="color: #8A6F58;">Felhasználó kezelése</h1>
     </div>
   </div>
 
   <div class="row">
     <div class="col-lg-12">
       @for (user of users; track $index) {
-        <div class="container-fluid">
+        <div class="container-fluid my-2 userCard py-4">
           <div class="row">
             <div class="col-lg-10">
-              <ul>
-                <li><span class="fw-bold">Felhasználónév: </span> {{user.username}} </li>
-                <li><span class="fw-bold">E-mail cim: </span> {{user.email}}</li>
-                <li><span class="fw-bold">Telefonszam: </span> {{user.phone}}</li>
+              <ul class="list-unstyled">
+                <li class="text-lg-start text-center"><span class="fw-bold">Felhasználónév: </span> {{user.username}} </li>
+                <li class="text-lg-start text-center"><span class="fw-bold">E-mail cim: </span> {{user.email}}</li>
+                <li class="text-lg-start text-center"><span class="fw-bold">Telefonszam: </span> {{user.phone}}</li>
               </ul>
             </div>
 
-            <div class="col-lg-2">
+            <div class="col-lg-2 d-flex justify-content-center align-items-center">
               <button (click)="deleteUser(user.id!)">Felhasználó törlése</button>
             </div>
           </div>

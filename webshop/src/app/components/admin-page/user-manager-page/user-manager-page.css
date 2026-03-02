@@ -1,0 +1,18 @@
+.userCard {
+  background-color: #8A6F58;
+  border-radius: 12px;
+}
+
+li {
+  color: #F7F2EE;
+}
+
+button {
+  background-color: #F7F2EE;
+  border: none;
+  height: 45px;
+  border-radius: 4px;
+  width: 150px;
+  color: #8A6F58;
+  font-weight: 800;
+}
