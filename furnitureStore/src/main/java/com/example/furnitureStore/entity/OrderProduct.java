@@ -44,4 +44,9 @@ public class OrderProduct {
     @ManyToOne(cascade = {})
     @JoinColumn(name = "order_id")
     private OrderHistory orderHistory;
+
+    public OrderProduct(Integer amount, Product orderProduct) {
+        this.amount = amount;
+        this.orderProduct = orderProduct;
+    }
 }

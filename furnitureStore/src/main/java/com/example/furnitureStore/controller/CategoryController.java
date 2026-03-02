@@ -1,6 +1,7 @@
 package com.example.furnitureStore.controller;
 
 import com.example.furnitureStore.entity.Category;
+import com.example.furnitureStore.repository.CategoryRepository;
 import com.example.furnitureStore.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
