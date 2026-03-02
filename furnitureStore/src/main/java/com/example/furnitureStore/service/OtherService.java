@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OtherService {
 
-    PaymentMethodRepository paymentMethodRepository;
-    AddressTypeRepository addressTypeRepository;
+    private final PaymentMethodRepository paymentMethodRepository;
+    private final AddressTypeRepository addressTypeRepository;
 
     //kesz
     public ResponseEntity<Object> getAllPaymentMethod() {
@@ -33,3 +33,4 @@ public class OtherService {
         }
     }
 }
+

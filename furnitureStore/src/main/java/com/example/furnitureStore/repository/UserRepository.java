@@ -9,9 +9,6 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    @Procedure(name = "getUserByUsername", procedureName = "getUserByUsername")
-    Optional<User> getUserByUsername(@Param("usernameIN") String username);
-
     @Procedure(name = "getUserById", procedureName = "getUserById")
     Optional<User> getUserById(@Param("idIN") Integer id);
 

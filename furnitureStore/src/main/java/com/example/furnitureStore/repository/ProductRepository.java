@@ -15,4 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Procedure(name = "getProductById", procedureName = "getProductById")
     Optional<Product> getProductById(@Param("idIN") Integer id);
+
+    @Procedure(name = "getAllProduct", procedureName = "getAllProduct")
+    List<Product> getAllProduct();
 }
