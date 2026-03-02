@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "product_image")
@@ -46,3 +47,4 @@ public class ProductImages {
     @JsonIgnore
     private Product product;
 }
+

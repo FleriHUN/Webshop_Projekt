@@ -88,10 +88,11 @@ public class User {
     @Null
     private List<OrderHistory> canceledOrderHistory;
 
-    @OneToOne(mappedBy = "cartUser", fetch = FetchType.LAZY, cascade = {})
+    @OneToOne(mappedBy = "cartUser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Cart cart;
 
     @ManyToOne(cascade = {})
     @JoinColumn(name = "role_id")
     private Role role;
 }
+
