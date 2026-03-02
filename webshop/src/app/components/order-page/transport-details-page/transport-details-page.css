@@ -1,0 +1,12 @@
+button {
+  background-color: #8A6F58;
+  border: none;
+  width: 150px;
+  height: 40px;
+  border-radius: 8px;
+  color: #F7F2EE;
+}
+
+button :disabled {
+  opacity: 0.3%;
+}

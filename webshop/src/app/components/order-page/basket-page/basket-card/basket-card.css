@@ -1,0 +1,20 @@
+.cardContainer {
+  background-color: #8A6F58;
+  color: #F7F2EE;
+  border-radius: 12px;
+
+  button {
+    background-color: #F7F2EE;
+    height: 35px;
+    width: 35px;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    span {
+      color: #8A6F58;
+    }
+  }
+}

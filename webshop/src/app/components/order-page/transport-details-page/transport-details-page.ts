@@ -3,12 +3,12 @@ import { OtherService } from '../../../services/other-service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AddressType } from '../../../model/addressType.model';
 import { OrderService } from '../../../services/order-service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TransportDetail } from '../../../model/transportDetail.model';
 
 @Component({
   selector: 'app-transport-details-page',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './transport-details-page.html',
   styleUrl: './transport-details-page.css',
 })

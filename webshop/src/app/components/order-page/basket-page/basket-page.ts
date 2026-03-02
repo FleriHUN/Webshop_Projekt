@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { BasketService } from '../../../services/basket-service';
 import { UserService } from '../../../services/user-service';
 import { BasketCard } from './basket-card/basket-card';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-basket-page',
-  imports: [BasketCard],
+  imports: [BasketCard, RouterModule],
   templateUrl: './basket-page.html',
   styleUrl: './basket-page.css',
 })
@@ -14,7 +15,7 @@ export class BasketPage {
   userService = inject(UserService)
 
   ngOnInit(): void {
-    this.cartService.getBasketByUserId(11).subscribe({
+    this.cartService.getBasketByUserId(this.userService.loggedUser?.id!).subscribe({
       next: response => {
         this.cartService.usersCart = response
       },

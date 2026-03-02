@@ -3,13 +3,13 @@ import { OtherService } from '../../../services/other-service';
 import { AddressType } from '../../../model/addressType.model';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { OrderService } from '../../../services/order-service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { PaymentMethod } from '../../../model/paymentMethod.model';
 import { BillingDetail } from '../../../model/billingDetail.model';
 
 @Component({
   selector: 'app-billing-details-page',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './billing-details-page.html',
   styleUrl: './billing-details-page.css',
 })

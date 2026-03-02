@@ -30,7 +30,7 @@ export class OrderSummary implements OnInit{
     this.orderService.sendOrder(this.cartService.usersCart.id!).subscribe({
       next: response => console.log(response),
       complete: () => {
-        this.router.navigate(["/home"])
+        this.router.navigate(["/homePage"])
       }
     })
   }
