@@ -24,7 +24,8 @@ import java.util.List;
         @NamedStoredProcedureQuery(name = "getFirstThreeProduct", procedureName = "getFirstThreeProduct", resultClasses = Product.class),
         @NamedStoredProcedureQuery(name = "getProductById", procedureName = "getProductById", parameters = {
                 @StoredProcedureParameter(name = "idIN", type = Integer.class, mode = ParameterMode.IN)
-        }, resultClasses = Product.class)
+        }, resultClasses = Product.class),
+        @NamedStoredProcedureQuery(name = "getAllProduct", procedureName = "getAllProduct", resultClasses = Product.class)
 })
 public class Product {
 
