@@ -6,7 +6,7 @@ import { BasketService } from '../../services/basket-service';
   selector: 'app-order-page',
   imports: [RouterModule],
   templateUrl: './order-page.html',
-  styleUrl: './order-page.scss',
+  styleUrl: './order-page.css',
 })
 export class OrderPage implements OnInit{
   cartService = inject(BasketService)
