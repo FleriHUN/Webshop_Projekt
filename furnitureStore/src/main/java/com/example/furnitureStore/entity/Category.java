@@ -1,5 +1,6 @@
 package com.example.furnitureStore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,12 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "getParentCategories", procedureName = "getParentCategories", resultClasses = Category.class),
+        @NamedStoredProcedureQuery(name = "getSubCategoriesOfParentCategory", procedureName = "getSubCategoriesOfParentCategory", parameters = {
+                @StoredProcedureParameter(name = "idIN", type = Integer.class, mode = ParameterMode.IN)
+        }, resultClasses = Category.class)
+})
 public class Category {
 
     @Id
@@ -37,11 +44,15 @@ public class Category {
     private LocalDateTime deletedAt;
 
     //Kapcsolatok
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {})
-    @JoinTable(
-            name = "product_category",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    @JsonIgnore
     private List<Product> productList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentCategory")
+    @JsonIgnore
+    private List<Category> subCategories;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_category_id")
+    private Category parentCategory;
 }

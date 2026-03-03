@@ -1,5 +1,6 @@
 package com.example.furnitureStore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,6 +18,11 @@ import java.util.Date;
 @Setter
 @ToString
 @NoArgsConstructor
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "deleteProductFromCart", procedureName = "deleteProductFromCart", parameters = {
+                @StoredProcedureParameter(name = "idIN", mode = ParameterMode.IN, type = Integer.class)
+        })
+})
 public class CartProduct {
 
     @Id
@@ -35,12 +41,20 @@ public class CartProduct {
     private Integer amount;
 
     //Kapcsolatok
-    @ManyToOne(cascade = {})
+    @ManyToOne
     @JoinColumn(name = "product_id")
-    @JsonIgnoreProperties({"productReviewList"})
+    @JsonIgnoreProperties({"productReviewList", "orderHistoryList", "cartProductList"})
     private Product cartProduct;
 
-    @ManyToOne(cascade = {})
+    @ManyToOne
     @JoinColumn(name = "cart_id")
+    @JsonIgnore
     private Cart cart;
+
+    public CartProduct(Integer amount ,Product cartProduct, Cart cart) {
+        this.amount = amount;
+        this.cartProduct = cartProduct;
+        this.cart = cart;
+        createdAt = new Date();
+    }
 }
