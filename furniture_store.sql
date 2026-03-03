@@ -531,7 +531,8 @@ CREATE TABLE `cart` (
 INSERT INTO `cart` (`id`, `user_id`, `last_modified`) VALUES
 (1, 1, '2025-12-02 08:13:33'),
 (2, 2, '2025-12-02 08:13:33'),
-(3, 8, NULL);
+(3, 8, NULL), 
+(4, 7, NULL);
 
 -- --------------------------------------------------------
 
@@ -899,6 +900,8 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `phone`, `last_login`
 (1, 'test1', 'test1@gmail.com', 'test5.Asd', '06710000000', '2025-12-02 11:23:25', '2025-12-01 15:11:01', 0, NULL, 'a', 1, '2025-12-02 07:20:58'),
 (2, 'test2', 'test2@gmail.com', 'test2', '06701000000', '2025-12-02 07:11:01', '2025-12-02 07:11:01', 1, '2026-02-26 20:00:31', 'b', 1, '2025-12-02 07:20:58'),
 (3, 'postTest1', 'test@gmail.com', 'test5.As', 'asd', NULL, NULL, 0, NULL, '', 1, '2025-12-02 10:26:38'),
+(7, 'Tóth János', 'tothjanos3222@gmail.com', 'tothjanos33', '06302301122', NULL, NULL, 0, NULL, 'a', 1, '2026-03-03 11:51:19'),
+(8, 'admin1', 'admin1@gmail.com', 'admin1', '06701111111', NULL, NULL, 0, NULL, 'b', 2, '2026-03-03 11:52:51');
 
 --
 -- Indexek a kiírt táblákhoz
