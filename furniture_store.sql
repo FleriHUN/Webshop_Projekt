@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2026. Már 02. 21:41
+-- Létrehozás ideje: 2026. Már 03. 13:26
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -531,7 +531,7 @@ CREATE TABLE `cart` (
 INSERT INTO `cart` (`id`, `user_id`, `last_modified`) VALUES
 (1, 1, '2025-12-02 08:13:33'),
 (2, 2, '2025-12-02 08:13:33'),
-(3, 8, NULL), 
+(3, 8, NULL),
 (4, 7, NULL);
 
 -- --------------------------------------------------------
@@ -721,26 +721,26 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `name`, `description`, `height_in_cm`, `width_in_cm`, `depth_in_cm`, `weight_in_kg`, `amount`, `photo_list_id`, `brand_id`, `price`, `category_id`, `is_deleted`, `deleted_at`, `img_path`) VALUES
-(1, 'Sarokkanapé', 'L-alakú ülőbútor, több személy számára, gyakran ágyneműtartóval.\n', 85, 260, 200, 120, 13, 1, 1, 10, 2, 0, NULL, ''),
-(2, 'Kerti asztal\r\n', 'Kültéri használatra tervezett asztal.\r\n', 1, 1, 1, 1, 15, 33, 1, 1, 2, 0, NULL, ''),
-(3, 'Háromszemélyes kanapé\r\n', 'Kényelmes ülőbútor nappaliba, klasszikus elrendezéshez.\r\n', 10, 10, 10, 10, 15, 34, 1, 100, 2, 0, NULL, ''),
-(4, 'Fotelszék', 'Egy személy számára kialakított, kényelmes ülőalkalmatosság.\r\n', 1, 1, 1, 1, 15, 35, 1, 1, 2, 0, NULL, ''),
-(5, 'Étkezőszék', 'Étkezőasztalhoz tervezett szék, háttámlával.\r\n', 1, 1, 1, 1, 15, 36, 1, 1, 2, 0, NULL, ''),
-(6, 'Étkezőasztal', 'Több személyes étkezésekhez alkalmas asztal.\r\n', 1, 1, 1, 1, 15, 37, 1, 1, 2, 0, NULL, ''),
-(7, 'Dohányzóasztal\r\n', 'Alacsony asztal nappaliba, kanapé elé.\r\n', 1, 1, 1, 1, 15, 38, 1, 1, 2, 0, NULL, ''),
-(8, 'TV-állvány\r\n', 'Televízió és multimédiás eszközök elhelyezésére.\r\n', 1, 1, 1, 1, 15, 39, 1, 1, 2, 0, NULL, ''),
-(9, 'Könyvespolc\r\n', 'Könyvek és dekorációk tárolására szolgáló polcrendszer.\r\n', 1, 1, 1, 1, 15, 40, 1, 1, 2, 0, NULL, ''),
-(10, 'Komód', 'Fiókos tárolóbútor ruhák vagy kiegészítők számára.\r\n', 1, 1, 1, 1, 15, 41, 1, 1, 2, 0, NULL, ''),
-(11, 'Ruhásszekrény', 'Ruhák tárolására alkalmas szekrény akasztóval és polcokkal.\r\n', 1, 1, 1, 1, 15, 42, 1, 1, 2, 0, NULL, ''),
-(12, 'Gardróbszekrény', 'Nagy méretű ruhatároló, több rekesszel.\r\n', 1, 1, 1, 1, 15, 43, 1, 1, 2, 0, NULL, ''),
-(13, 'Franciaágy\r\n', 'Kétszemélyes ágy, matraccal vagy matrac nélkül.\r\n', 1, 1, 1, 1, 15, 44, 1, 1, 2, 0, NULL, ''),
-(14, 'Egyszemélyes ágy\r\n', 'Egy személy részére kialakított fekvőbútor.\r\n', 1, 1, 1, 1, 15, 45, 1, 1, 2, 0, NULL, ''),
-(15, 'Éjjeliszekrény\r\n', 'Ágy melletti kis tárolóbútor.\r\n', 1, 1, 1, 1, 15, 46, 1, 1, 2, 0, NULL, ''),
-(16, 'Íróasztal\r\n', 'Tanuláshoz vagy munkához használt asztal.\r\n', 1, 1, 1, 1, 15, 47, 1, 1, 2, 0, NULL, ''),
-(17, 'Irodai forgószék\r\n', 'Állítható magasságú, kerekes munkaszék.\r\n', 1, 1, 1, 1, 15, 48, 1, 1, 2, 0, NULL, ''),
-(18, 'Cipősszekrény\r\n', 'Cipők rendszerezett tárolására.\r\n', 1, 1, 1, 1, 15, 49, 1, 1, 2, 0, NULL, ''),
-(19, 'Előszobafal\r\n', 'Akasztókkal, polcokkal és tükörrel ellátott előszobabútor.\r\n', 1, 1, 1, 1, 15, 50, 1, 1, 2, 0, NULL, ''),
-(20, 'Konyhaszekrény', 'Konyhai tárolóbútor edények és élelmiszerek számára.\r\n', 1, 1, 1, 1, 15, 51, 1, 1, 2, 0, NULL, '');
+(1, 'Sarokkanapé', 'L-alakú ülőbútor, több személy számára, gyakran ágyneműtartóval.\n', 85, 260, 200, 120, 13, 1, 1, 10, 2, 0, NULL, 'http://localhost:8080/productImg/kanape1.avif'),
+(2, 'Kerti asztal\r\n', 'Kültéri használatra tervezett asztal.\r\n', 1, 1, 1, 1, 15, 33, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/KERTIASZTAL1.avif'),
+(3, 'Háromszemélyes kanapé\r\n', 'Kényelmes ülőbútor nappaliba, klasszikus elrendezéshez.\r\n', 10, 10, 10, 10, 15, 34, 1, 100, 2, 0, NULL, 'http://localhost:8080/productImg/kanape2.avif'),
+(4, 'Fotelszék', 'Egy személy számára kialakított, kényelmes ülőalkalmatosság.\r\n', 1, 1, 1, 1, 15, 35, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/karosszek1.avif'),
+(5, 'Étkezőszék', 'Étkezőasztalhoz tervezett szék, háttámlával.\r\n', 1, 1, 1, 1, 15, 36, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szek1.avif'),
+(6, 'Étkezőasztal', 'Több személyes étkezésekhez alkalmas asztal.\r\n', 1, 1, 1, 1, 15, 37, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/ea6.avif'),
+(7, 'Dohányzóasztal\r\n', 'Alacsony asztal nappaliba, kanapé elé.\r\n', 1, 1, 1, 1, 15, 38, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/dohanyzo1.avif'),
+(8, 'TV-állvány\r\n', 'Televízió és multimédiás eszközök elhelyezésére.\r\n', 1, 1, 1, 1, 15, 39, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/TV-állványok 1.1.avif'),
+(9, 'Könyvespolc\r\n', 'Könyvek és dekorációk tárolására szolgáló polcrendszer.\r\n', 1, 1, 1, 1, 15, 40, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/polc5.avif'),
+(10, 'Komód', 'Fiókos tárolóbútor ruhák vagy kiegészítők számára.\r\n', 1, 1, 1, 1, 15, 41, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/komód1.avif'),
+(11, 'Ruhásszekrény', 'Ruhák tárolására alkalmas szekrény akasztóval és polcokkal.\r\n', 1, 1, 1, 1, 15, 42, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szekrénysor 2.2.avif'),
+(12, 'Gardróbszekrény', 'Nagy méretű ruhatároló, több rekesszel.\r\n', 1, 1, 1, 1, 15, 43, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szekrénysor 1.avif'),
+(13, 'Franciaágy\r\n', 'Kétszemélyes ágy, matraccal vagy matrac nélkül.\r\n', 1, 1, 1, 1, 15, 44, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/ágy3.avif'),
+(14, 'Egyszemélyes ágy\r\n', 'Egy személy részére kialakított fekvőbútor.\r\n', 1, 1, 1, 1, 15, 45, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/TÁROLÓS ÁGY 1.1.avif'),
+(15, 'Éjjeliszekrény\r\n', 'Ágy melletti kis tárolóbútor.\r\n', 1, 1, 1, 1, 15, 46, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/komód1.avif'),
+(16, 'Íróasztal\r\n', 'Tanuláshoz vagy munkához használt asztal.\r\n', 1, 1, 1, 1, 15, 47, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/asztal6.avif'),
+(17, 'Irodai forgószék\r\n', 'Állítható magasságú, kerekes munkaszék.\r\n', 1, 1, 1, 1, 15, 48, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/IFJÚSÁGI FORGÓSZÉK 1.1.avif'),
+(18, 'Cipősszekrény\r\n', 'Cipők rendszerezett tárolására.\r\n', 1, 1, 1, 1, 15, 49, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/Cipősszekrény 1.avif'),
+(19, 'Előszobafal\r\n', 'Akasztókkal, polcokkal és tükörrel ellátott előszobabútor.\r\n', 1, 1, 1, 1, 15, 50, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/eloszobafal.avif'),
+(20, 'Konyhaszekrény', 'Konyhai tárolóbútor edények és élelmiszerek számára.\r\n', 1, 1, 1, 1, 15, 51, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/SAROK FALISZEKRÉNY 1.avif');
 
 -- --------------------------------------------------------
 
@@ -1061,7 +1061,7 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT a táblához `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `cart_product`
