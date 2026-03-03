@@ -19,6 +19,14 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "getCartByUserId", procedureName = "getCartByUserId", parameters = {
+                @StoredProcedureParameter(name = "idIN", mode = ParameterMode.IN, type = Integer.class)
+        }, resultClasses = Cart.class),
+        @NamedStoredProcedureQuery(name = "clearCart", procedureName = "clearCart", parameters = {
+                @StoredProcedureParameter(name = "idIN", mode = ParameterMode.IN, type = Integer.class)
+        })
+})
 public class Cart {
 
     @Id
@@ -29,17 +37,17 @@ public class Cart {
     @Column(name = "last_modified")
     private LocalDateTime lastModified;
 
-    @Column(name = "created_at")
-    private Date createdAt;
-
     //Kapcsolatok
-    @ManyToOne(cascade = {})
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User cartUser;
 
     @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = {})
-    @JsonIgnoreProperties({"cart", "brand"})
+    @JsonIgnoreProperties({"cart"})
     private List<CartProduct> cartProductList;
-}
 
+    public Cart(User cartUser) {
+        this.cartUser = cartUser;
+    }
+}
