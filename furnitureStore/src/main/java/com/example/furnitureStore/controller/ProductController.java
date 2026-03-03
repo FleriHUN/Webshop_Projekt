@@ -26,7 +26,7 @@ public class ProductController {
         return productService.getFirstThreeProduct();
     }
 
-    @PostMapping("")
+    @PostMapping
     private ResponseEntity<Object> addProduct(@RequestBody Product newProduct) {
         return null;
     }
@@ -36,10 +36,18 @@ public class ProductController {
         return productService.deleteProduct(id);
     }
 
-    @PutMapping("")
+    @PutMapping
     private ResponseEntity<Object> updateProduct(@RequestBody Product updatedProduct) {
         return null;
     }
 
+    @GetMapping
+    private ResponseEntity<Object> getAllProduct() {
+        return productService.getAllProduct();
+    }
 
+    @GetMapping("/{id}")
+    private ResponseEntity<Object> getProductById(@PathVariable("id") Integer id) {
+        return productService.getProductById(id);
+    }
 }

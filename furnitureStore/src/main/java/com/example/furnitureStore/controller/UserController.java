@@ -2,11 +2,13 @@ package com.example.furnitureStore.controller;
 
 import com.example.furnitureStore.entity.User;
 import com.example.furnitureStore.service.UserService;
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import tools.jackson.databind.JsonNode;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -17,7 +19,7 @@ public class UserController {
 
     @PostMapping("/login")
     private ResponseEntity<Object> login(@RequestBody JsonNode requestBody) {
-        return userService.login(requestBody.get("username").asText(null), requestBody.get("password").asText(null));
+        return userService.login(requestBody.get("username").asString(null), requestBody.get("password").asString(null));
     }
 
     @PostMapping("/register")
@@ -27,7 +29,7 @@ public class UserController {
 
     @PatchMapping("/{id}")
     private ResponseEntity<Object> update(@RequestBody JsonNode requestBody, @PathVariable("id") Integer id) {
-        return userService.update(id, requestBody.get("username").asText(null), requestBody.get("com/example/furnitureStore/config/email").asText(null));
+        return userService.update(id, requestBody.get("username").asString(null), requestBody.get("email").asString(null));
     }
 
     @DeleteMapping("/{id}")
@@ -41,17 +43,22 @@ public class UserController {
     }
 
     @GetMapping("/vCode")
-    private ResponseEntity<Object> getVerificationCode(@RequestParam("com/example/furnitureStore/config/email") String email) {
+    private ResponseEntity<Object> getVerificationCode(@RequestParam("email") String email) {
         return userService.getVerificationCode(email);
     }
 
     @PostMapping("/check")
     private ResponseEntity<Object> checkVerificationCode(@RequestBody JsonNode requestBody) {
-        return userService.checkVerificationCode(requestBody.get("vCode").asText(null), requestBody.get("com/example/furnitureStore/config/email").asText(null));
+        return userService.checkVerificationCode(requestBody.get("vCode").asString(null), requestBody.get("email").asString(null));
     }
 
     @PatchMapping("/password")
     private ResponseEntity<Object> changePassword(@RequestBody JsonNode requestBody) {
-        return userService.changePassword(requestBody.get("com/example/furnitureStore/config/email").asText(null), requestBody.get("newPassword").asText(null));
+        return userService.changePassword(requestBody.get("email").asString(null), requestBody.get("newPassword").asString (null));
+    }
+
+    @GetMapping
+    private ResponseEntity<Object> getAllUser() {
+        return userService.getAllUser();
     }
 }
