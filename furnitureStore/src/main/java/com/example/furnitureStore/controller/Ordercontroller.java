@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/order")
 @RequiredArgsConstructor
 public class OrderController {
-
-    private OrderService orderService;
+    private final OrderService orderService;
 
     @GetMapping("/user/{id}")
     public ResponseEntity<Object> getOrderHistoryByUserId(@PathVariable("id") Integer userId) {
@@ -22,11 +21,6 @@ public class OrderController {
     @DeleteMapping("/cancel/{id}")
     public ResponseEntity<Object> cancelOrder(@PathVariable("id") Integer orderId, @RequestBody JsonNode requestBody) {
         return orderService.cancelOrder(orderId, requestBody.get("cancelerUserId").asInt());
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<Object> getOrderHistoryByVCode(@RequestParam("com/example/furnitureStore/config/email") String email, @RequestParam("vCode") String vCode) {
-        return orderService.getOrderHistoryByVCode(email, vCode);
     }
 
     @GetMapping("")
@@ -39,4 +33,3 @@ public class OrderController {
         return orderService.sendOrder(newOrder, basketId);
     }
 }
-
