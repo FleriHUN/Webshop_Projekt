@@ -38,4 +38,3 @@ public class CartController {
         return cartService.clearCart(basketId);
     }
 }
-

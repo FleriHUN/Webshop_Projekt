@@ -22,4 +22,3 @@ public class OtherController {
         return otherService.getAllAddressType();
     }
 }
-

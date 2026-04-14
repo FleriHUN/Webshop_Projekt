@@ -47,4 +47,3 @@ public class ProductImages {
     @JsonIgnore
     private Product product;
 }
-

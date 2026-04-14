@@ -87,4 +87,3 @@ public class OrderHistory {
     @JsonIgnoreProperties({"orderHistory"})
     private List<OrderProduct> products;
 }
-
