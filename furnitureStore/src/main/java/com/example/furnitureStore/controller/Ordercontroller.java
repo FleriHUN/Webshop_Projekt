@@ -23,7 +23,7 @@ public class OrderController {
         return orderService.cancelOrder(orderId, requestBody.get("cancelerUserId").asInt());
     }
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<Object> getAllOrder() {
         return orderService.getAllOrder();
     }
