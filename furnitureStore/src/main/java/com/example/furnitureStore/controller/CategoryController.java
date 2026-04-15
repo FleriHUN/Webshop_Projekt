@@ -23,7 +23,7 @@ public class CategoryController {
         return categoryService.getAllSubCategory(id);
     }
 
-    @PostMapping("")
+    @PostMapping
     private ResponseEntity<Object> addCategory(@RequestBody Category newCategory) {
         return categoryService.addCategory(newCategory);
     }
@@ -33,7 +33,7 @@ public class CategoryController {
         return categoryService.deleteCategory(id);
     }
 
-    @PutMapping("")
+    @PutMapping
     private ResponseEntity<Object> updateCategory(@RequestBody Category updatedCategory) {
         return categoryService.updateCategory(updatedCategory);
     }

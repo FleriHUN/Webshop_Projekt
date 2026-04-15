@@ -1,5 +1,7 @@
 package com.example.furnitureStore.config.security;
 
+import com.example.furnitureStore.config.security.JWT.JWTGeneratorFilter;
+import com.example.furnitureStore.config.security.JWT.JWTValidatorFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -29,8 +31,8 @@ import java.util.Collections;
 public class SecurityConfig {
 
     private final DbUserSetter userSetter;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final JwtGeneratorFilter jwtGeneratorFilter;
+    private final JWTValidatorFilter jwtValidatorFilter;
+    private final JWTGeneratorFilter jwtGeneratorFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -52,10 +54,25 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((request) -> request
-                        .anyRequest().permitAll()
+                        .requestMatchers(HttpMethod.GET, "/brand").permitAll()
+                        .requestMatchers("/brand").hasRole("admin")
+                        .requestMatchers(HttpMethod.DELETE, "/brand/*").hasRole("admin")
+                        .requestMatchers("/cart/**").authenticated()
+                        .requestMatchers("/category/parents", "/category/sub/*").permitAll()
+                        .requestMatchers("/category", "/category/*").hasRole("admin")
+                        .requestMatchers(HttpMethod.GET, "/order").hasRole("admin")
+                        .requestMatchers(HttpMethod.GET, "/order/**").authenticated()
+                        .requestMatchers("/paymentMethods", "/addressType").permitAll()
+                        .requestMatchers("/product/category/*", "/product/homePage").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/product/*").permitAll()
+                        .requestMatchers("/product/*", "/product").hasRole("admin")
+                        .requestMatchers("/review", "/review/*").authenticated()
+                        .requestMatchers("/user/login", "/user/register", "/user/vCode", "/user/check", "/user/password").permitAll()
+                        .requestMatchers("/user/*", "/user/**").authenticated()
+                        .requestMatchers("/user").hasRole("admin")
                 )
-//                .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
-//                .addFilterAfter(jwtGeneratorFilter, BasicAuthenticationFilter.class)
+                .addFilterBefore(jwtValidatorFilter, BasicAuthenticationFilter.class)
+                .addFilterAfter(jwtGeneratorFilter, BasicAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());
         return http.build();

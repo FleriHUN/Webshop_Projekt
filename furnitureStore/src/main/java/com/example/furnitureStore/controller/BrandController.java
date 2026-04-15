@@ -14,17 +14,17 @@ public class BrandController {
 
     private final BrandService brandService;
 
-    @GetMapping("")
+    @GetMapping
     private ResponseEntity<Object> getAllBrand() {
         return brandService.getAllBrand();
     }
 
-    @PostMapping("")
+    @PostMapping
     private ResponseEntity<Object> addBrand(@RequestBody Brand newBrand) {
         return brandService.addBrand(newBrand);
     }
 
-    @PutMapping("")
+    @PutMapping
     private ResponseEntity<Object> updateBrand(@RequestBody Brand updatedBrand) {
         return brandService.updateBrand(updatedBrand);
     }
