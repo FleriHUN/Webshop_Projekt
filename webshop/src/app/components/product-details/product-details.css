@@ -1,0 +1,11 @@
+#productImg {
+  border-radius: 8px;
+}
+
+button {
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  background-color: #8A6F58;
+  color: #F7F2EE;
+}

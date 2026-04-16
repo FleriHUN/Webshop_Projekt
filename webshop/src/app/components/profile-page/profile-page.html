@@ -1,1 +1,81 @@
-<p>profile-page works!</p>
+<div class="container-fluid" style="height: 80vh;">
+  <div class="row h-100">
+    <div class="col-lg-4 d-flex justify-content-center align-items-center">
+      <div class="container-fluid d-flex flex-column justify-content-between" id="profilContainer">
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="d-flex mb-4 justify-content-between align-items-center">
+              <h2 class="text-center w-100">{{ userService.loggedUser?.username }} adatai:</h2>
+              <button class="iconButton" (click)="handleUpdate()">A</button>
+            </div>
+
+            <form [formGroup]="form">
+              <p class="d-flex justify-content-between">
+                <span class="fw-bold">Felhasználónév:</span>
+                @if(showInputs){
+                  <input placeholder="Felhasználónév" type="text" class="form-control" style="width: 250px;" formControlName="username">
+                } @else {
+                  <span>{{ userService.loggedUser?.username }}</span>
+                }
+              </p>
+              <p class="d-flex justify-content-between">
+                <span class="fw-bold">Email:</span>
+                @if(showInputs){
+                  <input placeholder="Email" type="text" class="form-control" style="width: 250px;" formControlName="email">
+                } @else {
+                  <span>{{ userService.loggedUser?.email }}</span>
+                }
+              </p>
+            </form>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <button class="mb-3" id="logoutBtn" (click)="logout()">Kijelentkezés</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-lg-8 d-flex justify-content-center align-items-center">
+      <div class="container-fluid" id="historyContainer">
+        <div class="row">
+          <div class="col-lg-12">
+            <h1 class="text-center">Rendeléseim:</h1>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            @for (order of userService.loggedUser?.orderHistoryList; track $index) {
+              <app-order-history-card [orderHistory]="order" (cancel)="cancelOrder($event, $index)" />
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 d-flex justify-content-end">
+      <button (click)="showConfirmation = true">X</button>
+    </div>
+  </div>
+</div>
+
+@if(showConfirmation) {
+  <div class="container-fluid" id="confirmationContainer">
+    <div class="row h-100 d-flex justify-content-center align-items-center">
+      <div class="col-lg-12 d-flex flex-column justify-content-between py-3" id="confirmPopupContainer">
+        <h2 class="text-center">Biztosan törlöd a fiókodat?</h2>
+
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="confirmBtn mx-2" (click)="deleteProfile()" >Igen</button>
+          <button class="confirmBtn mx-2" (click)="showConfirmation = false">Nem</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

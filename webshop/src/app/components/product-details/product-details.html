@@ -1,1 +1,32 @@
-<button (click)="addToCart()">Kosárba rakás</button>
+<div class="container-fluid" style="min-height: 80vh;">
+  <div class="row h-100">
+    <div class="col-lg-5 d-flex justify-content-center align-items-center" style="height: 500px;">
+      <img id="productImg" src="/assets/homepageBg.png" alt="" class="img-fluid">
+    </div>
+
+    <div class="col-lg-7 d-flex flex-column justify-content-center align-items-center" style="height: 500px;">
+      <div class="w-100">
+        <h1 class="text-lg-start text-center">{{selectedProduct?.name}}</h1>
+        <h5 class="text-lg-start text-center">{{selectedProduct?.category?.name}} || {{selectedProduct?.brand?.name}}</h5>
+      </div>
+
+      <p class="w-100 text-lg-start text-center">{{selectedProduct?.description}}</p>
+
+      <div class="w-100">
+        <h5 class="text-lg-start text-center">Termék adatai:</h5>
+        <ul class="list-unstyled px-3">
+          <li class="d-flex justify-content-between align-items-center"><span class="fw-bold">Széllesség:</span><span>{{selectedProduct?.widthInCm}}cm</span></li>
+          <li class="d-flex justify-content-between align-items-center"><span class="fw-bold">Magasság:</span><span>{{selectedProduct?.heightInCm}}cm</span></li>
+          <li class="d-flex justify-content-between align-items-center"><span class="fw-bold">Mélység:</span><span>{{selectedProduct?.depthInCm}}cm</span></li>
+          <li class="d-flex justify-content-between align-items-center"><span class="fw-bold">Súly:</span><span>{{selectedProduct?.weightInKg}}kg</span></li>
+        </ul>
+      </div>
+
+      <div class="w-100 d-flex flex-column justify-content-end align-items-lg-end align-items-center">
+        <h5>Ár: 5000Ft</h5>
+        <button (click)="addToCart()">Kosárba rakás</button>
+      </div>
+    </div>
+  </div>
+
+</div>

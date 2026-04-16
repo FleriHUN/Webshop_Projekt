@@ -13,7 +13,7 @@ import { UserService } from '../../services/user-service';
 })
 export class ProductDetails implements OnInit {
   productService = inject(ProductService)
-  selectedProduct!: Product
+  selectedProduct: Product | null = null
   private route = inject(ActivatedRoute)
   private router = inject(Router)
   private userService = inject(UserService)
@@ -26,6 +26,7 @@ export class ProductDetails implements OnInit {
         this.productService.getProductById(id).subscribe({
           next: response => {
             this.selectedProduct = response
+            console.log(this.selectedProduct)
           }
         })
       }
@@ -34,7 +35,7 @@ export class ProductDetails implements OnInit {
 
   addToCart() {
     console.log("Add to Cart")
-    this.basketService.addProductToBasket(this.userService.loggedUser?.id!, { productId: this.selectedProduct.id!, amount: 1 }).subscribe({
+    this.basketService.addProductToBasket(this.userService.loggedUser?.id!, { productId: this.selectedProduct!.id!, amount: 1 }).subscribe({
       next: response => console.log(response)
     })
   }
