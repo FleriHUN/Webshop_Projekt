@@ -1,4 +1,5 @@
 import { Cart } from "./cart.model";
+import { OrderHistory } from "./orderHistory.model";
 import { Role } from "./role.model";
 
 export class User {
@@ -11,5 +12,6 @@ export class User {
     public pfpPath?: string,
     public role?: Role,
     public cart?: Cart,
+    public orderHistoryList: OrderHistory[] = []
   ) { }
 }

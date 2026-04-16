@@ -14,6 +14,6 @@ export class Product {
         public price: number,
         public brand: Brand,
         public images: ProductImages,
-        public categories: Category[],
+        public category: Category,
     ) {}
 }

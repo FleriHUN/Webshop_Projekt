@@ -26,4 +26,8 @@ export class UserService {
   deleteUser(id: number) {
     return this.http.delete(`${this.baseUrl}/${id}`)
   }
+
+  updateUser(id: number, email: string, username: string): Observable<User> {
+    return this.http.patch<User>(`${this.baseUrl}/${id}`, {email: email, username: username})
+  }
 }
