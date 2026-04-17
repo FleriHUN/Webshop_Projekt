@@ -1,10 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { OrderHistory } from '../../../model/orderHistory.model';
 import { OrderService } from '../../../services/order-service';
+import { OrderHistoryCardComponent } from '../../order-history-card/order-history-card.component';
 
 @Component({
   selector: 'app-order-histories',
-  imports: [],
+  imports: [OrderHistoryCardComponent],
   templateUrl: './order-histories.html',
   styleUrl: './order-histories.css',
 })
