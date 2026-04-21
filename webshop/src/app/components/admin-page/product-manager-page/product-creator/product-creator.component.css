@@ -1,0 +1,11 @@
+#mainContainer {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+#secondContainer {
+  background-color: #f7f2ee;
+  width: 600px;
+  height: 800px;
+}

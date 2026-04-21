@@ -1,1 +1,50 @@
-<p>admin-product-card works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <p class="m-0">Ternmék neve: <span>{{ product().name }}</span></p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <label for="productName">Leírás:</label>
+      <p>{{ product().description }}</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <p class="m-0">Műszaki adatok:</p>
+      <ul>
+        <li>
+          <span class="fw-bold">Hosszúság:</span> {{ product().heightInCm }}cm
+        </li>
+        <li>
+          <span class="fw-bold">Széllesség:</span> {{ product().weightInKg }}cm
+        </li>
+        <li>
+          <span class="fw-bold">Mélység:</span> {{ product().depthInCm }}cm
+        </li>
+        <li><span class="fw-bold">Súly:</span> {{ product().weightInKg }}kg</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <p class="m-0">Raktáron lévő mennyiség</p>
+      <p class="m-0">Ár:</p>
+      <p class="m-0">Márka:</p>
+      <p class="m-0">Kategória:</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 d-flex justify-content-between align-items-center">
+      <button>Fénykép Megtekintése</button>
+      <button (click)="deleteProduct()">Törlés</button>
+    </div>
+  </div>
+
+  <hr />
+</div>

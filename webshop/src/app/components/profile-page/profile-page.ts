@@ -9,10 +9,11 @@ import {
 import { Router } from '@angular/router';
 import { OrderHistoryCardComponent } from '../order-history-card/order-history-card.component';
 import { OrderService } from '../../services/order-service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profil-page',
-  imports: [ReactiveFormsModule, OrderHistoryCardComponent],
+  imports: [ReactiveFormsModule, OrderHistoryCardComponent, CommonModule],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.css',
 })
