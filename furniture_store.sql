@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2026. Már 03. 13:26
+-- Létrehozás ideje: 2026. Ápr 22. 07:24
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -25,7 +25,7 @@ DELIMITER $$
 --
 -- Eljárások
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clearProduct` (IN `idIN` INT)   BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clearCart` (IN `idIN` INT)   BEGIN 
 	DELETE FROM `cart_product` WHERE cart_product.cart_id = idIN;
 END$$
 
@@ -470,7 +470,8 @@ CREATE TABLE `billing_detail` (
 
 INSERT INTO `billing_detail` (`id`, `post_code`, `town`, `address`, `address_type_id`, `house_number`, `company_name`, `company_tax_number`, `other`) VALUES
 (1, 1, 'a', 'a', 1, 1, NULL, NULL, NULL),
-(4, 7200, 'asfsfa', 'asfasf', 1, 23, NULL, NULL, NULL);
+(4, 7200, 'asfsfa', 'asfasf', 1, 23, NULL, NULL, NULL),
+(6, 7200, 'asd', 'asdsad', 2, 32, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -532,7 +533,8 @@ INSERT INTO `cart` (`id`, `user_id`, `last_modified`) VALUES
 (1, 1, '2025-12-02 08:13:33'),
 (2, 2, '2025-12-02 08:13:33'),
 (3, 8, NULL),
-(4, 7, NULL);
+(4, 7, NULL),
+(5, 9, NULL);
 
 -- --------------------------------------------------------
 
@@ -576,7 +578,7 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `name`, `parent_category_id`, `is_deleted`, `deleted_at`) VALUES
-(1, 'szék', NULL, 0, NULL),
+(1, 'szék', NULL, 1, NULL),
 (2, 'Ülőbútorok', 17, 0, NULL),
 (3, 'Asztalok', 17, 0, NULL),
 (4, 'Tárplóbútorok', 16, 0, NULL),
@@ -628,8 +630,9 @@ CREATE TABLE `order_history` (
 --
 
 INSERT INTO `order_history` (`id`, `first_name`, `last_name`, `phone`, `email`, `user_id`, `billing_detail_id`, `transport_detail_id`, `payment_method_id`, `status_id`, `ordered_at`, `canceled_at`, `is_canceled`, `canceler_user_id`) VALUES
-(1, 'test1', 'test1', '0670100000', 'test1@gmail.com', 1, 1, 1, 1, 1, '2025-12-02 08:29:33', NULL, 0, NULL),
-(2, 'asf', 'fasfa', '06706285232', 'asd@gmail.com', 8, 4, 4, 2, 1, '2026-03-01 18:49:46', NULL, 0, NULL);
+(1, 'test1', 'test1', '0670100000', 'test1@gmail.com', 9, 1, 1, 1, 1, '2026-04-15 18:38:10', NULL, 0, NULL),
+(2, 'asf', 'fasfa', '06706285232', 'asd@gmail.com', 9, 4, 4, 2, 1, '2026-04-15 18:38:07', NULL, 0, NULL),
+(4, 'asd', 'asd', '06706285232', 'dasd@gmail.com', 9, 6, 6, 1, 1, '2026-04-15 08:46:04', NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -707,7 +710,6 @@ CREATE TABLE `product` (
   `depth_in_cm` double NOT NULL,
   `weight_in_kg` double NOT NULL,
   `amount` int(11) NOT NULL,
-  `photo_list_id` int(11) NOT NULL,
   `brand_id` int(11) NOT NULL,
   `price` int(6) NOT NULL,
   `category_id` int(11) NOT NULL,
@@ -720,70 +722,30 @@ CREATE TABLE `product` (
 -- A tábla adatainak kiíratása `product`
 --
 
-INSERT INTO `product` (`id`, `name`, `description`, `height_in_cm`, `width_in_cm`, `depth_in_cm`, `weight_in_kg`, `amount`, `photo_list_id`, `brand_id`, `price`, `category_id`, `is_deleted`, `deleted_at`, `img_path`) VALUES
-(1, 'Sarokkanapé', 'L-alakú ülőbútor, több személy számára, gyakran ágyneműtartóval.\n', 85, 260, 200, 120, 13, 1, 1, 10, 2, 0, NULL, 'http://localhost:8080/productImg/kanape1.avif'),
-(2, 'Kerti asztal\r\n', 'Kültéri használatra tervezett asztal.\r\n', 1, 1, 1, 1, 15, 33, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/KERTIASZTAL1.avif'),
-(3, 'Háromszemélyes kanapé\r\n', 'Kényelmes ülőbútor nappaliba, klasszikus elrendezéshez.\r\n', 10, 10, 10, 10, 15, 34, 1, 100, 2, 0, NULL, 'http://localhost:8080/productImg/kanape2.avif'),
-(4, 'Fotelszék', 'Egy személy számára kialakított, kényelmes ülőalkalmatosság.\r\n', 1, 1, 1, 1, 15, 35, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/karosszek1.avif'),
-(5, 'Étkezőszék', 'Étkezőasztalhoz tervezett szék, háttámlával.\r\n', 1, 1, 1, 1, 15, 36, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szek1.avif'),
-(6, 'Étkezőasztal', 'Több személyes étkezésekhez alkalmas asztal.\r\n', 1, 1, 1, 1, 15, 37, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/ea6.avif'),
-(7, 'Dohányzóasztal\r\n', 'Alacsony asztal nappaliba, kanapé elé.\r\n', 1, 1, 1, 1, 15, 38, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/dohanyzo1.avif'),
-(8, 'TV-állvány\r\n', 'Televízió és multimédiás eszközök elhelyezésére.\r\n', 1, 1, 1, 1, 15, 39, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/TV-állványok 1.1.avif'),
-(9, 'Könyvespolc\r\n', 'Könyvek és dekorációk tárolására szolgáló polcrendszer.\r\n', 1, 1, 1, 1, 15, 40, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/polc5.avif'),
-(10, 'Komód', 'Fiókos tárolóbútor ruhák vagy kiegészítők számára.\r\n', 1, 1, 1, 1, 15, 41, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/komód1.avif'),
-(11, 'Ruhásszekrény', 'Ruhák tárolására alkalmas szekrény akasztóval és polcokkal.\r\n', 1, 1, 1, 1, 15, 42, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szekrénysor 2.2.avif'),
-(12, 'Gardróbszekrény', 'Nagy méretű ruhatároló, több rekesszel.\r\n', 1, 1, 1, 1, 15, 43, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szekrénysor 1.avif'),
-(13, 'Franciaágy\r\n', 'Kétszemélyes ágy, matraccal vagy matrac nélkül.\r\n', 1, 1, 1, 1, 15, 44, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/ágy3.avif'),
-(14, 'Egyszemélyes ágy\r\n', 'Egy személy részére kialakított fekvőbútor.\r\n', 1, 1, 1, 1, 15, 45, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/TÁROLÓS ÁGY 1.1.avif'),
-(15, 'Éjjeliszekrény\r\n', 'Ágy melletti kis tárolóbútor.\r\n', 1, 1, 1, 1, 15, 46, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/komód1.avif'),
-(16, 'Íróasztal\r\n', 'Tanuláshoz vagy munkához használt asztal.\r\n', 1, 1, 1, 1, 15, 47, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/asztal6.avif'),
-(17, 'Irodai forgószék\r\n', 'Állítható magasságú, kerekes munkaszék.\r\n', 1, 1, 1, 1, 15, 48, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/IFJÚSÁGI FORGÓSZÉK 1.1.avif'),
-(18, 'Cipősszekrény\r\n', 'Cipők rendszerezett tárolására.\r\n', 1, 1, 1, 1, 15, 49, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/Cipősszekrény 1.avif'),
-(19, 'Előszobafal\r\n', 'Akasztókkal, polcokkal és tükörrel ellátott előszobabútor.\r\n', 1, 1, 1, 1, 15, 50, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/eloszobafal.avif'),
-(20, 'Konyhaszekrény', 'Konyhai tárolóbútor edények és élelmiszerek számára.\r\n', 1, 1, 1, 1, 15, 51, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/SAROK FALISZEKRÉNY 1.avif');
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `product_image`
---
-
-CREATE TABLE `product_image` (
-  `id` int(11) NOT NULL,
-  `photo_1` longtext NOT NULL,
-  `photo_2` longtext NOT NULL,
-  `photo_3` longtext NOT NULL,
-  `photo_4` longtext NOT NULL,
-  `photo_5` longtext NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `deleted_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- A tábla adatainak kiíratása `product_image`
---
-
-INSERT INTO `product_image` (`id`, `photo_1`, `photo_2`, `photo_3`, `photo_4`, `photo_5`, `is_deleted`, `deleted_at`) VALUES
-(1, 'aa', 'a', 'a', 'a', 'a', 0, NULL),
-(33, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(34, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(35, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(36, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(37, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(38, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(39, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(40, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(41, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(42, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(43, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(44, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(45, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(46, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(47, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(48, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(49, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(50, 'a', 'a', 'a', 'a', 'a', 0, NULL),
-(51, 'a', 'a', 'a', 'a', 'a', 0, NULL);
+INSERT INTO `product` (`id`, `name`, `description`, `height_in_cm`, `width_in_cm`, `depth_in_cm`, `weight_in_kg`, `amount`, `brand_id`, `price`, `category_id`, `is_deleted`, `deleted_at`, `img_path`) VALUES
+(1, 'Sarokkanapé', 'L-alakú ülőbútor, több személy számára, gyakran ágyneműtartóval.\n', 85, 260, 200, 120, 10, 1, 10, 2, 0, NULL, 'http://localhost:8080/productImg/kanape1.avif'),
+(2, 'Kerti asztal\r\n', 'Kültéri használatra tervezett asztal.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/KERTIASZTAL1.avif'),
+(3, 'Háromszemélyes kanapé\r\n', 'Kényelmes ülőbútor nappaliba, klasszikus elrendezéshez.\r\n', 10, 10, 10, 10, 15, 1, 100, 2, 0, NULL, 'http://localhost:8080/productImg/kanape2.avif'),
+(4, 'Fotelszék', 'Egy személy számára kialakított, kényelmes ülőalkalmatosság.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/karosszek1.avif'),
+(5, 'Étkezőszék', 'Étkezőasztalhoz tervezett szék, háttámlával.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szek1.avif'),
+(6, 'Étkezőasztal', 'Több személyes étkezésekhez alkalmas asztal.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/ea6.avif'),
+(7, 'Dohányzóasztal\r\n', 'Alacsony asztal nappaliba, kanapé elé.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/dohanyzo1.avif'),
+(8, 'TV-állvány\r\n', 'Televízió és multimédiás eszközök elhelyezésére.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/TV-állványok 1.1.avif'),
+(9, 'Könyvespolc\r\n', 'Könyvek és dekorációk tárolására szolgáló polcrendszer.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/polc5.avif'),
+(10, 'Komód', 'Fiókos tárolóbútor ruhák vagy kiegészítők számára.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/komód1.avif'),
+(11, 'Ruhásszekrény', 'Ruhák tárolására alkalmas szekrény akasztóval és polcokkal.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szekrénysor 2.2.avif'),
+(12, 'Gardróbszekrény', 'Nagy méretű ruhatároló, több rekesszel.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szekrénysor 1.avif'),
+(13, 'Franciaágy\r\n', 'Kétszemélyes ágy, matraccal vagy matrac nélkül.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/ágy3.avif'),
+(14, 'Egyszemélyes ágy\r\n', 'Egy személy részére kialakított fekvőbútor.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/TÁROLÓS ÁGY 1.1.avif'),
+(15, 'Éjjeliszekrény\r\n', 'Ágy melletti kis tárolóbútor.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/komód1.avif'),
+(16, 'Íróasztal\r\n', 'Tanuláshoz vagy munkához használt asztal.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/asztal6.avif'),
+(17, 'Irodai forgószék\r\n', 'Állítható magasságú, kerekes munkaszék.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/IFJÚSÁGI FORGÓSZÉK 1.1.avif'),
+(18, 'Cipősszekrény\r\n', 'Cipők rendszerezett tárolására.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/Cipősszekrény 1.avif'),
+(19, 'Előszobafal\r\n', 'Akasztókkal, polcokkal és tükörrel ellátott előszobabútor.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/eloszobafal.avif'),
+(20, 'Konyhaszekrény', 'Konyhai tárolóbútor edények és élelmiszerek számára.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/SAROK FALISZEKRÉNY 1.avif'),
+(21, 'asd', 'asd', 23, 32, 32, 32, 23, 14, 321, 17, 0, NULL, 'asd'),
+(22, 'fsafasfas', 'fasfasfasf', 2431, 421, 421, 421, 42, 15, 231, 18, 0, NULL, 'asd'),
+(23, 'afsafsfas', 'fasfasfasf', 23, 213, 321, 42, 321, 13, 24, 18, 0, NULL, 'asd');
 
 -- --------------------------------------------------------
 
@@ -869,7 +831,8 @@ CREATE TABLE `transport_detail` (
 
 INSERT INTO `transport_detail` (`id`, `post_code`, `town`, `address`, `address_type_id`, `house_number`, `other`) VALUES
 (1, 1, 'a', 'a', 1, 1, '1'),
-(4, 7200, 'adsdas', 'asffas', 18, 23, NULL);
+(4, 7200, 'adsdas', 'asffas', 18, 23, NULL),
+(6, 45, 'asd', 'asd', 15, 25, NULL);
 
 -- --------------------------------------------------------
 
@@ -901,7 +864,8 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `phone`, `last_login`
 (2, 'test2', 'test2@gmail.com', 'test2', '06701000000', '2025-12-02 07:11:01', '2025-12-02 07:11:01', 1, '2026-02-26 20:00:31', 'b', 1, '2025-12-02 07:20:58'),
 (3, 'postTest1', 'test@gmail.com', 'test5.As', 'asd', NULL, NULL, 0, NULL, '', 1, '2025-12-02 10:26:38'),
 (7, 'Tóth János', 'tothjanos3222@gmail.com', 'tothjanos33', '06302301122', NULL, NULL, 0, NULL, 'a', 1, '2026-03-03 11:51:19'),
-(8, 'admin1', 'admin1@gmail.com', 'admin1', '06701111111', NULL, NULL, 0, NULL, 'b', 2, '2026-03-03 11:52:51');
+(8, 'admin1', 'admin1@gmail.com', 'admin1', '06701111111', NULL, NULL, 0, NULL, 'b', 2, '2026-03-03 11:52:51'),
+(9, 'asda', 'asd@gmail.com', '$2a$10$3Gc9g3p7Z/eEDSbC3MgTNeu9OceR.rSnQYnFraUHgwmTMGixxAAuy', '06706285232', NULL, NULL, 0, NULL, '', 2, '2026-04-14 21:40:30');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -990,14 +954,7 @@ ALTER TABLE `product`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`),
   ADD KEY `product_brand` (`brand_id`),
-  ADD KEY `product_photo` (`photo_list_id`),
   ADD KEY `cat` (`category_id`);
-
---
--- A tábla indexei `product_image`
---
-ALTER TABLE `product_image`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- A tábla indexei `review`
@@ -1049,7 +1006,7 @@ ALTER TABLE `address_type`
 -- AUTO_INCREMENT a táblához `billing_detail`
 --
 ALTER TABLE `billing_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT a táblához `brand`
@@ -1061,7 +1018,7 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT a táblához `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `cart_product`
@@ -1079,7 +1036,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT a táblához `order_history`
 --
 ALTER TABLE `order_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `order_product`
@@ -1103,13 +1060,7 @@ ALTER TABLE `prodcut_category`
 -- AUTO_INCREMENT a táblához `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
---
--- AUTO_INCREMENT a táblához `product_image`
---
-ALTER TABLE `product_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT a táblához `review`
@@ -1133,13 +1084,13 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT a táblához `transport_detail`
 --
 ALTER TABLE `transport_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -1200,8 +1151,7 @@ ALTER TABLE `prodcut_category`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `cat` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
-  ADD CONSTRAINT `product_brand` FOREIGN KEY (`brand_id`) REFERENCES `brand` (`id`),
-  ADD CONSTRAINT `product_photo` FOREIGN KEY (`photo_list_id`) REFERENCES `product_image` (`id`);
+  ADD CONSTRAINT `product_brand` FOREIGN KEY (`brand_id`) REFERENCES `brand` (`id`);
 
 --
 -- Megkötések a táblához `review`
