@@ -28,7 +28,7 @@ public class ProductController {
 
     @PostMapping
     private ResponseEntity<Object> addProduct(@RequestBody Product newProduct) {
-        return null;
+        return productService.addProduct(newProduct);
     }
 
     @DeleteMapping("/{id}")

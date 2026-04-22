@@ -37,4 +37,9 @@ public class CategoryController {
     private ResponseEntity<Object> updateCategory(@RequestBody Category updatedCategory) {
         return categoryService.updateCategory(updatedCategory);
     }
+
+    @GetMapping
+    private ResponseEntity<Object> getAllCategories() {
+        return categoryService.getAllCategory();
+    }
 }

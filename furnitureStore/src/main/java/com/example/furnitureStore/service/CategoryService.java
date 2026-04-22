@@ -91,4 +91,8 @@ public class CategoryService {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    public ResponseEntity<Object> getAllCategory() {
+        return ResponseEntity.ok().body(categoryRepository.findAll().stream().filter(c ->!c.getIsDeleted()).toList());
+    }
 }

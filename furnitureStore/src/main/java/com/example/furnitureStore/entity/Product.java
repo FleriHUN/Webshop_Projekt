@@ -75,15 +75,14 @@ public class Product {
     @Null
     private Date deletedAt;
 
+    @Column(name = "img_path")
+    private String imagePath;
+
     //
     @ManyToOne(cascade = {})
     @JoinColumn(name = "brand_id")
     @JsonIgnoreProperties({"productList"})
     private Brand brand;
-
-    @OneToOne(cascade = {})
-    @JoinColumn(name = "photo_list_id")
-    private ProductImages images;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = {})
     private List<Review> productReviewList;

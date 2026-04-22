@@ -45,7 +45,9 @@ public class ProductService {
     }
 
     public ResponseEntity<Object> addProduct(Product newProduct) {
-        return null;
+        newProduct.setImagePath("asd");
+        newProduct.setIsDeleted(false);
+        return ResponseEntity.ok(productRepository.save(newProduct));
     }
 
     public ResponseEntity<Object> deleteProduct(Integer id) {
