@@ -54,9 +54,13 @@ public class JWTValidatorFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         System.out.println(request.getServletPath());
         ArrayList<String> allowedUrlPaths = new ArrayList<String>(Arrays.asList(
-                "/user/login", "/user/register", "/brand", "/category/parents", "/category/sub/*", "/paymentMethods", "/addressType", "/product/category/*", "/product/homePage", "/user/login", "/user/register", "/user/vCode", "/user/check", "/user/password"
+                "/user/login", "/user/register", "/brand", "/category/parents", "/category/sub/", "/paymentMethods", "/addressType", "/product/category/*", "/product/homePage", "/user/login", "/user/register", "/user/vCode", "/user/check", "/user/password"
         ));
 
-        return allowedUrlPaths.contains(request.getServletPath());
+        return allowedUrlPaths.contains(request.getServletPath()) ||
+                request.getServletPath().contains("/category/sub") ||
+                request.getServletPath().contains("/product/category") ||
+                request.getServletPath().contains("/product/") ||
+                request.getServletPath().contains("/productImg/");
     }
 }

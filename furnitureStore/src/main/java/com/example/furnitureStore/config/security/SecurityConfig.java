@@ -54,6 +54,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((request) -> request
+                        .requestMatchers("/productImg/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/brand").permitAll()
                         .requestMatchers("/brand").hasRole("admin")
                         .requestMatchers(HttpMethod.DELETE, "/brand/*").hasRole("admin")
@@ -61,7 +62,7 @@ public class SecurityConfig {
                         .requestMatchers("/category/parents", "/category/sub/*").permitAll()
                         .requestMatchers("/category", "/category/*").hasRole("admin")
                         .requestMatchers(HttpMethod.GET, "/order").hasRole("admin")
-                        .requestMatchers(HttpMethod.GET, "/order/**").authenticated()
+                        .requestMatchers( "/order/**").authenticated()
                         .requestMatchers("/paymentMethods", "/addressType").permitAll()
                         .requestMatchers("/product/category/*", "/product/homePage").permitAll()
                         .requestMatchers(HttpMethod.GET, "/product/*").permitAll()
