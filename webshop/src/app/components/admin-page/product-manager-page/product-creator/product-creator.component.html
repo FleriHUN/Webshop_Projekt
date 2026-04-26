@@ -53,11 +53,18 @@
 
               <div class="row mb-3">
                 <div class="col-lg-12">
+                  <label for="amount">Raktáron lévő mennyiség:</label>
+                  <input class="form-control" placeholder="Raktáron lévő mennyiség" type="number" id="amount" formControlName="amount">
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-lg-12">
                   <label for="category">Kategória:</label>
                   <select class="form-select" name="category" id="category" formControlName="category">
                     <option value="">Termék kategóriája</option>
                     @for (category of categories; track $index) {
-                      <option [value]="category.id">{{category.name}}</option>
+                      <option [value]="$index">{{category.name}}</option>
                     }
                   </select>
                 </div>
@@ -69,7 +76,7 @@
                   <select class="form-select" name="brand" id="brand" formControlName="brand">
                     <option value="">Termék márkája</option>
                     @for (brand of brands; track $index) {
-                      <option [value]="brand.id">{{brand.name}}</option>
+                      <option [value]="$index">{{brand.name}}</option>
                     }
                   </select>
                 </div>

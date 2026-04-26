@@ -25,6 +25,6 @@ export class AdminProductCardComponent implements OnInit {
   }
 
   deleteProduct() {
-    this.delete.emit(this.product().id)
+    this.delete.emit(this.product().id!)
   }
 }

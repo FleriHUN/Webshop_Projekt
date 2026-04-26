@@ -33,6 +33,7 @@ export class ProductManagerPage implements OnInit {
   }
 
   addProduct(product: Product) {
+    this.showCreator = false
     this.products.push(product)
   }
 
