@@ -18,8 +18,8 @@ export class ProductService {
       return this.http.get<Product[]>(`${this.baseUrl}/homePage`)
     }
 
-    addProduct(newProduct: Product) {
-      return this.http.post(`${this.baseUrl}`, newProduct)
+    addProduct(newProduct: Product): Observable<Product> {
+      return this.http.post<Product>(`${this.baseUrl}`, newProduct)
     }
 
     deleteProduct(productId: number) {

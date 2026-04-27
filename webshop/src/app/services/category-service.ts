@@ -29,4 +29,8 @@ export class CategoryService {
   updateCategory(updatedCategory: Category) {
     return this.http.put(this.baseUrl, updatedCategory)
   }
+
+  getAllCategory(): Observable<Category[]> {
+    return this.http.get<Category[]>(this.baseUrl)
+  }
 }

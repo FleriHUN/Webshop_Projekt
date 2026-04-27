@@ -10,8 +10,8 @@ export class BrandService {
   baseUrl: string = "http://localhost:8080/brand"
   private http = inject(HttpClient)
 
-  getAllBrand(): Observable<Brand> {
-    return this.http.get<Brand>(`${this.baseUrl}`)
+  getAllBrand(): Observable<Brand[]> {
+    return this.http.get<Brand[]>(`${this.baseUrl}`)
   }
 
   addBrand(newBrand: Brand) {
