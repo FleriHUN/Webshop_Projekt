@@ -1,0 +1,32 @@
+.footer-container {
+  background-color: #B8A999;
+  border-top: 1px solid #8A6F58;
+  margin-top: 40px;
+}
+
+.contact-text {
+  color: #F7F2EE;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.social-icons {
+    
+}
+
+.social-icon {
+  color: #F7F2EE;
+  background-color: #8A6F58;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: default;
+  user-select: none;
+}
+
+.social-icon svg {
+  display: block;
+}

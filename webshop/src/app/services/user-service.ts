@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { User } from '../model/user.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -29,5 +29,18 @@ export class UserService {
 
   updateUser(id: number, email: string, username: string): Observable<User> {
     return this.http.patch<User>(`${this.baseUrl}/${id}`, {email: email, username: username})
+  }
+
+  sendVerificationCode(email: string): Observable<any> {
+    const params = new HttpParams().set('email', email);
+    return this.http.get(`${this.baseUrl}/vCode`, { params })
+  }
+
+  checkVerificationCode(vCode: string, email: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/check`, { vCode: vCode, email: email })
+  }
+
+  changePassword(email: string, newPassword: string): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/password`, { email: email, newPassword: newPassword })
   }
 }
