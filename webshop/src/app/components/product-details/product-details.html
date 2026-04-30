@@ -1,7 +1,7 @@
 <div class="container-fluid" style="min-height: 80vh;">
   <div class="row h-100">
     <div class="col-lg-5 d-flex justify-content-center align-items-center" style="height: 500px;">
-      <img id="productImg" src="/assets/homepageBg.png" alt="" class="img-fluid">
+      <img id="productImg" [src]="selectedProduct?.imagePath || '/assets/homepageBg.png'" alt="" class="img-fluid">
     </div>
 
     <div class="col-lg-7 d-flex flex-column justify-content-center align-items-center" style="height: 500px;">
