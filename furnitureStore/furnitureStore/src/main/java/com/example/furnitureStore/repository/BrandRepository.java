@@ -1,7 +1,0 @@
-package com.example.furnitureStore.repository;
-
-import com.example.furnitureStore.entity.Brand;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface BrandRepository extends JpaRepository<Brand, Integer> {
-}
