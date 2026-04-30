@@ -1,5 +1,6 @@
 package com.example.furnitureStore.service;
 
+import com.example.furnitureStore.config.email.EmailSender;
 import com.example.furnitureStore.entity.Cart;
 import com.example.furnitureStore.entity.User;
 import com.example.furnitureStore.repository.CartRepository;
@@ -25,8 +26,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final CartRepository cartRepository;
+    private final EmailSender emailSender;
 
-    //kesz
     public ResponseEntity<Object> login(String username, String password) {
         try {
             if (username == null || password == null) {
@@ -49,7 +50,6 @@ public class UserService {
         }
     }
 
-    //kesz
     public ResponseEntity<Object> register(User newUser) {
         try {
             if (newUser == null) {
@@ -76,7 +76,6 @@ public class UserService {
         }
     }
 
-    //kesz
     public ResponseEntity<Object> update(Integer id, String username, String email) {
         try {
             if (id == null || username == null || email == null) {
@@ -99,7 +98,6 @@ public class UserService {
         }
     }
 
-    //kesz
     public ResponseEntity<Object> delete(Integer id) {
         try {
             if (id == null) {
@@ -118,7 +116,6 @@ public class UserService {
         }
     }
 
-    //kesz
     public ResponseEntity<Object> changePfp(MultipartFile newPfpImage, Integer id) {
         try {
             if (id == null || newPfpImage == null) {
@@ -150,7 +147,6 @@ public class UserService {
         }
     }
 
-    //kesz
     public ResponseEntity<Object> getVerificationCode(String email) {
         try {
             if (email == null) {
@@ -161,14 +157,16 @@ public class UserService {
                 return ResponseEntity.notFound().build();
             } else {
                 String vCode = generateVCode();
-//                try {
-//                    emailSender.sendVCodeForPasswordReset(email, vCode);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    return ResponseEntity.internalServerError().build();
-//                }
-//
-//                searchedUser.setVCode(passwordEncoder.encode(vCode));
+
+                try {
+                    emailSender.sendVCodeForPasswordReset(email, vCode);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return ResponseEntity.internalServerError().body("emailSendError");
+                }
+
+                searchedUser.setVCode(passwordEncoder.encode(vCode));
+                userRepository.save(searchedUser);
                 return ResponseEntity.ok().build();
             }
         } catch (Exception e) {
@@ -177,7 +175,6 @@ public class UserService {
         }
     }
 
-    //kesz
     public ResponseEntity<Object> checkVerificationCode(String vCode, String email) {
         try {
             if (vCode == null || email == null) {
@@ -191,8 +188,10 @@ public class UserService {
             if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.internalServerError().build();
             } else {
-//                return ResponseEntity.ok().body(passwordEncoder.matches(vCode, searchedUser.getVCode()));
-                return null;
+                if (searchedUser.getVCode() == null) {
+                    return ResponseEntity.ok().body(false);
+                }
+                return ResponseEntity.ok().body(passwordEncoder.matches(vCode, searchedUser.getVCode()));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -200,7 +199,6 @@ public class UserService {
         }
     }
 
-    //kesz
     public ResponseEntity<Object> changePassword(String email, String newPassword) {
         try {
             if (email == null || newPassword == null) {
@@ -219,6 +217,7 @@ public class UserService {
                 return ResponseEntity.status(415).body("invalidPassword");
             } else {
                 searchedUser.setPassword(passwordEncoder.encode(newPassword));
+                searchedUser.setVCode(null);
                 userRepository.save(searchedUser);
                 return ResponseEntity.ok().build();
             }
