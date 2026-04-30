@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2026. Ápr 22. 07:24
+-- Létrehozás ideje: 2026. Ápr 30. 08:38
 -- Kiszolgáló verziója: 5.7.24
--- PHP verzió: 8.3.1
+-- PHP verzió: 8.1.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -25,8 +25,8 @@ DELIMITER $$
 --
 -- Eljárások
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clearCart` (IN `idIN` INT)   BEGIN 
-	DELETE FROM `cart_product` WHERE cart_product.cart_id = idIN;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clearCart` (IN `idIN` INT)   BEGIN
+    DELETE FROM `cart_product` WHERE cart_product.cart_id = idIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteUserById` (IN `idIN` INT)   BEGIN
@@ -471,7 +471,8 @@ CREATE TABLE `billing_detail` (
 INSERT INTO `billing_detail` (`id`, `post_code`, `town`, `address`, `address_type_id`, `house_number`, `company_name`, `company_tax_number`, `other`) VALUES
 (1, 1, 'a', 'a', 1, 1, NULL, NULL, NULL),
 (4, 7200, 'asfsfa', 'asfasf', 1, 23, NULL, NULL, NULL),
-(6, 7200, 'asd', 'asdsad', 2, 32, NULL, NULL, NULL);
+(6, 7200, 'asd', 'asdsad', 2, 32, NULL, NULL, NULL),
+(7, 1234, 'Domb', 'asd', 283, 17, NULL, NULL, 'asda');
 
 -- --------------------------------------------------------
 
@@ -534,7 +535,8 @@ INSERT INTO `cart` (`id`, `user_id`, `last_modified`) VALUES
 (2, 2, '2025-12-02 08:13:33'),
 (3, 8, NULL),
 (4, 7, NULL),
-(5, 9, NULL);
+(5, 9, NULL),
+(6, 10, NULL);
 
 -- --------------------------------------------------------
 
@@ -632,7 +634,8 @@ CREATE TABLE `order_history` (
 INSERT INTO `order_history` (`id`, `first_name`, `last_name`, `phone`, `email`, `user_id`, `billing_detail_id`, `transport_detail_id`, `payment_method_id`, `status_id`, `ordered_at`, `canceled_at`, `is_canceled`, `canceler_user_id`) VALUES
 (1, 'test1', 'test1', '0670100000', 'test1@gmail.com', 9, 1, 1, 1, 1, '2026-04-15 18:38:10', NULL, 0, NULL),
 (2, 'asf', 'fasfa', '06706285232', 'asd@gmail.com', 9, 4, 4, 2, 1, '2026-04-15 18:38:07', NULL, 0, NULL),
-(4, 'asd', 'asd', '06706285232', 'dasd@gmail.com', 9, 6, 6, 1, 1, '2026-04-15 08:46:04', NULL, 0, NULL);
+(4, 'asd', 'asd', '06706285232', 'dasd@gmail.com', 9, 6, 6, 1, 1, '2026-04-15 08:46:04', NULL, 0, NULL),
+(5, 'asd', 'asd', '+36309876543', 'asd@gmail.com', 10, 7, 7, 2, 1, '2026-04-30 07:59:47', NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -654,7 +657,8 @@ CREATE TABLE `order_product` (
 --
 
 INSERT INTO `order_product` (`id`, `order_id`, `product_id`, `created_at`, `modified_at`, `amount`) VALUES
-(1, 1, 1, '2025-12-02 09:30:09', NULL, 1000);
+(1, 1, 1, '2025-12-02 09:30:09', NULL, 1000),
+(2, 5, 1, '2026-04-30 09:59:47', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -723,24 +727,24 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `name`, `description`, `height_in_cm`, `width_in_cm`, `depth_in_cm`, `weight_in_kg`, `amount`, `brand_id`, `price`, `category_id`, `is_deleted`, `deleted_at`, `img_path`) VALUES
-(1, 'Sarokkanapé', 'L-alakú ülőbútor, több személy számára, gyakran ágyneműtartóval.\n', 85, 260, 200, 120, 10, 1, 10, 2, 0, NULL, 'http://localhost:8080/productImg/kanape1.avif'),
-(2, 'Kerti asztal\r\n', 'Kültéri használatra tervezett asztal.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/KERTIASZTAL1.avif'),
+(1, 'Sarokkanapé', 'L-alakú ülőbútor, több személy számára, gyakran ágyneműtartóval.\n', 85, 260, 200, 120, 9, 1, 10, 2, 0, NULL, 'http://localhost:8080/productImg/kanape1.avif'),
+(2, 'Kerti asztal\r\n', 'Kültéri használatra tervezett asztal.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/KERTI ASZTAL 1.avif'),
 (3, 'Háromszemélyes kanapé\r\n', 'Kényelmes ülőbútor nappaliba, klasszikus elrendezéshez.\r\n', 10, 10, 10, 10, 15, 1, 100, 2, 0, NULL, 'http://localhost:8080/productImg/kanape2.avif'),
-(4, 'Fotelszék', 'Egy személy számára kialakított, kényelmes ülőalkalmatosság.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/karosszek1.avif'),
-(5, 'Étkezőszék', 'Étkezőasztalhoz tervezett szék, háttámlával.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szek1.avif'),
+(4, 'Fotelszék', 'Egy személy számára kialakított, kényelmes ülőalkalmatosság.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/karosszek1.png'),
+(5, 'Étkezőszék', 'Étkezőasztalhoz tervezett szék, háttámlával.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szek1.png'),
 (6, 'Étkezőasztal', 'Több személyes étkezésekhez alkalmas asztal.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/ea6.avif'),
 (7, 'Dohányzóasztal\r\n', 'Alacsony asztal nappaliba, kanapé elé.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/dohanyzo1.avif'),
 (8, 'TV-állvány\r\n', 'Televízió és multimédiás eszközök elhelyezésére.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/TV-állványok 1.1.avif'),
-(9, 'Könyvespolc\r\n', 'Könyvek és dekorációk tárolására szolgáló polcrendszer.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/polc5.avif'),
+(9, 'Könyvespolc\r\n', 'Könyvek és dekorációk tárolására szolgáló polcrendszer.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/polc 5.jpg'),
 (10, 'Komód', 'Fiókos tárolóbútor ruhák vagy kiegészítők számára.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/komód1.avif'),
 (11, 'Ruhásszekrény', 'Ruhák tárolására alkalmas szekrény akasztóval és polcokkal.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szekrénysor 2.2.avif'),
-(12, 'Gardróbszekrény', 'Nagy méretű ruhatároló, több rekesszel.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szekrénysor 1.avif'),
+(12, 'Gardróbszekrény', 'Nagy méretű ruhatároló, több rekesszel.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szekrénysor1.avif'),
 (13, 'Franciaágy\r\n', 'Kétszemélyes ágy, matraccal vagy matrac nélkül.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/ágy3.avif'),
 (14, 'Egyszemélyes ágy\r\n', 'Egy személy részére kialakított fekvőbútor.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/TÁROLÓS ÁGY 1.1.avif'),
 (15, 'Éjjeliszekrény\r\n', 'Ágy melletti kis tárolóbútor.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/komód1.avif'),
-(16, 'Íróasztal\r\n', 'Tanuláshoz vagy munkához használt asztal.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/asztal6.avif'),
+(16, 'Íróasztal\r\n', 'Tanuláshoz vagy munkához használt asztal.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/asztal 6.avif'),
 (17, 'Irodai forgószék\r\n', 'Állítható magasságú, kerekes munkaszék.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/IFJÚSÁGI FORGÓSZÉK 1.1.avif'),
-(18, 'Cipősszekrény\r\n', 'Cipők rendszerezett tárolására.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/Cipősszekrény 1.avif'),
+(18, 'Cipősszekrény\r\n', 'Cipők rendszerezett tárolására.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/Cipősszekrény 1.jpg'),
 (19, 'Előszobafal\r\n', 'Akasztókkal, polcokkal és tükörrel ellátott előszobabútor.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/eloszobafal.avif'),
 (20, 'Konyhaszekrény', 'Konyhai tárolóbútor edények és élelmiszerek számára.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/SAROK FALISZEKRÉNY 1.avif'),
 (21, 'asd', 'asd', 23, 32, 32, 32, 23, 14, 321, 17, 0, NULL, 'asd'),
@@ -832,7 +836,8 @@ CREATE TABLE `transport_detail` (
 INSERT INTO `transport_detail` (`id`, `post_code`, `town`, `address`, `address_type_id`, `house_number`, `other`) VALUES
 (1, 1, 'a', 'a', 1, 1, '1'),
 (4, 7200, 'adsdas', 'asffas', 18, 23, NULL),
-(6, 45, 'asd', 'asd', 15, 25, NULL);
+(6, 45, 'asd', 'asd', 15, 25, NULL),
+(7, 1234, 'Domb', 'asd', 283, 18, 'asda');
 
 -- --------------------------------------------------------
 
@@ -852,20 +857,22 @@ CREATE TABLE `user` (
   `deleted_at` datetime DEFAULT NULL,
   `pfp_path` longtext NOT NULL,
   `role_id` int(1) NOT NULL DEFAULT '1',
-  `register_finished_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `register_finished_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `v_code` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `phone`, `last_login`, `register_at`, `is_deleted`, `deleted_at`, `pfp_path`, `role_id`, `register_finished_at`) VALUES
-(1, 'test1', 'test1@gmail.com', 'test5.Asd', '06710000000', '2025-12-02 11:23:25', '2025-12-01 15:11:01', 0, NULL, 'a', 1, '2025-12-02 07:20:58'),
-(2, 'test2', 'test2@gmail.com', 'test2', '06701000000', '2025-12-02 07:11:01', '2025-12-02 07:11:01', 1, '2026-02-26 20:00:31', 'b', 1, '2025-12-02 07:20:58'),
-(3, 'postTest1', 'test@gmail.com', 'test5.As', 'asd', NULL, NULL, 0, NULL, '', 1, '2025-12-02 10:26:38'),
-(7, 'Tóth János', 'tothjanos3222@gmail.com', 'tothjanos33', '06302301122', NULL, NULL, 0, NULL, 'a', 1, '2026-03-03 11:51:19'),
-(8, 'admin1', 'admin1@gmail.com', 'admin1', '06701111111', NULL, NULL, 0, NULL, 'b', 2, '2026-03-03 11:52:51'),
-(9, 'asda', 'asd@gmail.com', '$2a$10$3Gc9g3p7Z/eEDSbC3MgTNeu9OceR.rSnQYnFraUHgwmTMGixxAAuy', '06706285232', NULL, NULL, 0, NULL, '', 2, '2026-04-14 21:40:30');
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `phone`, `last_login`, `register_at`, `is_deleted`, `deleted_at`, `pfp_path`, `role_id`, `register_finished_at`, `v_code`) VALUES
+(1, 'test1', 'test1@gmail.com', 'test5.Asd', '06710000000', '2025-12-02 11:23:25', '2025-12-01 15:11:01', 0, NULL, 'a', 1, '2025-12-02 07:20:58', NULL),
+(2, 'test2', 'test2@gmail.com', 'test2', '06701000000', '2025-12-02 07:11:01', '2025-12-02 07:11:01', 1, '2026-02-26 20:00:31', 'b', 1, '2025-12-02 07:20:58', NULL),
+(3, 'postTest1', 'test@gmail.com', 'test5.As', 'asd', NULL, NULL, 0, NULL, '', 1, '2025-12-02 10:26:38', NULL),
+(7, 'Tóth János', 'tothjanos3222@gmail.com', 'tothjanos33', '06302301122', NULL, NULL, 0, NULL, 'a', 1, '2026-03-03 11:51:19', NULL),
+(8, 'admin1', 'admin1@gmail.com', 'admin1', '06701111111', NULL, NULL, 0, NULL, 'b', 2, '2026-03-03 11:52:51', NULL),
+(9, 'asda', 'asd@gmail.com', '$2a$10$3Gc9g3p7Z/eEDSbC3MgTNeu9OceR.rSnQYnFraUHgwmTMGixxAAuy', '06706285232', NULL, NULL, 0, NULL, '', 2, '2026-04-14 21:40:30', NULL),
+(10, 'Testing11', 'testing11@gmail.com', '$2a$10$Y9xSDuLp793W2BSSpRS.vuZpy1FD.BtjUZYsopS0ps5.a5KxVVOEi', '+36309876543', NULL, NULL, 0, NULL, '', 1, '2026-04-30 07:35:02', NULL);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -1006,7 +1013,7 @@ ALTER TABLE `address_type`
 -- AUTO_INCREMENT a táblához `billing_detail`
 --
 ALTER TABLE `billing_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `brand`
@@ -1018,13 +1025,13 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT a táblához `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT a táblához `cart_product`
 --
 ALTER TABLE `cart_product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `category`
@@ -1036,13 +1043,13 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT a táblához `order_history`
 --
 ALTER TABLE `order_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `order_product`
 --
 ALTER TABLE `order_product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `payment_method`
@@ -1084,13 +1091,13 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT a táblához `transport_detail`
 --
 ALTER TABLE `transport_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Megkötések a kiírt táblákhoz
