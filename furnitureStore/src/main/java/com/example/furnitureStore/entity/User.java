@@ -72,6 +72,7 @@ public class User {
     @Column(name = "register_finished_at")
     private Date registerFinishedAt;
 
+    // Jelszó visszaállítás ellenőrző kód (BCrypt-tel hashelve tároljuk)
     @Column(name = "v_code")
     @JsonIgnore
     private String vCode;
