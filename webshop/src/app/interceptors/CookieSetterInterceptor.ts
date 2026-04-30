@@ -14,6 +14,11 @@ export function CookieSetterInterceptor(req: HttpRequest<unknown>, next: HttpHan
         if (jwtToken != null) {
           cookieService.set("jwt", jwtToken)
         }
+
+        const refreshToken: string | null = event.headers.get("refreshToken")
+        if (refreshToken != null) {
+          cookieService.set("refreshToken", refreshToken)
+        }
       }
     })
   )
