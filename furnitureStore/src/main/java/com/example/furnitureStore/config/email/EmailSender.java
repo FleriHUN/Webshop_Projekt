@@ -15,12 +15,7 @@ public class EmailSender {
 
     @Value("${spring.mail.username}")
     private String fromEmail;
-
-    /**
-     * Elküldi az ellenőrző kódot a megadott e-mail címre HTML formátumban.
-     * Ha bármi hiba történik (pl. rossz SMTP credential), RuntimeException-t dob,
-     * amit a UserService elkap és 500-as hibát ad vissza.
-     */
+    
     public void sendVCodeForPasswordReset(String toEmail, String vCode) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
@@ -59,7 +54,6 @@ public class EmailSender {
             """.formatted(vCode);
     }
 
-    // A többi metódus üres - jelenleg nem használjuk őket.
     public void sendEmailAboutCancelledOrder(String toEmail) {
     }
 

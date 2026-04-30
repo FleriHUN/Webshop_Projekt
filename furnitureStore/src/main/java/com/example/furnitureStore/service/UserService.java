@@ -28,7 +28,6 @@ public class UserService {
     private final CartRepository cartRepository;
     private final EmailSender emailSender;
 
-    //kesz
     public ResponseEntity<Object> login(String username, String password) {
         try {
             if (username == null || password == null) {
@@ -51,7 +50,6 @@ public class UserService {
         }
     }
 
-    //kesz
     public ResponseEntity<Object> register(User newUser) {
         try {
             if (newUser == null) {
@@ -78,7 +76,6 @@ public class UserService {
         }
     }
 
-    //kesz
     public ResponseEntity<Object> update(Integer id, String username, String email) {
         try {
             if (id == null || username == null || email == null) {
@@ -101,7 +98,6 @@ public class UserService {
         }
     }
 
-    //kesz
     public ResponseEntity<Object> delete(Integer id) {
         try {
             if (id == null) {
@@ -120,7 +116,6 @@ public class UserService {
         }
     }
 
-    //kesz
     public ResponseEntity<Object> changePfp(MultipartFile newPfpImage, Integer id) {
         try {
             if (id == null || newPfpImage == null) {
@@ -152,7 +147,6 @@ public class UserService {
         }
     }
 
-    //kesz - vCode generálása, e-mailben küldése, és hash-elve mentése
     public ResponseEntity<Object> getVerificationCode(String email) {
         try {
             if (email == null) {
@@ -164,7 +158,6 @@ public class UserService {
             } else {
                 String vCode = generateVCode();
 
-                // Először e-mailt küldünk - ha ez nem sikerül, ne mentsük le a kódot
                 try {
                     emailSender.sendVCodeForPasswordReset(email, vCode);
                 } catch (Exception e) {
@@ -172,7 +165,6 @@ public class UserService {
                     return ResponseEntity.internalServerError().body("emailSendError");
                 }
 
-                // Sikeres küldés esetén mentjük a hash-elt kódot
                 searchedUser.setVCode(passwordEncoder.encode(vCode));
                 userRepository.save(searchedUser);
                 return ResponseEntity.ok().build();
@@ -183,7 +175,6 @@ public class UserService {
         }
     }
 
-    //kesz - tényleges ellenőrzés a hash-elt vCode ellen
     public ResponseEntity<Object> checkVerificationCode(String vCode, String email) {
         try {
             if (vCode == null || email == null) {
@@ -197,7 +188,6 @@ public class UserService {
             if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.internalServerError().build();
             } else {
-                // Ha még sosem kértek kódot ehhez a userhez, hamis választ adunk
                 if (searchedUser.getVCode() == null) {
                     return ResponseEntity.ok().body(false);
                 }
@@ -209,7 +199,6 @@ public class UserService {
         }
     }
 
-    //kesz - sikeres jelszócsere után a vCode-ot is töröljük (egyszer használatos)
     public ResponseEntity<Object> changePassword(String email, String newPassword) {
         try {
             if (email == null || newPassword == null) {
@@ -228,7 +217,7 @@ public class UserService {
                 return ResponseEntity.status(415).body("invalidPassword");
             } else {
                 searchedUser.setPassword(passwordEncoder.encode(newPassword));
-                searchedUser.setVCode(null); // vCode törlése - nem használható újra
+                searchedUser.setVCode(null);
                 userRepository.save(searchedUser);
                 return ResponseEntity.ok().build();
             }

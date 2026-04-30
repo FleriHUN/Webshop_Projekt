@@ -29,7 +29,6 @@ public class OrderService {
     private final CartRepository cartRepository;
     private final EmailSender emailSender;
 
-    //kesz:
     public ResponseEntity<Object> getOrderHistoryByUserId(Integer userId) {
         try {
             if (userId == null) {
@@ -47,7 +46,6 @@ public class OrderService {
         }
     }
 
-    //kesz
     public ResponseEntity<Object> cancelOrder(Integer orderId, Integer cancelerUserId) {
         try {
             if (orderId == null) {
@@ -71,7 +69,7 @@ public class OrderService {
                 return ResponseEntity.internalServerError().body("emailSenderError");
             }
 
-            searchedOrderHistory.setStatus(statusRepository.findById(3).get());
+            searchedOrderHistory.setStatus(statusRepository.findById(3).orElse(statusRepository.findById(1).orElse(null)));
             searchedOrderHistory.setCanceledAt(LocalDateTime.now());
             searchedOrderHistory.setIsCanceled(true);
             return ResponseEntity.ok().body(orderHistoryRepository.save(searchedOrderHistory));
@@ -81,9 +79,6 @@ public class OrderService {
         }
     }
 
-
-
-    //kesz
     public ResponseEntity<Object> getAllOrder() {
         try {
             return ResponseEntity.ok().body(orderHistoryRepository.findAll());
@@ -93,47 +88,59 @@ public class OrderService {
         }
     }
 
-    //kesz:
     public ResponseEntity<Object> sendOrder(OrderHistory newOrder, Integer basketId) {
         try {
             if (newOrder == null || basketId == null) {
-                return ResponseEntity.status(422).build();
+                return ResponseEntity.status(422).body("missingParameters");
+            }
+            if (newOrder.getId() != null) {
+                return ResponseEntity.status(415).body("invalidObject");
+            }
+            if (newOrder.getEmail() == null || !isEmailValid(newOrder.getEmail().trim())) {
+                return ResponseEntity.status(415).body("invalidEmail");
+            }
+            if (newOrder.getPaymentMethod() == null || newOrder.getPaymentMethod().getId() == null) {
+                return ResponseEntity.status(422).body("missingPaymentMethod");
+            }
+            if (newOrder.getOrderUser() == null || newOrder.getOrderUser().getId() == null) {
+                return ResponseEntity.status(422).body("missingUser");
             }
 
-            if (newOrder.getOrderUser() != null) {
-                User searchedUser = userRepository.getUserById(newOrder.getOrderUser().getId()).orElse(null);
-                if (searchedUser == null || searchedUser.getIsDeleted()) {
-                    return ResponseEntity.status(404).body("userNotFound");
-                }
+            User searchedUser = userRepository.getUserById(newOrder.getOrderUser().getId()).orElse(null);
+            if (searchedUser == null || searchedUser.getIsDeleted()) {
+                return ResponseEntity.status(404).body("userNotFound");
             }
 
             PaymentMethod searchedPaymentMethod = paymentMethodRepository.findById(newOrder.getPaymentMethod().getId()).orElse(null);
-            Cart searchedCart = cartRepository.findById(basketId).orElse(null);
-
             if (searchedPaymentMethod == null) {
                 return ResponseEntity.status(404).body("paymentMethodNotFound");
-            } else if (searchedCart == null) {
+            }
+
+            Cart searchedCart = cartRepository.findById(basketId).orElse(null);
+            if (searchedCart == null) {
                 return ResponseEntity.status(404).body("basketNotFound");
             }
-
-            if (newOrder.getId() != null) {
-                return ResponseEntity.status(415).body("invalidObject");
-            } else if (!isEmailValid(newOrder.getEmail().trim())) {
-                return ResponseEntity.status(415).body("invalidEmail");
+            if (searchedCart.getCartProductList() == null || searchedCart.getCartProductList().isEmpty()) {
+                return ResponseEntity.status(422).body("emptyBasket");
             }
 
-            // 1. lepes: OrderHistory mentese (kapja az ID-t)
-            newOrder.setStatus(statusRepository.findById(1).get());
+            Status defaultStatus = statusRepository.findById(1).orElse(null);
+            if (defaultStatus == null) {
+                return ResponseEntity.status(500).body("statusNotFound");
+            }
+
+            newOrder.setOrderUser(searchedUser);
+            newOrder.setPaymentMethod(searchedPaymentMethod);
+            newOrder.setStatus(defaultStatus);
             newOrder.setIsCanceled(false);
             newOrder.setOrderedAt(new Date());
             newOrder.setProducts(null);
-            OrderHistory savedOrder = orderHistoryRepository.save(newOrder);
 
-            // 2. lepes: OrderProduct-ok letrehozasa es mentese az orderHistory back-reference-szel
             int sumPrice = 0;
-            for (int i = 0; i < searchedCart.getCartProductList().size(); i++) {
-                CartProduct productFromBasket = searchedCart.getCartProductList().get(i);
+            OrderHistory savedOrder = orderHistoryRepository.save(newOrder);
+            for (CartProduct productFromBasket : searchedCart.getCartProductList()) {
                 Product product = productFromBasket.getCartProduct();
+
                 product.setAmount(product.getAmount() - productFromBasket.getAmount());
                 productRepository.save(product);
 
@@ -145,28 +152,25 @@ public class OrderService {
                 sumPrice += (product.getPrice() * productFromBasket.getAmount());
             }
 
-            // 3. lepes: e-mail kuldes (best-effort, nem buktatja meg a tranzakciot)
             try {
                 emailSender.sendEmailAboutOrderWithVCode(newOrder.getEmail(), generateVCode());
             } catch (Exception e) {
-                System.err.println("Email send failed (order saved): " + e.getMessage());
+                System.err.println("Email send failed (order saved successfully): " + e.getMessage());
             }
 
-            System.out.println(sumPrice);
+            System.out.println("Order saved successfully. Total price: " + sumPrice);
 
-            // 4. lepes: kosar uritese
             cartRepository.clearCart(basketId);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body(savedOrder.getId());
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.internalServerError().body("serverError: " + e.getMessage());
         }
     }
 
 
     //Validatorok:
-    //kesz:
     public Boolean isBillingDetailValid(BillingDetail billingDetail) {
         if (billingDetail.getId() != null) {
             return false;
@@ -186,7 +190,6 @@ public class OrderService {
         return true;
     }
 
-    //kesz:
     public Boolean isTransportDetailValid(TransportDetail transportDetail) {
         if (transportDetail.getId() != null) {
             return false;
@@ -200,7 +203,6 @@ public class OrderService {
         return true;
     }
 
-    //kesz:
     public Boolean isValidAddress(Integer postCode, String town) {
         ArrayList<List<String>> townList = new ArrayList<>();
 
@@ -225,7 +227,6 @@ public class OrderService {
         return false;
     }
 
-    //kesz:
     public Boolean isValidTaxNumber(String taxNumber) {
         ArrayList<String> taxNumbersOfArea = new ArrayList<>(Arrays.asList("02", "22", "03", "23", "04", "24", "05", "25", "06", "26", "07", "27", "08", "28", "09", "29", "10", "30", "11", "31", "12", "32", "13", "33", "14", "34", "15", "35", "16", "36", "17", "37", "18", "38", "19", "39", "20", "40", "41", "42", "43", "44", "51"));
         ArrayList<String> typeOfTaxes = new ArrayList<>(Arrays.asList("1", "2", "3", "4", "5"));
@@ -240,7 +241,6 @@ public class OrderService {
         return true;
     }
 
-    //kesz:
     public Boolean isEmailValid(String email) {
         Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
         if (email == null || email.length() > 100) {
@@ -249,13 +249,11 @@ public class OrderService {
         return EMAIL_PATTERN.matcher(email).matches();
     }
 
-    //kesz:
     public Boolean isPhoneValid(String phoneNumber) {
         ArrayList<String> phoneServiceCodes = new ArrayList<String>(Arrays.asList("30", "20", "70", "50", "31"));
         return phoneServiceCodes.contains(phoneNumber.substring(0, 2)) && phoneNumber.length() == 9;
     }
 
-    //kesz:
     public String generateVCode() {
         String characters = "!@#$%&*()-+={}[]|\\/:;'\"<>,.?~" + "ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÜŰÚÖÓŐÍ" + "0123456789" + "abcdefghijklmnopqrstuvxyzéáíúöőüű";
         String vCode = "";
