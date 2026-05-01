@@ -33,37 +33,18 @@ public class JWTValidatorFilter extends OncePerRequestFilter {
         if (header != null && header.startsWith(BEARER)) {
             String jwt = header.substring(BEARER.length());
             System.out.println(jwt);
-            UserDetails principal = null;
+            UserDetails principal;
             try {
                 principal = jwtService.parseJwt(jwt);
             } catch (Exception e) {
-                // Lejart vagy ervenytelen JWT - probaljuk regeneralni a refresh token-bol
-                System.out.println("JWT parse failed: " + e.getMessage() + " - trying refresh token");
-                String refreshTokenHeader = request.getHeader("refreshToken");
-                if (refreshTokenHeader != null && !refreshTokenHeader.isEmpty()) {
-                    try {
-                        String newJwt = jwtService.regenerateJwtToken(refreshTokenHeader);
-                        if (newJwt != null) {
-                            principal = jwtService.parseJwt(newJwt);
-                            response.setHeader("Bearer ", newJwt);
-                            System.out.println("JWT regenerated successfully");
-                        } else {
-                            System.out.println("Refresh token expired or invalid - user must re-login");
-                        }
-                    } catch (Exception ex) {
-                        System.out.println("JWT regeneration failed: " + ex.getMessage());
-                    }
-                } else {
-                    System.out.println("No refresh token in request - user must re-login");
-                }
+                String newJwt = jwtService.regenerateJwtToken(request.getHeader("refreshToken"));
+                principal = jwtService.parseJwt(newJwt);
+                response.setHeader("Bearer ", newJwt);
             }
 
-            // Csak akkor allitsuk be az authentication-t, ha tenyleg sikerult
-            if (principal != null) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         filterChain.doFilter(request, response);

@@ -29,7 +29,7 @@ public class JWTService {
     private final ObjectMapper mapper;
 
     private String issuer = "FormaLux";
-    private Long expired = 86400000L; // 24 ora (volt: 7200000L = 2 ora)
+    private Long expired = 7200000L;
     private String secret = "GPrdBIwcgYqXdlFjHM1tDG0slFCOekRaPOWJxTc3q9Bu9nq8sHjv7yXoVh2";
 
     public String createJwtToken(UserDetails principal) {

@@ -46,7 +46,7 @@ public class SecurityConfig {
                         config.setAllowedMethods(Collections.singletonList("*"));
                         config.setAllowedHeaders(Collections.singletonList("*"));
                         config.setAllowCredentials(true);
-                        config.setExposedHeaders(Arrays.asList("Authorization", "Bearer ", "refreshToken"));
+                        config.setExposedHeaders(Arrays.asList("Authorization", "Bearer "));
                         config.setMaxAge(3600L);
                         return config;
                     }

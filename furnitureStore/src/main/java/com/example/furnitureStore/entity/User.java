@@ -72,10 +72,6 @@ public class User {
     @Column(name = "register_finished_at")
     private Date registerFinishedAt;
 
-    @Column(name = "v_code")
-    @JsonIgnore
-    private String vCode;
-
     //Kapcsolatok:
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = {})
     @JsonIgnoreProperties({"author"})

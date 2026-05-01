@@ -100,9 +100,4 @@ public class Product {
     @JsonIgnore
     private List<CartProduct> cartProductList;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {})
-    @JoinColumn(name = "photo_list_id")
-    @JsonIgnoreProperties({"product"})
-    private ProductImages images;
-
 }
