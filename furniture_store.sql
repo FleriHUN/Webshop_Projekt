@@ -2,10 +2,10 @@
 -- version 5.1.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: May 01, 2026 at 11:33 AM
--- Server version: 5.7.24
--- PHP Version: 8.1.0
+-- Gép: localhost:3306
+-- Létrehozás ideje: 2026. Ápr 22. 07:24
+-- Kiszolgáló verziója: 5.7.24
+-- PHP verzió: 8.3.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,15 +18,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `furniture_store`
+-- Adatbázis: `furniture_store`
 --
 
 DELIMITER $$
 --
--- Procedures
+-- Eljárások
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clearCart` (IN `idIN` INT)   BEGIN
-    DELETE FROM `cart_product` WHERE cart_product.cart_id = idIN;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clearCart` (IN `idIN` INT)   BEGIN 
+	DELETE FROM `cart_product` WHERE cart_product.cart_id = idIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteUserById` (IN `idIN` INT)   BEGIN
@@ -96,7 +96,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `address_type`
+-- Tábla szerkezet ehhez a táblához `address_type`
 --
 
 CREATE TABLE `address_type` (
@@ -105,7 +105,7 @@ CREATE TABLE `address_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `address_type`
+-- A tábla adatainak kiíratása `address_type`
 --
 
 INSERT INTO `address_type` (`id`, `name`) VALUES
@@ -449,7 +449,7 @@ INSERT INTO `address_type` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `billing_detail`
+-- Tábla szerkezet ehhez a táblához `billing_detail`
 --
 
 CREATE TABLE `billing_detail` (
@@ -465,19 +465,18 @@ CREATE TABLE `billing_detail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `billing_detail`
+-- A tábla adatainak kiíratása `billing_detail`
 --
 
 INSERT INTO `billing_detail` (`id`, `post_code`, `town`, `address`, `address_type_id`, `house_number`, `company_name`, `company_tax_number`, `other`) VALUES
 (1, 1, 'a', 'a', 1, 1, NULL, NULL, NULL),
 (4, 7200, 'asfsfa', 'asfasf', 1, 23, NULL, NULL, NULL),
-(6, 7200, 'asd', 'asdsad', 2, 32, NULL, NULL, NULL),
-(7, 1234, 'Domb', 'asd', 283, 17, NULL, NULL, 'asda');
+(6, 7200, 'asd', 'asdsad', 2, 32, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `brand`
+-- Tábla szerkezet ehhez a táblához `brand`
 --
 
 CREATE TABLE `brand` (
@@ -488,7 +487,7 @@ CREATE TABLE `brand` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `brand`
+-- A tábla adatainak kiíratása `brand`
 --
 
 INSERT INTO `brand` (`id`, `name`, `is_deleted`, `deleted_at`) VALUES
@@ -517,7 +516,7 @@ INSERT INTO `brand` (`id`, `name`, `is_deleted`, `deleted_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cart`
+-- Tábla szerkezet ehhez a táblához `cart`
 --
 
 CREATE TABLE `cart` (
@@ -527,7 +526,7 @@ CREATE TABLE `cart` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `cart`
+-- A tábla adatainak kiíratása `cart`
 --
 
 INSERT INTO `cart` (`id`, `user_id`, `last_modified`) VALUES
@@ -535,17 +534,12 @@ INSERT INTO `cart` (`id`, `user_id`, `last_modified`) VALUES
 (2, 2, '2025-12-02 08:13:33'),
 (3, 8, NULL),
 (4, 7, NULL),
-(5, 9, NULL),
-(6, 10, NULL),
-(7, 11, NULL),
-(8, 12, NULL),
-(9, 13, NULL),
-(10, 14, NULL);
+(5, 9, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cart_product`
+-- Tábla szerkezet ehhez a táblához `cart_product`
 --
 
 CREATE TABLE `cart_product` (
@@ -558,7 +552,7 @@ CREATE TABLE `cart_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `cart_product`
+-- A tábla adatainak kiíratása `cart_product`
 --
 
 INSERT INTO `cart_product` (`id`, `product_id`, `cart_id`, `amount`, `created_at`, `last_modified_at`) VALUES
@@ -568,7 +562,7 @@ INSERT INTO `cart_product` (`id`, `product_id`, `cart_id`, `amount`, `created_at
 -- --------------------------------------------------------
 
 --
--- Table structure for table `category`
+-- Tábla szerkezet ehhez a táblához `category`
 --
 
 CREATE TABLE `category` (
@@ -580,7 +574,7 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `category`
+-- A tábla adatainak kiíratása `category`
 --
 
 INSERT INTO `category` (`id`, `name`, `parent_category_id`, `is_deleted`, `deleted_at`) VALUES
@@ -611,7 +605,7 @@ INSERT INTO `category` (`id`, `name`, `parent_category_id`, `is_deleted`, `delet
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order_history`
+-- Tábla szerkezet ehhez a táblához `order_history`
 --
 
 CREATE TABLE `order_history` (
@@ -632,19 +626,18 @@ CREATE TABLE `order_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `order_history`
+-- A tábla adatainak kiíratása `order_history`
 --
 
 INSERT INTO `order_history` (`id`, `first_name`, `last_name`, `phone`, `email`, `user_id`, `billing_detail_id`, `transport_detail_id`, `payment_method_id`, `status_id`, `ordered_at`, `canceled_at`, `is_canceled`, `canceler_user_id`) VALUES
 (1, 'test1', 'test1', '0670100000', 'test1@gmail.com', 9, 1, 1, 1, 1, '2026-04-15 18:38:10', NULL, 0, NULL),
 (2, 'asf', 'fasfa', '06706285232', 'asd@gmail.com', 9, 4, 4, 2, 1, '2026-04-15 18:38:07', NULL, 0, NULL),
-(4, 'asd', 'asd', '06706285232', 'dasd@gmail.com', 9, 6, 6, 1, 1, '2026-04-15 08:46:04', NULL, 0, NULL),
-(5, 'asd', 'asd', '+36309876543', 'asd@gmail.com', 10, 7, 7, 2, 1, '2026-04-30 07:59:47', NULL, 0, NULL);
+(4, 'asd', 'asd', '06706285232', 'dasd@gmail.com', 9, 6, 6, 1, 1, '2026-04-15 08:46:04', NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order_product`
+-- Tábla szerkezet ehhez a táblához `order_product`
 --
 
 CREATE TABLE `order_product` (
@@ -657,17 +650,16 @@ CREATE TABLE `order_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `order_product`
+-- A tábla adatainak kiíratása `order_product`
 --
 
 INSERT INTO `order_product` (`id`, `order_id`, `product_id`, `created_at`, `modified_at`, `amount`) VALUES
-(1, 1, 1, '2025-12-02 09:30:09', NULL, 1000),
-(2, 5, 1, '2026-04-30 09:59:47', NULL, 1);
+(1, 1, 1, '2025-12-02 09:30:09', NULL, 1000);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `payment_method`
+-- Tábla szerkezet ehhez a táblához `payment_method`
 --
 
 CREATE TABLE `payment_method` (
@@ -676,7 +668,7 @@ CREATE TABLE `payment_method` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `payment_method`
+-- A tábla adatainak kiíratása `payment_method`
 --
 
 INSERT INTO `payment_method` (`id`, `name`) VALUES
@@ -686,7 +678,7 @@ INSERT INTO `payment_method` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prodcut_category`
+-- Tábla szerkezet ehhez a táblához `prodcut_category`
 --
 
 CREATE TABLE `prodcut_category` (
@@ -696,7 +688,7 @@ CREATE TABLE `prodcut_category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `prodcut_category`
+-- A tábla adatainak kiíratása `prodcut_category`
 --
 
 INSERT INTO `prodcut_category` (`id`, `category_id`, `product_id`) VALUES
@@ -706,7 +698,7 @@ INSERT INTO `prodcut_category` (`id`, `category_id`, `product_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product`
+-- Tábla szerkezet ehhez a táblához `product`
 --
 
 CREATE TABLE `product` (
@@ -718,7 +710,6 @@ CREATE TABLE `product` (
   `depth_in_cm` double NOT NULL,
   `weight_in_kg` double NOT NULL,
   `amount` int(11) NOT NULL,
-  `photo_list_id` int(11) DEFAULT NULL,
   `brand_id` int(11) NOT NULL,
   `price` int(6) NOT NULL,
   `category_id` int(11) NOT NULL,
@@ -728,38 +719,38 @@ CREATE TABLE `product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `product`
+-- A tábla adatainak kiíratása `product`
 --
 
-INSERT INTO `product` (`id`, `name`, `description`, `height_in_cm`, `width_in_cm`, `depth_in_cm`, `weight_in_kg`, `amount`, `photo_list_id`, `brand_id`, `price`, `category_id`, `is_deleted`, `deleted_at`, `img_path`) VALUES
-(1, 'Sarokkanapé', 'L-alakú ülőbútor, több személy számára, gyakran ágyneműtartóval.\n', 85, 260, 200, 120, 9, NULL, 1, 10, 2, 0, NULL, 'http://localhost:8080/productImg/kanape1.avif'),
-(2, 'Kerti asztal\r\n', 'Kültéri használatra tervezett asztal.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/KERTI ASZTAL 1.avif'),
-(3, 'Háromszemélyes kanapé\r\n', 'Kényelmes ülőbútor nappaliba, klasszikus elrendezéshez.\r\n', 10, 10, 10, 10, 15, NULL, 1, 100, 2, 0, NULL, 'http://localhost:8080/productImg/kanape2.avif'),
-(4, 'Fotelszék', 'Egy személy számára kialakított, kényelmes ülőalkalmatosság.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/karosszek1.png'),
-(5, 'Étkezőszék', 'Étkezőasztalhoz tervezett szék, háttámlával.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szek1.png'),
-(6, 'Étkezőasztal', 'Több személyes étkezésekhez alkalmas asztal.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/ea6.avif'),
-(7, 'Dohányzóasztal\r\n', 'Alacsony asztal nappaliba, kanapé elé.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/dohanyzo1.avif'),
-(8, 'TV-állvány\r\n', 'Televízió és multimédiás eszközök elhelyezésére.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/TV-állványok 1.1.avif'),
-(9, 'Könyvespolc\r\n', 'Könyvek és dekorációk tárolására szolgáló polcrendszer.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/polc 5.jpg'),
-(10, 'Komód', 'Fiókos tárolóbútor ruhák vagy kiegészítők számára.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/komód1.avif'),
-(11, 'Ruhásszekrény', 'Ruhák tárolására alkalmas szekrény akasztóval és polcokkal.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szekrénysor 2.2.avif'),
-(12, 'Gardróbszekrény', 'Nagy méretű ruhatároló, több rekesszel.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szekrénysor1.avif'),
-(13, 'Franciaágy\r\n', 'Kétszemélyes ágy, matraccal vagy matrac nélkül.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/ágy3.avif'),
-(14, 'Egyszemélyes ágy\r\n', 'Egy személy részére kialakított fekvőbútor.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/TÁROLÓS ÁGY 1.1.avif'),
-(15, 'Éjjeliszekrény\r\n', 'Ágy melletti kis tárolóbútor.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/komód1.avif'),
-(16, 'Íróasztal\r\n', 'Tanuláshoz vagy munkához használt asztal.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/asztal 6.avif'),
-(17, 'Irodai forgószék\r\n', 'Állítható magasságú, kerekes munkaszék.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/IFJÚSÁGI FORGÓSZÉK 1.1.avif'),
-(18, 'Cipősszekrény\r\n', 'Cipők rendszerezett tárolására.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/Cipősszekrény 1.jpg'),
-(19, 'Előszobafal\r\n', 'Akasztókkal, polcokkal és tükörrel ellátott előszobabútor.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/eloszobafal.avif'),
-(20, 'Konyhaszekrény', 'Konyhai tárolóbútor edények és élelmiszerek számára.\r\n', 1, 1, 1, 1, 15, NULL, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/SAROK FALISZEKRÉNY 1.avif'),
-(21, 'asd', 'asd', 23, 32, 32, 32, 23, NULL, 14, 321, 17, 0, NULL, 'asd'),
-(22, 'fsafasfas', 'fasfasfasf', 2431, 421, 421, 421, 42, NULL, 15, 231, 18, 0, NULL, 'asd'),
-(23, 'afsafsfas', 'fasfasfasf', 23, 213, 321, 42, 321, NULL, 13, 24, 18, 0, NULL, 'asd');
+INSERT INTO `product` (`id`, `name`, `description`, `height_in_cm`, `width_in_cm`, `depth_in_cm`, `weight_in_kg`, `amount`, `brand_id`, `price`, `category_id`, `is_deleted`, `deleted_at`, `img_path`) VALUES
+(1, 'Sarokkanapé', 'L-alakú ülőbútor, több személy számára, gyakran ágyneműtartóval.\n', 85, 260, 200, 120, 10, 1, 10, 2, 0, NULL, 'http://localhost:8080/productImg/kanape1.avif'),
+(2, 'Kerti asztal\r\n', 'Kültéri használatra tervezett asztal.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/KERTIASZTAL1.avif'),
+(3, 'Háromszemélyes kanapé\r\n', 'Kényelmes ülőbútor nappaliba, klasszikus elrendezéshez.\r\n', 10, 10, 10, 10, 15, 1, 100, 2, 0, NULL, 'http://localhost:8080/productImg/kanape2.avif'),
+(4, 'Fotelszék', 'Egy személy számára kialakított, kényelmes ülőalkalmatosság.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/karosszek1.avif'),
+(5, 'Étkezőszék', 'Étkezőasztalhoz tervezett szék, háttámlával.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szek1.avif'),
+(6, 'Étkezőasztal', 'Több személyes étkezésekhez alkalmas asztal.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/ea6.avif'),
+(7, 'Dohányzóasztal\r\n', 'Alacsony asztal nappaliba, kanapé elé.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/dohanyzo1.avif'),
+(8, 'TV-állvány\r\n', 'Televízió és multimédiás eszközök elhelyezésére.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/TV-állványok 1.1.avif'),
+(9, 'Könyvespolc\r\n', 'Könyvek és dekorációk tárolására szolgáló polcrendszer.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/polc5.avif'),
+(10, 'Komód', 'Fiókos tárolóbútor ruhák vagy kiegészítők számára.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/komód1.avif'),
+(11, 'Ruhásszekrény', 'Ruhák tárolására alkalmas szekrény akasztóval és polcokkal.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szekrénysor 2.2.avif'),
+(12, 'Gardróbszekrény', 'Nagy méretű ruhatároló, több rekesszel.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/szekrénysor 1.avif'),
+(13, 'Franciaágy\r\n', 'Kétszemélyes ágy, matraccal vagy matrac nélkül.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/ágy3.avif'),
+(14, 'Egyszemélyes ágy\r\n', 'Egy személy részére kialakított fekvőbútor.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/TÁROLÓS ÁGY 1.1.avif'),
+(15, 'Éjjeliszekrény\r\n', 'Ágy melletti kis tárolóbútor.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/komód1.avif'),
+(16, 'Íróasztal\r\n', 'Tanuláshoz vagy munkához használt asztal.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/asztal6.avif'),
+(17, 'Irodai forgószék\r\n', 'Állítható magasságú, kerekes munkaszék.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/IFJÚSÁGI FORGÓSZÉK 1.1.avif'),
+(18, 'Cipősszekrény\r\n', 'Cipők rendszerezett tárolására.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/Cipősszekrény 1.avif'),
+(19, 'Előszobafal\r\n', 'Akasztókkal, polcokkal és tükörrel ellátott előszobabútor.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/eloszobafal.avif'),
+(20, 'Konyhaszekrény', 'Konyhai tárolóbútor edények és élelmiszerek számára.\r\n', 1, 1, 1, 1, 15, 1, 1, 2, 0, NULL, 'http://localhost:8080/productImg/SAROK FALISZEKRÉNY 1.avif'),
+(21, 'asd', 'asd', 23, 32, 32, 32, 23, 14, 321, 17, 0, NULL, 'asd'),
+(22, 'fsafasfas', 'fasfasfasf', 2431, 421, 421, 421, 42, 15, 231, 18, 0, NULL, 'asd'),
+(23, 'afsafsfas', 'fasfasfasf', 23, 213, 321, 42, 321, 13, 24, 18, 0, NULL, 'asd');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `review`
+-- Tábla szerkezet ehhez a táblához `review`
 --
 
 CREATE TABLE `review` (
@@ -775,7 +766,7 @@ CREATE TABLE `review` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `review`
+-- A tábla adatainak kiíratása `review`
 --
 
 INSERT INTO `review` (`id`, `review_text`, `rating`, `user_id`, `product_id`, `is_anonymus`, `is_deleted`, `deleted_at`, `created_at`) VALUES
@@ -784,7 +775,7 @@ INSERT INTO `review` (`id`, `review_text`, `rating`, `user_id`, `product_id`, `i
 -- --------------------------------------------------------
 
 --
--- Table structure for table `role`
+-- Tábla szerkezet ehhez a táblához `role`
 --
 
 CREATE TABLE `role` (
@@ -793,7 +784,7 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `role`
+-- A tábla adatainak kiíratása `role`
 --
 
 INSERT INTO `role` (`id`, `name`) VALUES
@@ -803,7 +794,7 @@ INSERT INTO `role` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `status`
+-- Tábla szerkezet ehhez a táblához `status`
 --
 
 CREATE TABLE `status` (
@@ -812,7 +803,7 @@ CREATE TABLE `status` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `status`
+-- A tábla adatainak kiíratása `status`
 --
 
 INSERT INTO `status` (`id`, `name`) VALUES
@@ -821,7 +812,7 @@ INSERT INTO `status` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transport_detail`
+-- Tábla szerkezet ehhez a táblához `transport_detail`
 --
 
 CREATE TABLE `transport_detail` (
@@ -835,19 +826,18 @@ CREATE TABLE `transport_detail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `transport_detail`
+-- A tábla adatainak kiíratása `transport_detail`
 --
 
 INSERT INTO `transport_detail` (`id`, `post_code`, `town`, `address`, `address_type_id`, `house_number`, `other`) VALUES
 (1, 1, 'a', 'a', 1, 1, '1'),
 (4, 7200, 'adsdas', 'asffas', 18, 23, NULL),
-(6, 45, 'asd', 'asd', 15, 25, NULL),
-(7, 1234, 'Domb', 'asd', 283, 18, 'asda');
+(6, 45, 'asd', 'asd', 15, 25, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Tábla szerkezet ehhez a táblához `user`
 --
 
 CREATE TABLE `user` (
@@ -862,60 +852,54 @@ CREATE TABLE `user` (
   `deleted_at` datetime DEFAULT NULL,
   `pfp_path` longtext NOT NULL,
   `role_id` int(1) NOT NULL DEFAULT '1',
-  `register_finished_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `v_code` varchar(100) DEFAULT NULL
+  `register_finished_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `user`
+-- A tábla adatainak kiíratása `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `phone`, `last_login`, `register_at`, `is_deleted`, `deleted_at`, `pfp_path`, `role_id`, `register_finished_at`, `v_code`) VALUES
-(1, 'test1', 'test1@gmail.com', 'test5.Asd', '06710000000', '2025-12-02 11:23:25', '2025-12-01 15:11:01', 0, NULL, 'a', 1, '2025-12-02 07:20:58', NULL),
-(2, 'test2', 'test2@gmail.com', 'test2', '06701000000', '2025-12-02 07:11:01', '2025-12-02 07:11:01', 1, '2026-02-26 20:00:31', 'b', 1, '2025-12-02 07:20:58', NULL),
-(3, 'postTest1', 'test@gmail.com', 'test5.As', 'asd', NULL, NULL, 0, NULL, '', 1, '2025-12-02 10:26:38', NULL),
-(7, 'Tóth János', 'tothjanos3222@gmail.com', 'tothjanos33', '06302301122', NULL, NULL, 0, NULL, 'a', 1, '2026-03-03 11:51:19', NULL),
-(8, 'admin1', 'admin1@gmail.com', 'admin1', '06701111111', NULL, NULL, 0, NULL, 'b', 2, '2026-03-03 11:52:51', NULL),
-(9, 'asda', 'asd@gmail.com', '$2a$10$3Gc9g3p7Z/eEDSbC3MgTNeu9OceR.rSnQYnFraUHgwmTMGixxAAuy', '06706285232', NULL, NULL, 0, NULL, '', 2, '2026-04-14 21:40:30', NULL),
-(10, 'Testing11', 'testing11@gmail.com', '$2a$10$Y9xSDuLp793W2BSSpRS.vuZpy1FD.BtjUZYsopS0ps5.a5KxVVOEi', '+36309876543', NULL, NULL, 0, NULL, '', 1, '2026-04-30 07:35:02', '$2a$10$S8jUsmSLmMaZcuQFT6WuZuQe6m7LQy9yZxQQs5gESpnKilBkVvZDS'),
-(11, 'asd', 'defosot966@iapapi.com', '$2a$10$hRIcPJInN1GUDEl/bmyw7ukWSTft3iqNbGLGmPQ2Ybjqam0Idblh6', '+362012345678', NULL, NULL, 0, NULL, '', 1, '2026-05-01 11:13:44', NULL),
-(12, 'Testing7', 'caceve5560@inraud.com', '$2a$10$l/H5i7xMGoooECpT6P6Ifuk49mcLk8wZ0KhJoH4s0Jijq81A1wwuO', '+36201432456', NULL, NULL, 0, NULL, '', 1, '2026-05-01 11:14:50', NULL),
-(13, 'Tester67', 'tester67@gmail.com', '$2a$10$RY7IUD/k3QDndKmswLw6Sey2tuewJYIp5ZF59uoF.eMdcQQX91cAe', '+36301325678', NULL, NULL, 0, NULL, '', 1, '2026-05-01 11:20:29', '$2a$10$ACZ9bb3yDsL3t6wpKoP3ruPQLT/h15BftLPX0gOd89HDelnTwBi6.'),
-(14, 'Hubo', 'huboluva@gmail.com', '$2a$10$2.0Wq2wzJQOJ45foDUgY/.t5XUSjBTFCSRnNVkRnix5l1PRQXSJYC', '+363087642537', NULL, NULL, 0, NULL, '', 1, '2026-05-01 11:22:31', NULL);
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `phone`, `last_login`, `register_at`, `is_deleted`, `deleted_at`, `pfp_path`, `role_id`, `register_finished_at`) VALUES
+(1, 'test1', 'test1@gmail.com', 'test5.Asd', '06710000000', '2025-12-02 11:23:25', '2025-12-01 15:11:01', 0, NULL, 'a', 1, '2025-12-02 07:20:58'),
+(2, 'test2', 'test2@gmail.com', 'test2', '06701000000', '2025-12-02 07:11:01', '2025-12-02 07:11:01', 1, '2026-02-26 20:00:31', 'b', 1, '2025-12-02 07:20:58'),
+(3, 'postTest1', 'test@gmail.com', 'test5.As', 'asd', NULL, NULL, 0, NULL, '', 1, '2025-12-02 10:26:38'),
+(7, 'Tóth János', 'tothjanos3222@gmail.com', 'tothjanos33', '06302301122', NULL, NULL, 0, NULL, 'a', 1, '2026-03-03 11:51:19'),
+(8, 'admin1', 'admin1@gmail.com', 'admin1', '06701111111', NULL, NULL, 0, NULL, 'b', 2, '2026-03-03 11:52:51'),
+(9, 'asda', 'asd@gmail.com', '$2a$10$3Gc9g3p7Z/eEDSbC3MgTNeu9OceR.rSnQYnFraUHgwmTMGixxAAuy', '06706285232', NULL, NULL, 0, NULL, '', 2, '2026-04-14 21:40:30');
 
 --
--- Indexes for dumped tables
+-- Indexek a kiírt táblákhoz
 --
 
 --
--- Indexes for table `address_type`
+-- A tábla indexei `address_type`
 --
 ALTER TABLE `address_type`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `billing_detail`
+-- A tábla indexei `billing_detail`
 --
 ALTER TABLE `billing_detail`
   ADD PRIMARY KEY (`id`),
   ADD KEY `billing_address_type` (`address_type_id`);
 
 --
--- Indexes for table `brand`
+-- A tábla indexei `brand`
 --
 ALTER TABLE `brand`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
 
 --
--- Indexes for table `cart`
+-- A tábla indexei `cart`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`),
   ADD KEY `basket_user` (`user_id`);
 
 --
--- Indexes for table `cart_product`
+-- A tábla indexei `cart_product`
 --
 ALTER TABLE `cart_product`
   ADD PRIMARY KEY (`id`),
@@ -923,14 +907,14 @@ ALTER TABLE `cart_product`
   ADD KEY `basket_product_basket` (`cart_id`);
 
 --
--- Indexes for table `category`
+-- A tábla indexei `category`
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`id`),
   ADD KEY `p_category` (`parent_category_id`);
 
 --
--- Indexes for table `order_history`
+-- A tábla indexei `order_history`
 --
 ALTER TABLE `order_history`
   ADD PRIMARY KEY (`id`),
@@ -942,7 +926,7 @@ ALTER TABLE `order_history`
   ADD KEY `order_status` (`status_id`);
 
 --
--- Indexes for table `order_product`
+-- A tábla indexei `order_product`
 --
 ALTER TABLE `order_product`
   ADD PRIMARY KEY (`id`),
@@ -950,13 +934,13 @@ ALTER TABLE `order_product`
   ADD KEY `order_history` (`order_id`);
 
 --
--- Indexes for table `payment_method`
+-- A tábla indexei `payment_method`
 --
 ALTER TABLE `payment_method`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `prodcut_category`
+-- A tábla indexei `prodcut_category`
 --
 ALTER TABLE `prodcut_category`
   ADD PRIMARY KEY (`id`),
@@ -964,7 +948,7 @@ ALTER TABLE `prodcut_category`
   ADD KEY `product_category` (`category_id`);
 
 --
--- Indexes for table `product`
+-- A tábla indexei `product`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`id`),
@@ -973,7 +957,7 @@ ALTER TABLE `product`
   ADD KEY `cat` (`category_id`);
 
 --
--- Indexes for table `review`
+-- A tábla indexei `review`
 --
 ALTER TABLE `review`
   ADD PRIMARY KEY (`id`),
@@ -981,26 +965,26 @@ ALTER TABLE `review`
   ADD KEY `review_user` (`user_id`);
 
 --
--- Indexes for table `role`
+-- A tábla indexei `role`
 --
 ALTER TABLE `role`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `status`
+-- A tábla indexei `status`
 --
 ALTER TABLE `status`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `transport_detail`
+-- A tábla indexei `transport_detail`
 --
 ALTER TABLE `transport_detail`
   ADD PRIMARY KEY (`id`),
   ADD KEY `transport_detail_address_type` (`address_type_id`);
 
 --
--- Indexes for table `user`
+-- A tábla indexei `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
@@ -1009,136 +993,136 @@ ALTER TABLE `user`
   ADD KEY `r` (`role_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- A kiírt táblák AUTO_INCREMENT értéke
 --
 
 --
--- AUTO_INCREMENT for table `address_type`
+-- AUTO_INCREMENT a táblához `address_type`
 --
 ALTER TABLE `address_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=337;
 
 --
--- AUTO_INCREMENT for table `billing_detail`
+-- AUTO_INCREMENT a táblához `billing_detail`
 --
 ALTER TABLE `billing_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `brand`
+-- AUTO_INCREMENT a táblához `brand`
 --
 ALTER TABLE `brand`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- AUTO_INCREMENT for table `cart`
+-- AUTO_INCREMENT a táblához `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `cart_product`
+-- AUTO_INCREMENT a táblához `cart_product`
 --
 ALTER TABLE `cart_product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `category`
+-- AUTO_INCREMENT a táblához `category`
 --
 ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT for table `order_history`
+-- AUTO_INCREMENT a táblához `order_history`
 --
 ALTER TABLE `order_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `order_product`
+-- AUTO_INCREMENT a táblához `order_product`
 --
 ALTER TABLE `order_product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `payment_method`
+-- AUTO_INCREMENT a táblához `payment_method`
 --
 ALTER TABLE `payment_method`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `prodcut_category`
+-- AUTO_INCREMENT a táblához `prodcut_category`
 --
 ALTER TABLE `prodcut_category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `product`
+-- AUTO_INCREMENT a táblához `product`
 --
 ALTER TABLE `product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT for table `review`
+-- AUTO_INCREMENT a táblához `review`
 --
 ALTER TABLE `review`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `role`
+-- AUTO_INCREMENT a táblához `role`
 --
 ALTER TABLE `role`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `status`
+-- AUTO_INCREMENT a táblához `status`
 --
 ALTER TABLE `status`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `transport_detail`
+-- AUTO_INCREMENT a táblához `transport_detail`
 --
 ALTER TABLE `transport_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- Constraints for dumped tables
+-- Megkötések a kiírt táblákhoz
 --
 
 --
--- Constraints for table `billing_detail`
+-- Megkötések a táblához `billing_detail`
 --
 ALTER TABLE `billing_detail`
   ADD CONSTRAINT `billing_address_type` FOREIGN KEY (`address_type_id`) REFERENCES `address_type` (`id`);
 
 --
--- Constraints for table `cart`
+-- Megkötések a táblához `cart`
 --
 ALTER TABLE `cart`
   ADD CONSTRAINT `basket_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
--- Constraints for table `cart_product`
+-- Megkötések a táblához `cart_product`
 --
 ALTER TABLE `cart_product`
   ADD CONSTRAINT `basket_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   ADD CONSTRAINT `basket_product_basket` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`id`);
 
 --
--- Constraints for table `category`
+-- Megkötések a táblához `category`
 --
 ALTER TABLE `category`
   ADD CONSTRAINT `p_category` FOREIGN KEY (`parent_category_id`) REFERENCES `category` (`id`);
 
 --
--- Constraints for table `order_history`
+-- Megkötések a táblához `order_history`
 --
 ALTER TABLE `order_history`
   ADD CONSTRAINT `order_history_billing_id` FOREIGN KEY (`billing_detail_id`) REFERENCES `billing_detail` (`id`),
@@ -1149,41 +1133,41 @@ ALTER TABLE `order_history`
   ADD CONSTRAINT `order_status` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`);
 
 --
--- Constraints for table `order_product`
+-- Megkötések a táblához `order_product`
 --
 ALTER TABLE `order_product`
   ADD CONSTRAINT `order_history` FOREIGN KEY (`order_id`) REFERENCES `order_history` (`id`),
   ADD CONSTRAINT `order_history_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
 --
--- Constraints for table `prodcut_category`
+-- Megkötések a táblához `prodcut_category`
 --
 ALTER TABLE `prodcut_category`
   ADD CONSTRAINT `product_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   ADD CONSTRAINT `product_category_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
 --
--- Constraints for table `product`
+-- Megkötések a táblához `product`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `cat` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   ADD CONSTRAINT `product_brand` FOREIGN KEY (`brand_id`) REFERENCES `brand` (`id`);
 
 --
--- Constraints for table `review`
+-- Megkötések a táblához `review`
 --
 ALTER TABLE `review`
   ADD CONSTRAINT `review_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   ADD CONSTRAINT `review_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
--- Constraints for table `transport_detail`
+-- Megkötések a táblához `transport_detail`
 --
 ALTER TABLE `transport_detail`
   ADD CONSTRAINT `transport_detail_address_type` FOREIGN KEY (`address_type_id`) REFERENCES `address_type` (`id`);
 
 --
--- Constraints for table `user`
+-- Megkötések a táblához `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `r` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
