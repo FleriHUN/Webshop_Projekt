@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/order")
 @RequiredArgsConstructor
-public class OrderController {
+public class Ordercontroller {
     private final OrderService orderService;
 
     @GetMapping("/user/{id}")
