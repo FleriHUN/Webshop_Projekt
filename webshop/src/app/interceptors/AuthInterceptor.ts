@@ -16,14 +16,10 @@ export function AuthInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
     return next(cloneOfRequest)
 
   } else {
-    let headers = req.headers.append("Authorization", `Bearer ${cookieService.get("jwt")}`)
-
-    const refreshToken = cookieService.get("refreshToken")
-    if (refreshToken) {
-      headers = headers.append("refreshToken", refreshToken)
-    }
-
-    const cloneOfRequest = req.clone({ headers })
+    const cloneOfRequest = req.clone({
+      headers: req.headers
+        .append("Authorization", `Bearer ${cookieService.get("jwt")}`)
+    })
     return next(cloneOfRequest)
   }
 }

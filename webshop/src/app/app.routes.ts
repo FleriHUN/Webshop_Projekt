@@ -18,13 +18,11 @@ import { RegisterPage } from './components/register-page/register-page';
 import { Unauthorized } from './components/unauthorized/unauthorized';
 import { UserGuard } from './routeGuards/authGuard';
 import { AdminGuard } from './routeGuards/adminGuard';
-import { PasswordReset } from './components/password-reset/password-reset';
 
 export const routes: Routes = [
   { path: "homePage", component: HomePage, },
   { path: "", pathMatch: "full", redirectTo: "homePage" },
   { path: "login", component: LoginPage },
-  { path: "passwordReset", component: PasswordReset },
   { path: "profilPage", component: ProfilePage, canActivate: [UserGuard] },
   { path: "productList/:category", component: ProductList },
   { path: "productDetails/:id", component: ProductDetails },

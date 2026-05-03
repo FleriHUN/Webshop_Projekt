@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { OrderHistory } from '../model/orderHistory.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { OrderDto } from '../model/orderDto.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +20,9 @@ export class OrderService {
     return this.http.delete<OrderHistory>(`${this.baseUrl}/cancel/${orderId}`)
   }
 
-  sendOrder(cartId: number) {
-    return this.http.post(`${this.baseUrl}/basket/${cartId}`, this.actualOrder)
+  sendOrder(cartId: number, newOrder: OrderDto) {
+    console.log(this.actualOrder)
+    return this.http.post(`${this.baseUrl}/basket/${cartId}`, newOrder)
   }
 
   getAllOrderHistory(): Observable<OrderHistory[]> {

@@ -1,0 +1,22 @@
+export interface OrderDto {
+  firstName: string,
+  lastName: string,
+  phone: string,
+  email: string,
+  userId: number,
+  paymentId: number,
+  tPostCode: number,
+  tTown: string,
+  tAddress: string,
+  tHouseNumber: number,
+  tOther: string,
+  tAddressType: number,
+  bPostCode: number,
+  bTown: string,
+  bAddress: string,
+  bHouseNumber: number,
+  bOther: string,
+  bAddressType: number,
+  taxNumber: number,
+  companyName: string
+}

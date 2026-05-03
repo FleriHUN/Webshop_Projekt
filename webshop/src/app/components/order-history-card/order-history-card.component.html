@@ -1,14 +1,14 @@
-<div class="container-fluid my-3 p-3" style="background-color: #F7F2EE; max-height: 350px; overflow-y: auto; border-radius: 12px;">
+<div class="container-fluid my-3 p-3 cardContainer">
   <div class="row">
     <div [class]="'col-lg-12 d-flex ' + (expand ? 'flex-column' : 'flex-row justify-content-between align-items-center')">
       <div class="w-100 d-flex justify-content-between">
         <div>
           <h4>{{orderHistory().orderId}}</h4>
-          <h6>Rendelve ekkor: {{orderHistory().orderedAt}}</h6>
+          <h6>Rendelve ekkor: {{orderHistory().orderedAt | date : "yyyy-MM-dd"}}</h6>
         </div>
 
-        <div class="d-flex flex-column just">
-          <span>Ár: {{0}}</span>
+        <div class="d-flex flex-column justify-content-between">
+          <span class="w-100 d-flex justify-content-between"><span>Ár:</span> {{sumPrice }} Ft</span>
           <button (click)="expand = !expand">{{expand ? "Kevesebb részlet" : "További részlet"}}</button>
         </div>
       </div>
@@ -17,12 +17,12 @@
       @if (expand) {
         <h4>Adatok: </h4>
         <ul>
-          <li>Név:</li>
-          <li>Telefonszám:</li>
-          <li>Email cím</li>
-          <li>Számlázási cim:</li>
-          <li>Szállitási cim:</li>
-          <li>Fizetési mód:</li>
+          <li>Név: {{orderHistory().firstName}} {{orderHistory().lastName}}</li>
+          <li>Telefonszám: {{orderHistory().phone}}</li>
+          <li>Email cím: {{orderHistory().email}}</li>
+          <li>Számlázási cim: {{billingAddress}}</li>
+          <li>Szállitási cim: {{transportAddress}}</li>
+          <li>Fizetési mód: {{orderHistory().paymentMethod?.name}}</li>
 
           @if(orderHistory().isCancelled) {
             <li>Lemondva ekkor:</li>

@@ -1,0 +1,15 @@
+.cardContainer {
+  background-color: #f7f2ee;
+  max-height: 350px;
+  overflow-y: auto;
+  border-radius: 12px;
+}
+
+button {
+  background-color: #8a6f58;
+  border: none;
+  height: 40px;
+  padding: auto 10px !important;
+  border-radius: 4px;
+  color: #f7f2ee;
+}

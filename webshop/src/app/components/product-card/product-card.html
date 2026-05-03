@@ -1,14 +1,14 @@
 <div class="container-fluid" (click)="navigateToDetails()">
   <div class="row">
     <div class="col-lg-12">
-      <img [src]="" alt="" class="img-fluid">
+      <img [src]="product()?.imagePath" alt="" class="img-fluid">
     </div>
   </div>
 
   <div class="row">
     <div class="col-lg-12">
-      <h2 class="text-center">{{product().name}}</h2>
-      <h6 class="text-center">{{product().price}} Ft</h6>
+      <h2 class="text-center">{{product()?.name}}</h2>
+      <h6 class="text-center">{{product()?.price}} Ft</h6>
     </div>
   </div>
 </div>

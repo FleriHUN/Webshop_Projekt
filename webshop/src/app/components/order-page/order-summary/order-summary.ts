@@ -20,62 +20,38 @@ export class OrderSummary implements OnInit {
   billingAddress: string = ""
   router = inject(Router)
 
-  isSending: boolean = false
-  errorMessage: string = ""
-
   ngOnInit(): void {
     this.transportAddress = this.orderService.actualOrder.orderTransportDetail?.postCode + " " + this.orderService.actualOrder.orderTransportDetail?.town + this.orderService.actualOrder.orderTransportDetail?.address + this.orderService.actualOrder.orderTransportDetail?.houseNumber
     this.billingAddress = this.orderService.actualOrder.orderBillingDetail?.postCode + " " + this.orderService.actualOrder.orderBillingDetail?.town + this.orderService.actualOrder.orderBillingDetail?.address + this.orderService.actualOrder.orderBillingDetail?.houseNumber
   }
 
   sendOrder() {
-    if (this.isSending) return;
-
-    if (!this.userService.loggedUser?.id) {
-      this.errorMessage = "Nem vagy bejelentkezve. Kérjük jelentkezz be újra."
-      return;
-    }
-    if (!this.cartService.usersCart?.id) {
-      this.errorMessage = "A kosár nem érhető el. Frissítsd az oldalt."
-      return;
-    }
-    if (!this.orderService.actualOrder.paymentMethod?.id) {
-      this.errorMessage = "Hiányzó fizetési mód. Lépj vissza és válassz egyet."
-      return;
-    }
-
-    this.errorMessage = ""
-    this.isSending = true
-    this.orderService.actualOrder.orderUser = this.userService.loggedUser
-
-    this.orderService.sendOrder(this.cartService.usersCart.id).subscribe({
-      next: response => {
-        console.log("Rendelés sikeresen elküldve:", response)
-        this.isSending = false
+    this.orderService.actualOrder.orderUser = this.userService.loggedUser!
+    this.orderService.sendOrder(this.cartService.usersCart.id!, {
+      firstName: this.orderService.actualOrder.firstName!,
+      lastName: this.orderService.actualOrder.lastName!,
+      phone: this.orderService.actualOrder.phone!,
+      email: this.orderService.actualOrder.email!,
+      userId: this.userService.loggedUser?.id!,
+      paymentId: this.orderService.actualOrder.paymentMethod?.id!,
+      tPostCode: this.orderService.actualOrder.orderTransportDetail?.postCode!,
+      tTown: this.orderService.actualOrder.orderTransportDetail?.town!,
+      tAddress: this.orderService.actualOrder.orderTransportDetail?.address!,
+      tHouseNumber: this.orderService.actualOrder.orderTransportDetail?.houseNumber!,
+      tOther: this.orderService.actualOrder.orderTransportDetail?.other!,
+      tAddressType: this.orderService.actualOrder.orderTransportDetail?.transportAddressType.id!,
+      bPostCode: this.orderService.actualOrder.orderBillingDetail?.postCode!,
+      bTown: this.orderService.actualOrder.orderBillingDetail?.town!,
+      bAddress: this.orderService.actualOrder.orderBillingDetail?.address!,
+      bHouseNumber: this.orderService.actualOrder.orderBillingDetail?.houseNumber!,
+      bOther: this.orderService.actualOrder.orderBillingDetail?.other!,
+      bAddressType: this.orderService.actualOrder.orderBillingDetail?.billingAddressType.id!,
+      taxNumber: this.orderService.actualOrder.orderBillingDetail?.taxNumber!,
+      companyName: this.orderService.actualOrder.orderBillingDetail?.companyName!
+    }).subscribe({
+      // next: response => console.log(response),
+      complete: () => {
         this.router.navigate(["/homePage"])
-      },
-      error: err => {
-        console.error("Hiba a rendelés küldésekor:", err)
-        this.isSending = false
-
-        const backendMessage = err?.error;
-        if (err.status === 0) {
-          this.errorMessage = "Nem érhető el a szerver. Fut a backend?"
-        } else if (err.status === 401 || err.status === 403) {
-          this.errorMessage = "Nincs jogosultságod. Jelentkezz be újra."
-        } else if (backendMessage === "userNotFound") {
-          this.errorMessage = "A felhasználó nem található."
-        } else if (backendMessage === "paymentMethodNotFound" || backendMessage === "missingPaymentMethod") {
-          this.errorMessage = "Érvénytelen fizetési mód."
-        } else if (backendMessage === "basketNotFound") {
-          this.errorMessage = "A kosár nem található."
-        } else if (backendMessage === "emptyBasket") {
-          this.errorMessage = "A kosár üres."
-        } else if (backendMessage === "invalidEmail") {
-          this.errorMessage = "Érvénytelen e-mail cím."
-        } else {
-          this.errorMessage = "Hiba történt a rendelés feldolgozása során. Próbáld újra később."
-        }
       }
     })
   }
