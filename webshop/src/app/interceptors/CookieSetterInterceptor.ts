@@ -9,6 +9,8 @@ export function CookieSetterInterceptor(req: HttpRequest<unknown>, next: HttpHan
   return next(req).pipe(
     tap((event) => {
       if (event.type === HttpEventType.Response) {
+       console.log(event)
+       
         const jwtToken: string | null = event.headers.get("bearer")
 
         if (jwtToken != null) {
@@ -16,6 +18,9 @@ export function CookieSetterInterceptor(req: HttpRequest<unknown>, next: HttpHan
         }
 
         const refreshToken: string | null = event.headers.get("refreshToken")
+        console.log("refreshToken: ", refreshToken)
+        console.log("jwtToken: ", jwtToken)
+        
         if (refreshToken != null) {
           cookieService.set("refreshToken", refreshToken)
         }
