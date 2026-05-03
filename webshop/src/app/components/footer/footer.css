@@ -1,0 +1,39 @@
+.footer-container {
+  background-color: #8A6F58;
+  color: #F7F2EE;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+.footer-text {
+  color: #F7F2EE;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.footer-link {
+  color: #F7F2EE;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: #B8A999;
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: #F7F2EE;
+  cursor: default;
+  pointer-events: none;
+  user-select: none;
+}
+
+.social-icon svg {
+  width: 24px;
+  height: 24px;
+}
