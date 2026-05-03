@@ -1,12 +1,12 @@
 package com.example.furnitureStore.service;
 
 import com.example.furnitureStore.config.email.EmailSender;
+import com.example.furnitureStore.dto.OrderDto;
 import com.example.furnitureStore.entity.*;
 import com.example.furnitureStore.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -27,6 +27,8 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final CartRepository cartRepository;
     private final EmailSender emailSender;
+    private final TransportDetailRepository transportDetailRepository;
+    private final BillingDetailRepository billingDetailRepository;
 
     //kesz:
     public ResponseEntity<Object> getOrderHistoryByUserId(Integer userId) {
@@ -81,7 +83,6 @@ public class OrderService {
     }
 
 
-
     //kesz
     public ResponseEntity<Object> getAllOrder() {
         try {
@@ -93,20 +94,20 @@ public class OrderService {
     }
 
     //kesz:
-    public ResponseEntity<Object> sendOrder(OrderHistory newOrder, Integer basketId) {
+    public ResponseEntity<Object> sendOrder(OrderDto newOrder, Integer basketId) {
         try {
             if (newOrder == null || basketId == null) {
                 return ResponseEntity.status(422).build();
             }
 
-            if (newOrder.getOrderUser() != null) {
-                User searchedUser = userRepository.getUserById(newOrder.getOrderUser().getId()).orElse(null);
+            if (newOrder.userId() != null) {
+                User searchedUser = userRepository.getUserById(newOrder.userId()).orElse(null);
                 if (searchedUser == null || searchedUser.getIsDeleted()) {
                     return ResponseEntity.status(404).body("userNotFound");
                 }
             }
 
-            PaymentMethod searchedPaymentMethod = paymentMethodRepository.findById(newOrder.getPaymentMethod().getId()).orElse(null);
+            PaymentMethod searchedPaymentMethod = paymentMethodRepository.findById(newOrder.paymentId()).orElse(null);
             Cart searchedCart = cartRepository.findById(basketId).orElse(null);
 
             if (searchedPaymentMethod == null) {
@@ -115,9 +116,7 @@ public class OrderService {
                 return ResponseEntity.status(404).body("basketNotFound");
             }
 
-            if (newOrder.getId() != null) {
-                return ResponseEntity.status(415).body("invalidObject");
-            } else if (!isEmailValid(newOrder.getEmail().trim())) {
+            if (!isEmailValid(newOrder.email().trim())) {
                 return ResponseEntity.status(415).body("invalidEmail");
             }
 
@@ -134,7 +133,7 @@ public class OrderService {
             }
 
             try {
-                emailSender.sendEmailAboutOrderWithVCode(newOrder.getEmail(), generateVCode());
+                emailSender.sendEmailAboutOrderWithVCode(newOrder.email(), generateVCode());
             } catch (Exception e) {
                 e.printStackTrace();
                 return ResponseEntity.internalServerError().body("emailSenderError");
@@ -142,16 +141,16 @@ public class OrderService {
 
             System.out.println(sumPrice);
 
-            newOrder.setProducts(orderedProductList);
-            newOrder.setStatus(statusRepository.findById(1).get());
-            newOrder.setIsCanceled(false);
-            orderHistoryRepository.save(newOrder);
+            TransportDetail transportDetail = transportDetailRepository.save(new TransportDetail(newOrder.tPostCode(), newOrder.tTown(), newOrder.tAddress(), newOrder.tHouseNumber(), newOrder.tOther(), addressTypeRepository.findById(newOrder.tAddressType()).get()));
+            BillingDetail billingDetail = billingDetailRepository.save(new BillingDetail(newOrder.bPostCode(), newOrder.bTown(), newOrder.bAddress(), newOrder.bHouseNumber(), newOrder.companyName(), newOrder.taxNumber(), newOrder.bOther(), addressTypeRepository.findById(newOrder.bAddressType()).get()));
+            orderHistoryRepository.save(new OrderHistory(newOrder.firstName(), newOrder.lastName(), newOrder.phone(), newOrder.email(), userRepository.getUserById(newOrder.userId()).get(), billingDetail, transportDetail, searchedPaymentMethod, statusRepository.findById(1).get(), orderedProductList));
 
             cartRepository.clearCart(basketId);
 
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println(e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }

@@ -86,4 +86,19 @@ public class OrderHistory {
     @OneToMany(mappedBy = "orderHistory", fetch = FetchType.LAZY, cascade = {})
     @JsonIgnoreProperties({"orderHistory"})
     private List<OrderProduct> products;
+
+    public OrderHistory(String firstName, String lastName, String phone, String email, User orderUser, BillingDetail orderBillingDetail, TransportDetail orderTransportDetail, PaymentMethod paymentMethod, Status status, List<OrderProduct> products) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.email = email;
+        this.orderedAt = new Date();
+        this.isCanceled = false;
+        this.orderUser = orderUser;
+        this.orderBillingDetail = orderBillingDetail;
+        this.orderTransportDetail = orderTransportDetail;
+        this.paymentMethod = paymentMethod;
+        this.status = status;
+        this.products = products;
+    }
 }

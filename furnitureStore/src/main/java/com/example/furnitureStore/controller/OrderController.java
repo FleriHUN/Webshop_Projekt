@@ -1,5 +1,6 @@
 package com.example.furnitureStore.controller;
 
+import com.example.furnitureStore.dto.OrderDto;
 import com.example.furnitureStore.entity.OrderHistory;
 import com.example.furnitureStore.service.OrderService;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -29,7 +30,8 @@ public class OrderController {
     }
 
     @PostMapping("/basket/{id}")
-    public ResponseEntity<Object> sendOrder(@RequestBody OrderHistory newOrder, @PathVariable("id") Integer basketId) {
+    public ResponseEntity<Object> sendOrder(@RequestBody OrderDto newOrder, @PathVariable("id") Integer basketId) {
+        System.out.println("ASD");
         return orderService.sendOrder(newOrder, basketId);
     }
 }

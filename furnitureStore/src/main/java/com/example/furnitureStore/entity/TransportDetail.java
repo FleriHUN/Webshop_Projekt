@@ -56,4 +56,13 @@ public class TransportDetail {
     @OneToMany(mappedBy = "orderTransportDetail", fetch = FetchType.LAZY, cascade = {})
     @JsonIgnore
     private List<OrderHistory> orderHistoryList;
+
+    public TransportDetail(Integer postCode, String town, String address, Integer houseNumber, String other, AddressType transportAddressType) {
+        this.postCode = postCode;
+        this.town = town;
+        this.address = address;
+        this.houseNumber = houseNumber;
+        this.other = other;
+        this.transportAddressType = transportAddressType;
+    }
 }

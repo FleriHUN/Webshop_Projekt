@@ -66,4 +66,15 @@ public class BillingDetail {
     @OneToMany(mappedBy = "orderBillingDetail", fetch = FetchType.LAZY, cascade = {})
     @JsonIgnore
     private List<OrderHistory> billingDetailsOrders;
+
+    public BillingDetail(Integer postCode, String town, String address, Integer houseNumber, String companyName, Integer taxNumber, String other, AddressType billingAddressType) {
+        this.postCode = postCode;
+        this.town = town;
+        this.address = address;
+        this.houseNumber = houseNumber;
+        this.companyName = companyName;
+        this.taxNumber = taxNumber;
+        this.other = other;
+        this.billingAddressType = billingAddressType;
+    }
 }
